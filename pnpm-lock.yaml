@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@fontsource/fira-mono': ^4.2.2
   '@lukeed/uuid': ^2.0.0
+  '@sveltejs/adapter-vercel': ^1.0.0-next.20
   '@sveltejs/kit': next
   '@types/cookie': ^0.4.0
   '@typescript-eslint/eslint-plugin': ^4.19.0
@@ -27,6 +28,7 @@ dependencies:
   cookie: 0.4.1
 
 devDependencies:
+  '@sveltejs/adapter-vercel': 1.0.0-next.20_@sveltejs+kit@1.0.0-next.110
   '@sveltejs/kit': 1.0.0-next.110_svelte@3.38.2
   '@types/cookie': 0.4.0
   '@typescript-eslint/eslint-plugin': 4.25.0_ec7770e83475322b368bff30b543badb
@@ -126,6 +128,15 @@ packages:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.3.0
+    dev: true
+
+  /@sveltejs/adapter-vercel/1.0.0-next.20_@sveltejs+kit@1.0.0-next.110:
+    resolution: {integrity: sha512-cSGFym8Ap13p1uMBG3YQyy2Ut0eIjIjbRMtngGLUxi1guSkt1yoHytoW41O0koinrN43paKsym6Q5pO8tfX+Hg==}
+    peerDependencies:
+      '@sveltejs/kit': 1.0.0-next.110
+    dependencies:
+      '@sveltejs/kit': 1.0.0-next.110_svelte@3.38.2
+      esbuild: 0.11.23
     dev: true
 
   /@sveltejs/kit/1.0.0-next.110_svelte@3.38.2:
