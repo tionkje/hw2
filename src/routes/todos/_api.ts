@@ -17,9 +17,7 @@ const base = 'https://api.svelte.dev';
 
 export async function api(
   request: Request<Locals>,
-
   resource: string,
-
   data?: Record<string, unknown>
 ): Promise<EndpointOutput> {
   // user must have a cookie set
