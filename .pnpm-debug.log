@@ -1,0 +1,301 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "~TODO~",
+      "version": "0.0.1",
+      "scripts": {
+        "dev": "svelte-kit dev",
+        "build": "svelte-kit build",
+        "preview": "svelte-kit preview",
+        "check": "svelte-check --tsconfig ./tsconfig.json",
+        "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+        "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
+        "format": "prettier --write --plugin-search-dir=. ."
+      },
+      "devDependencies": {
+        "@sveltejs/kit": "next",
+        "@types/cookie": "^0.4.0",
+        "@typescript-eslint/eslint-plugin": "^4.19.0",
+        "@typescript-eslint/parser": "^4.19.0",
+        "eslint": "^7.22.0",
+        "eslint-config-prettier": "^8.1.0",
+        "eslint-plugin-svelte3": "^3.2.0",
+        "prettier": "~2.2.1",
+        "prettier-plugin-svelte": "^2.2.0",
+        "svelte": "^3.34.0",
+        "svelte-check": "^2.0.0",
+        "svelte-preprocess": "^4.0.0",
+        "tslib": "^2.0.0",
+        "typescript": "^4.0.0"
+      },
+      "type": "module",
+      "dependencies": {
+        "@fontsource/fira-mono": "^4.2.2",
+        "@lukeed/uuid": "^2.0.0",
+        "cookie": "^0.4.1"
+      }
+    },
+    "prefix": "/home/bastiaan/dev/hw2"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "/home/bastiaan/.pnpm-store/v3",
+    "virtualStoreDir": "/home/bastiaan/dev/hw2/node_modules/.pnpm"
+  },
+  "3 debug pnpm:stage": {
+    "prefix": "/home/bastiaan/dev/hw2",
+    "stage": "resolution_started"
+  },
+  "4 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/prettier/2.2.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "prettier",
+      "rawSpec": "~2.2.1"
+    }
+  },
+  "5 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier/2.2.1",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "6 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier/2.2.1",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "7 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/cookie/0.4.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "cookie",
+      "rawSpec": "^0.4.1"
+    }
+  },
+  "8 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/cookie/0.4.1",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "9 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/cookie/0.4.1",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "10 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@types/cookie/0.4.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@types/cookie",
+      "rawSpec": "^0.4.0"
+    }
+  },
+  "11 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/cookie/0.4.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "12 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/cookie/0.4.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "13 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-config-prettier/8.3.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-config-prettier",
+      "rawSpec": "^8.1.0"
+    }
+  },
+  "14 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-prettier/8.3.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "15 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-prettier/8.3.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "16 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@typescript-eslint/parser/4.25.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@typescript-eslint/parser",
+      "rawSpec": "^4.19.0"
+    }
+  },
+  "17 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@typescript-eslint/parser/4.25.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "18 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@typescript-eslint/parser/4.25.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "19 debug pnpm:update-check": {
+    "currentVersion": "6.3.0",
+    "latestVersion": "6.6.1"
+  },
+  "20 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@typescript-eslint/eslint-plugin/4.25.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@typescript-eslint/eslint-plugin",
+      "rawSpec": "^4.19.0"
+    }
+  },
+  "21 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@typescript-eslint/eslint-plugin/4.25.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "22 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint/7.27.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint",
+      "rawSpec": "^7.22.0"
+    }
+  },
+  "23 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint/7.27.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "24 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@typescript-eslint/eslint-plugin/4.25.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "25 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint/7.27.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "26 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-svelte3/3.2.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-svelte3",
+      "rawSpec": "^3.2.0"
+    }
+  },
+  "27 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-svelte3/3.2.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "28 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-svelte3/3.2.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "29 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/tslib/2.2.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "tslib",
+      "rawSpec": "^2.0.0"
+    }
+  },
+  "30 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/tslib/2.2.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "31 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/tslib/2.2.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "32 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/typescript/4.3.2",
+    "wanted": {
+      "dependentId": ".",
+      "name": "typescript",
+      "rawSpec": "^4.0.0"
+    }
+  },
+  "33 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/typescript/4.3.2",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "34 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/typescript/4.3.2",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "35 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/svelte-preprocess/4.7.3",
+    "wanted": {
+      "dependentId": ".",
+      "name": "svelte-preprocess",
+      "rawSpec": "^4.0.0"
+    }
+  },
+  "36 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/svelte-preprocess/4.7.3",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "37 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/svelte-preprocess/4.7.3",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "38 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/prettier-plugin-svelte/2.3.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "prettier-plugin-svelte",
+      "rawSpec": "^2.2.0"
+    }
+  },
+  "39 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier-plugin-svelte/2.3.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "resolved"
+  },
+  "40 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier-plugin-svelte/2.3.0",
+    "requester": "/home/bastiaan/dev/hw2",
+    "status": "found_in_store"
+  },
+  "41 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@sveltejs/kit/1.0.0-next.110",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@sveltejs/kit",
+      "rawSpec": "next"
+    }
+  },
+  "42 warn pnpm:install-check": {
+    "message": "Unsupported engine for registry.npmjs.org/@sveltejs/kit/1.0.0-next.110: wanted: {\"node\":\"^12.20 || ^14.13.1 || >= 16\"} (current: {\"node\":\"v15.12.0\",\"pnpm\":\"6.3.0\"})",
+    "prefix": "/home/bastiaan/dev/hw2"
+  },
+  "43 error pnpm": {
+    "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+    "packageId": "registry.npmjs.org/@sveltejs/kit/1.0.0-next.110",
+    "wanted": {
+      "node": "^12.20 || ^14.13.1 || >= 16"
+    },
+    "current": {
+      "node": "v15.12.0",
+      "pnpm": "6.3.0"
+    },
+    "err": {
+      "name": "Error",
+      "message": "Unsupported engine for registry.npmjs.org/@sveltejs/kit/1.0.0-next.110: wanted: {\"node\":\"^12.20 || ^14.13.1 || >= 16\"} (current: {\"node\":\"v15.12.0\",\"pnpm\":\"6.3.0\"})",
+      "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+      "stack": "Error: Unsupported engine for registry.npmjs.org/@sveltejs/kit/1.0.0-next.110: wanted: {\"node\":\"^12.20 || ^14.13.1 || >= 16\"} (current: {\"node\":\"v15.12.0\",\"pnpm\":\"6.3.0\"})\n    at Object.checkEngine [as default] (/home/bastiaan/.nvm/versions/node/v15.12.0/lib/node_modules/pnpm/dist/pnpm.cjs:38449:14)\n    at checkPackage (/home/bastiaan/.nvm/versions/node/v15.12.0/lib/node_modules/pnpm/dist/pnpm.cjs:38589:97)\n    at Object.packageIsInstallable [as default] (/home/bastiaan/.nvm/versions/node/v15.12.0/lib/node_modules/pnpm/dist/pnpm.cjs:38559:18)\n    at resolveDependency (/home/bastiaan/.nvm/versions/node/v15.12.0/lib/node_modules/pnpm/dist/pnpm.cjs:106490:79)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)\n    at async resolveDependenciesOfDependency (/home/bastiaan/.nvm/versions/node/v15.12.0/lib/node_modules/pnpm/dist/pnpm.cjs:106214:37)\n    at async Promise.all (index 0)\n    at async Object.resolveDependencies [as default] (/home/bastiaan/.nvm/versions/node/v15.12.0/lib/node_modules/pnpm/dist/pnpm.cjs:106184:27)\n    at async /home/bastiaan/.nvm/versions/node/v15.12.0/lib/node_modules/pnpm/dist/pnpm.cjs:106727:45"
+    }
+  }
+}
