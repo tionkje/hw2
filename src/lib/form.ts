@@ -11,8 +11,8 @@ export function enhance(
     error?: (res: Response, error: Error, form: HTMLFormElement) => void;
     result: (res: Response, form: HTMLFormElement) => void;
   }
-) {
-  let current_token: {};
+): unknown {
+  let current_token: Record<string, never>;
 
   async function handle_submit(e: Event) {
     const token = (current_token = {});
