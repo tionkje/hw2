@@ -4,4 +4,5 @@ node_modules
 /package
 .eslintcache
 /.vercel_build_output
-
+.env
+.vercel
