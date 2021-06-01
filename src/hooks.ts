@@ -2,7 +2,10 @@ import cookie from 'cookie';
 import { v4 as uuid } from '@lukeed/uuid';
 import type { Handle } from '@sveltejs/kit';
 
-export const handle: Handle = async ({ request, render }) => {
+import dotenv from 'dotenv';
+dotenv.config();
+
+export const handle: Handle = async ({ request, resolve }) => {
   const cookies = cookie.parse(request.headers.cookie || '');
   request.locals.userid = cookies.userid || uuid();
 
@@ -11,7 +14,7 @@ export const handle: Handle = async ({ request, render }) => {
     request.method = request.query.get('_method').toUpperCase();
   }
 
-  const response = await render(request);
+  const response = await resolve(request);
 
   if (!cookies.userid) {
     // if this is the first time the user has visited this app,
