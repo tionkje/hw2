@@ -18,6 +18,7 @@ class Thrower implements Nameable {
   name: string;
   categories: CategoryId[];
   throws: Record<Height, Judge[]>;
+  skipHeight?: Height;
 
   constructor(data: ThrowerData) {
     this.name = data.name;
@@ -25,9 +26,17 @@ class Thrower implements Nameable {
     this.throws = data.throws ?? {};
   }
 
+  setSkipHeight(height: Height) {
+    this.skipHeight = height;
+  }
+
+  getThrowsAtHeight(height: Height) {
+    return this.throws[height] || [];
+  }
+
   needsThrowAtHeight(height: Height) {
-    const throws = this.throws[height] || [];
-    return throws.length != 3 && !throws.includes('V');
+    const throws = this.getThrowsAtHeight(height);
+    return throws.length != 3 && !throws.includes('V') && (this.skipHeight == undefined || this.skipHeight < height);
   }
 
   judge(height: Height, judge: Judge) {
@@ -76,6 +85,10 @@ export class Competition {
     this.meters.push(meter);
   }
 
+  skipHeight(throwerId: ThrowerId, height: Height): void {
+    this.throwers[throwerId].setSkipHeight(height);
+  }
+
   meterThrowOrder(meterId: MeterId): Array<ThrowerId> {
     const meter = this.meters[meterId];
     const throwers = this.throwers.filter(
@@ -88,7 +101,6 @@ export class Competition {
       if (!aThrows && !bThrows) return 0;
       if (!aThrows) return -1;
       if (!bThrows) return 1;
-      // if(a.throws[meter.height] && b.throws[meter.height]) return 0;
 
       return 0;
     });

@@ -32,8 +32,28 @@ describe('throworder', () => {
     expect(throwOrder).toEqual([0, 1]);
   });
 
-  it('generates a throw order after a first throw', () => {
+  it('generates a throw order after a first success throw', () => {
     comp.judgeThrow(0, 0, 'V');
+    const throwOrder = comp.meterThrowOrder(0);
+    expect(throwOrder).toEqual([1]);
+  });
+
+  it('generates a throw order after a first fail throw', () => {
+    comp.judgeThrow(0, 0, 'X');
+    const throwOrder = comp.meterThrowOrder(0);
+    expect(throwOrder).toEqual([1, 0]);
+  });
+
+  it('eliminate player after 3 fails', () => {
+    comp.judgeThrow(0, 0, 'X');
+    comp.judgeThrow(0, 0, 'X');
+    comp.judgeThrow(0, 0, 'X');
+    const throwOrder = comp.meterThrowOrder(0);
+    expect(throwOrder).toEqual([1]);
+  });
+
+  it('can skip to a certain height', () => {
+    comp.skipHeight(0, 8);
     const throwOrder = comp.meterThrowOrder(0);
     expect(throwOrder).toEqual([1]);
   });
