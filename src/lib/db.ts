@@ -17,8 +17,8 @@ export async function closeConnection() {
   const client = await getMongoConnection();
   return client.close();
 }
-const timeout = (ms) => new Promise((r) => setTimeout(r, ms));
-async function lockDoc(col, q, ref) {
+const timeout = (ms: number) => new Promise((r) => setTimeout(r, ms));
+async function lockDoc(col: any, q: Record<string, string>, ref: string) {
   let tries = 0;
   while (tries++ < 100) {
     const res = await col.findOneAndUpdate({ ...q, locked: { $exists: false } }, { $set: { locked: true } });
@@ -26,11 +26,11 @@ async function lockDoc(col, q, ref) {
     if (res.value)
       return {
         doc: res.value,
-        unlock: async (newDoc) => {
+        unlock: async (newDoc: unknown) => {
           await col.findOneAndReplace({ _id: res.value._id }, newDoc);
         },
       };
-    // console.log('fail', ref);
+    console.log('fail', ref);
     timeout(100 * Math.random());
   }
   throw new Error(`Failed getting lock after ${tries} tries`);
@@ -50,7 +50,7 @@ export async function initCount() {
   const amount = await col.countDocuments();
   if (amount == 0) await col.insertOne({ count: 0 });
 }
-export async function count(ref: string): Promise<number> {
+export async function count(ref?: string): Promise<number> {
   const col = await getCountCol();
 
   // console.log(await col.find().toArray());

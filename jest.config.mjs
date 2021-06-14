@@ -4,8 +4,8 @@
  */
 
 export default {
-    transform: {
-    "^.+\\.[t|j]sx?$": "babel-jest"
+  transform: {
+    '^.+\\.[t|j]sx?$': 'babel-jest',
   },
   maxWorkers: 1,
   // All imported modules in your tests should be mocked automatically
@@ -27,7 +27,7 @@ export default {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -35,7 +35,7 @@ export default {
   // ],
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: "v8",
+  coverageProvider: 'v8',
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [

@@ -49,6 +49,6 @@
   },
   "lint-staged": {
     "*.{js,svelte,ts}": "eslint --cache --fix",
-    "*.{svelte,ts,js,css,md}": "prettier --write"
+    "*.{svelte,ts,js,css,md}": "prettier --write --plugin-search-dir=. ."
   }
 }

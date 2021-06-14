@@ -64,7 +64,7 @@
   }
 
   path {
-    vector-effect: non-scaling-stroke;
+    /* vector-effect: non-scaling-stroke; */
     stroke-width: 2px;
     stroke: var(--text-color);
   }

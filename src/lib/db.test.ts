@@ -17,7 +17,7 @@ describe('db stuff', () => {
   it('operation is atomic', async () => {
     let nr = 0;
     const times = 4;
-    async function countMulti(ref) {
+    async function countMulti(ref: string) {
       for (let i = 0; i < times; i++) {
         await count(ref + '_' + i);
         nr++;
@@ -26,7 +26,7 @@ describe('db stuff', () => {
     await Promise.all(
       Array(5)
         .fill(0)
-        .map(async (x, i) => await countMulti(i))
+        .map(async (_, i) => await countMulti(i + ''))
     );
 
     expect(await count('final')).toBe(++nr);

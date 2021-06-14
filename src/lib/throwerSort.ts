@@ -1,7 +1,3 @@
-interface Nameable {
-  name: string;
-}
-
 type ThrowerId = number;
 type CategoryId = number;
 type MeterId = number;
@@ -14,7 +10,7 @@ type ThrowerData = {
   throws?: Record<Height, Judge[]>;
 };
 
-class Thrower implements Nameable {
+class Thrower {
   name: string;
   categories: CategoryId[];
   throws: Record<Height, Judge[]>;
@@ -45,20 +41,39 @@ class Thrower implements Nameable {
   }
 }
 
-class Category implements Nameable {
+type CategoryData = {
+  name?: string;
+};
+
+class Category {
   name: string;
+  constructor(data: CategoryData) {
+    this.name = data.name;
+  }
 }
 
-class Meter implements Nameable {
+type MeterData = {
+  name?: string;
+  height?: Height;
+  categories?: CategoryId[];
+};
+
+class Meter {
   name: string;
   height: Height;
   categories: CategoryId[];
+
+  constructor(data: MeterData) {
+    this.name = data.name;
+    this.height = data.height;
+    this.categories = data.categories;
+  }
 }
 
 type CompetitionData = {
   throwers?: Array<ThrowerData>;
-  categories?: Array<Category>;
-  meters?: Array<Meter>;
+  categories?: Array<CategoryData>;
+  meters?: Array<MeterData>;
 };
 
 export class Competition {
@@ -68,20 +83,23 @@ export class Competition {
 
   constructor(comp: CompetitionData = {}) {
     this.throwers = (comp.throwers ?? []).map((x) => new Thrower(x));
-    this.categories = comp.categories ?? [];
-    this.meters = comp.meters ?? [];
+    this.categories = (comp.categories ?? []).map((x) => new Category(x));
+    this.meters = (comp.meters ?? []).map((x) => new Meter(x));
   }
 
-  addThrower(thrower: Thrower): void {
-    thrower.name = thrower.name ?? `no name ${this.throwers.length}`;
+  addThrower(data: ThrowerData): void {
+    data.name = data.name ?? `no name ${this.throwers.length}`;
+    const thrower = new Thrower(data);
     this.throwers.push(thrower);
   }
-  addCategory(category: Category): void {
-    category.name = category.name ?? `category ${this.categories.length}`;
+  addCategory(data: CategoryData): void {
+    data.name = data.name ?? `data ${this.categories.length}`;
+    const category = new Category(data);
     this.categories.push(category);
   }
-  addHeightMeter(meter: Meter): void {
-    meter.name = meter.name ?? `meter ${this.meters.length}`;
+  addHeightMeter(data: MeterData): void {
+    data.name = data.name ?? `data ${this.meters.length}`;
+    const meter = new Meter(data);
     this.meters.push(meter);
   }
 
