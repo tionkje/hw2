@@ -13,7 +13,7 @@ export async function getMongoConnection(): Promise<MongoClient> {
   }));
 }
 
-export async function closeConnection() {
+export async function closeConnection(): Promise<void> {
   const client = await getMongoConnection();
   return client.close();
 }
@@ -30,7 +30,7 @@ async function lockDoc(col: any, q: Record<string, string>, ref: string) {
           await col.findOneAndReplace({ _id: res.value._id }, newDoc);
         },
       };
-    console.log('fail', ref);
+    //console.log('fail', ref);
     timeout(100 * Math.random());
   }
   throw new Error(`Failed getting lock after ${tries} tries`);

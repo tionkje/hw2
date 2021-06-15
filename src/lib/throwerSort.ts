@@ -1,8 +1,8 @@
-type ThrowerId = number;
-type CategoryId = number;
-type MeterId = number;
-type Height = number;
-type Judge = 'X' | 'V';
+export type ThrowerId = number;
+export type CategoryId = number;
+export type MeterId = number;
+export type Height = number;
+export type Judge = 'X' | 'V';
 
 type ThrowerData = {
   name?: string;
@@ -28,6 +28,23 @@ class Thrower {
 
   getThrowsAtHeight(height: Height) {
     return this.throws[height] || [];
+  }
+
+  isEliminatingThrow(throws: Array<Judge>): boolean {
+    return throws.filter((j) => j == 'X').length == 3;
+  }
+
+  getHighestSuccess(): Height | null {
+    return (
+      Object.entries(this.throws)
+        .filter(([height, throws]) => !this.isEliminatingThrow(throws))
+        .map(([height, throws]) => Number(height))
+        .sort((a, b) => a - b)[0] || null
+    );
+  }
+
+  isEliminated() {
+    return Object.entries(this.throws).some(([height, throws]) => this.isEliminatingThrow(throws));
   }
 
   needsThrowAtHeight(height: Height) {
@@ -68,6 +85,10 @@ class Meter {
     this.height = data.height;
     this.categories = data.categories;
   }
+
+  setHeight(height: Height): void {
+    this.height = height;
+  }
 }
 
 type CompetitionData = {
@@ -107,6 +128,11 @@ export class Competition {
     this.throwers[throwerId].setSkipHeight(height);
   }
 
+  setMeterHeight(meterId: MeterId, height: Height): void {
+    const meter = this.meters[meterId];
+    meter.setHeight(height);
+  }
+
   meterThrowOrder(meterId: MeterId): Array<ThrowerId> {
     const meter = this.meters[meterId];
     const throwers = this.throwers.filter(
@@ -126,9 +152,28 @@ export class Competition {
     return throwers.map((t) => this.throwers.indexOf(t));
   }
 
-  judgeThrow(meterId: MeterId, throwerId: ThrowerId, judge: Judge): void {
-    const meter = this.meters[meterId];
+  judgeThrow(throwerId: ThrowerId, height: Height, judge: Judge): void {
     const thrower = this.throwers[throwerId];
-    thrower.judge(meter.height, judge);
+    thrower.judge(height, judge);
+  }
+
+  categoryRanking(categoryId: CategoryId): Array<ThrowerId | null> {
+    const throwers = this.throwers
+      .filter((t) => t.categories.includes(categoryId))
+      .map((t) => (t.isEliminated() ? t : null));
+
+    throwers.sort((a, b) => {
+      if (a == null && b == null) return 0;
+      if (a == null) return -1;
+      if (b == null) return 1;
+
+      const aHigh = a.getHighestSuccess();
+      const bHigh = b.getHighestSuccess();
+      if (aHigh !== bHigh) return bHigh - aHigh;
+
+      return 0;
+    });
+
+    return throwers.map((t) => t && this.throwers.indexOf(t));
   }
 }

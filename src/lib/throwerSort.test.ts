@@ -1,4 +1,4 @@
-import { Competition } from './throwerSort';
+import { Competition, ThrowerId, CategoryId, MeterId, Judge, Height } from './throwerSort';
 
 it('add a thrower/category/meter', () => {
   const comp = new Competition();
@@ -23,38 +23,83 @@ function createSampleCompetition() {
   });
 }
 
-describe('throworder', () => {
+describe('competition', () => {
   let comp: Competition;
   beforeEach(() => (comp = createSampleCompetition()));
 
-  it('generates a throw order when no throws yet', () => {
-    const throwOrder = comp.meterThrowOrder(0);
-    expect(throwOrder).toEqual([0, 1]);
+  const meter1 = 0;
+  const astrid = 0,
+    bob = 1,
+    chris = 2;
+  const heren = 0,
+    dames = 1;
+
+  function eliminateThrower(throwerId: ThrowerId, height: Height) {
+    comp.judgeThrow(throwerId, height, 'X');
+    comp.judgeThrow(throwerId, height, 'X');
+    comp.judgeThrow(throwerId, height, 'X');
+  }
+
+  describe('throworder', () => {
+    it('generates a throw order when no throws yet', () => {
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([astrid, bob]);
+    });
+
+    it('generates a throw order after a first success throw', () => {
+      comp.judgeThrow(astrid, 8, 'V');
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([bob]);
+    });
+
+    it('generates a throw order after a first fail throw', () => {
+      comp.judgeThrow(astrid, 8, 'X');
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([bob, astrid]);
+    });
+
+    it('eliminate player after 3 fails', () => {
+      eliminateThrower(astrid, 8);
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([bob]);
+    });
+
+    it('can skip to a certain height', () => {
+      comp.skipHeight(astrid, 8);
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([bob]);
+    });
+
+    it('recreates throw order on next height', () => {
+      comp.judgeThrow(astrid, 8, 'V');
+      comp.judgeThrow(bob, 8, 'V');
+      comp.setMeterHeight(meter1, 8.5);
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([astrid, bob]);
+    });
   });
 
-  it('generates a throw order after a first success throw', () => {
-    comp.judgeThrow(0, 0, 'V');
-    const throwOrder = comp.meterThrowOrder(0);
-    expect(throwOrder).toEqual([1]);
-  });
+  describe('standing', () => {
+    beforeEach(() => comp.addThrower({ name: 'Chris', categories: [0] }));
+    beforeEach(() => eliminateThrower(astrid, 8));
 
-  it('generates a throw order after a first fail throw', () => {
-    comp.judgeThrow(0, 0, 'X');
-    const throwOrder = comp.meterThrowOrder(0);
-    expect(throwOrder).toEqual([1, 0]);
-  });
+    it('creates empty ranking when no eliminations', () => {
+      const ranking = comp.categoryRanking(heren);
+      expect(ranking).toEqual([null, null]);
+    });
 
-  it('eliminate player after 3 fails', () => {
-    comp.judgeThrow(0, 0, 'X');
-    comp.judgeThrow(0, 0, 'X');
-    comp.judgeThrow(0, 0, 'X');
-    const throwOrder = comp.meterThrowOrder(0);
-    expect(throwOrder).toEqual([1]);
-  });
+    it('create single entry ranking on 1 elimination', () => {
+      eliminateThrower(bob, 8);
+      const ranking = comp.categoryRanking(heren);
+      expect(ranking).toEqual([null, bob]);
+    });
 
-  it('can skip to a certain height', () => {
-    comp.skipHeight(0, 8);
-    const throwOrder = comp.meterThrowOrder(0);
-    expect(throwOrder).toEqual([1]);
+    it('creates ranking when all eliminated', () => {
+      eliminateThrower(bob, 8);
+      comp.judgeThrow(chris, 8, 'V');
+      eliminateThrower(chris, 8.5);
+      const ranking = comp.categoryRanking(heren);
+      expect(ranking).toEqual([chris, bob]);
+    });
   });
 });
