@@ -16,8 +16,8 @@ function createSampleCompetition() {
   return new Competition({
     categories: [{ name: 'Heren 16+' }, { name: 'Dames 16+' }],
     throwers: [
-      { name: 'Astrid', categories: [1] },
-      { name: 'Bob', categories: [0] },
+      { name: 'Astrid', categories: { 1: {} } },
+      { name: 'Bob', categories: { 0: {} } },
     ],
     meters: [{ name: 'nr 1', height: 8, categories: [0, 1] }],
   });
@@ -80,7 +80,7 @@ describe('competition', () => {
   });
 
   describe('standing', () => {
-    beforeEach(() => comp.addThrower({ name: 'Chris', categories: [0] }));
+    beforeEach(() => comp.addThrower({ name: 'Chris', categories: { 0: {} } }));
     beforeEach(() => eliminateThrower(astrid, 8));
 
     it('creates empty ranking when no eliminations', () => {

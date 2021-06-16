@@ -1,3 +1,5 @@
+import { strict as assert } from 'assert';
+
 export type ThrowerId = number;
 export type CategoryId = number;
 export type MeterId = number;
@@ -6,55 +8,63 @@ export type Judge = 'X' | 'V';
 
 type ThrowerData = {
   name?: string;
-  categories?: CategoryId[];
-  throws?: Record<Height, Judge[]>;
+  categories?: Record<CategoryId, Record<Height, Judge[]>>;
+  // categories?: CategoryId[];
+  // throws?: Record<Height, Judge[]>;
 };
 
 class Thrower {
   name: string;
-  categories: CategoryId[];
-  throws: Record<Height, Judge[]>;
+  // categories: CategoryId[];
+  categories: Record<CategoryId, Record<Height, Judge[]>> = {};
+  // throws: Record<Height, Judge[]>;
   skipHeight?: Height;
 
   constructor(data: ThrowerData) {
     this.name = data.name;
-    this.categories = data.categories ?? [];
-    this.throws = data.throws ?? {};
+    this.categories = data.categories ?? {};
+    // this.throws = data.throws ?? {};
   }
 
   setSkipHeight(height: Height) {
     this.skipHeight = height;
   }
 
-  getThrowsAtHeight(height: Height) {
-    return this.throws[height] || [];
+  defaultCategory(): CategoryId | null {
+    const cat = Object.keys(this.categories)[0];
+    if (cat == undefined) return null;
+    return Number(cat);
+  }
+
+  getThrowsAtHeight(height: Height, categoryId: CategoryId = this.defaultCategory()) {
+    return this.categories[categoryId][height] || [];
   }
 
   isEliminatingThrow(throws: Array<Judge>): boolean {
     return throws.filter((j) => j == 'X').length == 3;
   }
 
-  getHighestSuccess(): Height | null {
+  getHighestSuccess(categoryId: CategoryId = this.defaultCategory()): Height | null {
     return (
-      Object.entries(this.throws)
+      Object.entries(this.categories[categoryId])
         .filter(([height, throws]) => !this.isEliminatingThrow(throws))
         .map(([height, throws]) => Number(height))
         .sort((a, b) => a - b)[0] || null
     );
   }
 
-  isEliminated() {
-    return Object.entries(this.throws).some(([height, throws]) => this.isEliminatingThrow(throws));
+  isEliminated(categoryId: CategoryId = this.defaultCategory()) {
+    return Object.entries(this.categories[categoryId]).some(([height, throws]) => this.isEliminatingThrow(throws));
   }
 
-  needsThrowAtHeight(height: Height) {
-    const throws = this.getThrowsAtHeight(height);
+  needsThrowAtHeight(height: Height, categoryId: CategoryId = this.defaultCategory()) {
+    const throws = this.getThrowsAtHeight(height, categoryId);
     return throws.length != 3 && !throws.includes('V') && (this.skipHeight == undefined || this.skipHeight < height);
   }
 
-  judge(height: Height, judge: Judge) {
-    if (!this.throws[height]) this.throws[height] = [];
-    this.throws[height].push(judge);
+  judge(height: Height, judge: Judge, categoryId: CategoryId = this.defaultCategory()) {
+    if (!this.categories[categoryId][height]) this.categories[categoryId][height] = [];
+    this.categories[categoryId][height].push(judge);
   }
 }
 
@@ -136,12 +146,22 @@ export class Competition {
   meterThrowOrder(meterId: MeterId): Array<ThrowerId> {
     const meter = this.meters[meterId];
     const throwers = this.throwers.filter(
-      (t) => t.categories.some((catId) => meter.categories.includes(catId)) && t.needsThrowAtHeight(meter.height)
+      // (t) => t.categories.some((catId) => meter.categories.includes(catId)) && t.needsThrowAtHeight(meter.height)
+      (t) => meter.categories.some((cat) => t.categories[cat] && t.needsThrowAtHeight(meter.height, cat))
     );
 
+    assert(
+      throwers.every((t) => meter.categories.filter((cat) => t.categories[cat]).length == 1),
+      'A thrower should only be in one of the active categories in a metric'
+    );
+
+    const getAnyThrowsInCategoryListAtHeight = (thrower: Thrower) => {
+      return meter.categories.map((cat) => thrower.categories[cat]?.[meter.height]).find((x) => x);
+    };
+
     throwers.sort((a, b) => {
-      const aThrows = a.throws[meter.height];
-      const bThrows = b.throws[meter.height];
+      const aThrows = getAnyThrowsInCategoryListAtHeight(a);
+      const bThrows = getAnyThrowsInCategoryListAtHeight(b);
       if (!aThrows && !bThrows) return 0;
       if (!aThrows) return -1;
       if (!bThrows) return 1;
@@ -159,17 +179,18 @@ export class Competition {
 
   categoryRanking(categoryId: CategoryId): Array<ThrowerId | null> {
     const throwers = this.throwers
-      .filter((t) => t.categories.includes(categoryId))
-      .map((t) => (t.isEliminated() ? t : null));
+      .filter((t) => t.categories[categoryId])
+      .map((t) => (t.isEliminated(categoryId) ? t : null));
 
     throwers.sort((a, b) => {
       if (a == null && b == null) return 0;
       if (a == null) return -1;
       if (b == null) return 1;
 
-      const aHigh = a.getHighestSuccess();
-      const bHigh = b.getHighestSuccess();
+      const aHigh = a.getHighestSuccess(categoryId);
+      const bHigh = b.getHighestSuccess(categoryId);
       if (aHigh !== bHigh) return bHigh - aHigh;
+      //TODO: needs refactor to support draws...
 
       return 0;
     });
