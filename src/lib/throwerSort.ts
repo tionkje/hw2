@@ -11,6 +11,8 @@ type ThrowerData = {
   categories?: Record<CategoryId, Record<Height, Judge[]>>;
   // categories?: CategoryId[];
   // throws?: Record<Height, Judge[]>;
+  skipHeight?: Height;
+  rank?: number;
 };
 
 class Thrower {
@@ -24,6 +26,7 @@ class Thrower {
     this.name = data.name;
     this.categories = data.categories ?? {};
     // this.throws = data.throws ?? {};
+    this.skipHeight = data.skipHeight;
   }
 
   setSkipHeight(height: Height) {
@@ -177,24 +180,42 @@ export class Competition {
     thrower.judge(height, judge);
   }
 
-  categoryRanking(categoryId: CategoryId): Array<ThrowerId | null> {
-    const throwers = this.throwers
-      .filter((t) => t.categories[categoryId])
-      .map((t) => (t.isEliminated(categoryId) ? t : null));
+  categoryRanking(categoryId: CategoryId): Array<[ThrowerId, number]> {
+    const throwers = this.throwers.filter((t) => t.categories[categoryId]);
+    const eliminated = throwers.filter((t) => t.isEliminated(categoryId));
 
-    throwers.sort((a, b) => {
-      if (a == null && b == null) return 0;
-      if (a == null) return -1;
-      if (b == null) return 1;
-
+    const sortPred = (a, b) => {
       const aHigh = a.getHighestSuccess(categoryId);
       const bHigh = b.getHighestSuccess(categoryId);
+      // both did a "Pietje"
+      if (aHigh === null && bHigh === null) return 0;
+      // a or b did a "Pietje"
+      if (!aHigh) return 1;
+      if (!bHigh) return -1;
+      // height differ
       if (aHigh !== bHigh) return bHigh - aHigh;
-      //TODO: needs refactor to support draws...
-
+      // TODO: look at throw counts of prev heights
       return 0;
+    };
+
+    // sort and store the draws
+    const draws = [];
+    eliminated.sort((a, b) => {
+      const res = sortPred(a, b);
+      if (res !== 0) return res;
+      const ai = this.throwers.indexOf(a);
+      const bi = this.throwers.indexOf(b);
+      if (!draws[ai]) draws[ai] = bi;
+      if (!draws[bi]) draws[bi] = ai;
+      return res;
     });
 
-    return throwers.map((t) => t && this.throwers.indexOf(t));
+    return eliminated.map((t, rank) => {
+      const tid = this.throwers.indexOf(t);
+      // if this has a draw, use the smallest as rank
+      if (draws[tid]) rank = Math.min(rank, eliminated.indexOf(this.throwers[draws[tid]]));
+      // get rank by adding the not yet eliminated count
+      return [tid, rank + throwers.length - eliminated.length];
+    });
   }
 }

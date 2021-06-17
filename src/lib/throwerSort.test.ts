@@ -83,23 +83,53 @@ describe('competition', () => {
     beforeEach(() => comp.addThrower({ name: 'Chris', categories: { 0: {} } }));
     beforeEach(() => eliminateThrower(astrid, 8));
 
+    const getRanking = () => comp.categoryRanking(heren);
+    //.sort(([a],[b])=>a-b)
+    //.map(([throwerId,rank])=>throwerId);
+
     it('creates empty ranking when no eliminations', () => {
-      const ranking = comp.categoryRanking(heren);
-      expect(ranking).toEqual([null, null]);
+      const ranking = getRanking();
+      expect(ranking).toEqual([]);
     });
 
     it('create single entry ranking on 1 elimination', () => {
       eliminateThrower(bob, 8);
-      const ranking = comp.categoryRanking(heren);
-      expect(ranking).toEqual([null, bob]);
+      const ranking = getRanking();
+      expect(ranking).toEqual([[bob, 1]]);
+    });
+
+    it('creates ranking when all eliminated', () => {
+      eliminateThrower(chris, 8);
+      comp.judgeThrow(bob, 8, 'V');
+      eliminateThrower(bob, 8.5);
+      const ranking = getRanking();
+      expect(ranking).toEqual([
+        [bob, 0],
+        [chris, 1],
+      ]);
     });
 
     it('creates ranking when all eliminated', () => {
       eliminateThrower(bob, 8);
       comp.judgeThrow(chris, 8, 'V');
       eliminateThrower(chris, 8.5);
-      const ranking = comp.categoryRanking(heren);
-      expect(ranking).toEqual([chris, bob]);
+      const ranking = getRanking();
+      expect(ranking).toEqual([
+        [chris, 0],
+        [bob, 1],
+      ]);
     });
+
+    it('support draws', () => {
+      eliminateThrower(bob, 8);
+      eliminateThrower(chris, 8);
+      const ranking = getRanking();
+      expect(ranking).toEqual([
+        [bob, 0],
+        [chris, 0],
+      ]);
+    });
+
+    // TODO: Less fails on previous throws ranks higher if tied
   });
 });
