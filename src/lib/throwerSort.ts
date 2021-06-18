@@ -52,7 +52,7 @@ class Thrower {
       Object.entries(this.categories[categoryId])
         .filter(([height, throws]) => !this.isEliminatingThrow(throws))
         .map(([height, throws]) => Number(height))
-        .sort((a, b) => a - b)[0] || null
+        .sort((a, b) => b - a)[0] || null
     );
   }
 
@@ -184,7 +184,7 @@ export class Competition {
     const throwers = this.throwers.filter((t) => t.categories[categoryId]);
     const eliminated = throwers.filter((t) => t.isEliminated(categoryId));
 
-    const sortPred = (a, b) => {
+    const sortPred = (a: Thrower, b: Thrower) => {
       const aHigh = a.getHighestSuccess(categoryId);
       const bHigh = b.getHighestSuccess(categoryId);
       // both did a "Pietje"
@@ -194,8 +194,25 @@ export class Competition {
       if (!bHigh) return -1;
       // height differ
       if (aHigh !== bHigh) return bHigh - aHigh;
-      // TODO: look at throw counts of prev heights
-      return 0;
+
+      const aThrows = a.categories[categoryId];
+      const bThrows = b.categories[categoryId];
+
+      // merge all heights of both
+      const heights = Object.keys(aThrows)
+        .concat(Object.keys(bThrows))
+        .map(Number)
+        .filter((x, i, a) => a.indexOf(x) == i)
+        .sort((a, b) => b - a);
+
+      // find first height where attempts differ
+      const res = heights
+        .filter((h) => h <= aHigh)
+        .map((height) => {
+          return aThrows[height].filter((x) => x == 'X').length - bThrows[height].filter((x) => x == 'X').length;
+        })
+        .find((x) => x != 0);
+      return res || 0;
     };
 
     // sort and store the draws
