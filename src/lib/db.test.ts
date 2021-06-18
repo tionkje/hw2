@@ -1,4 +1,25 @@
-import { count, closeConnection, resetCount, initCount } from './db';
+import { closeConnection, getCollection, lockDocument } from './db';
+
+async function resetCount() {
+  const col = await getCollection('counter');
+  await col.deleteMany({});
+}
+
+async function initCount() {
+  const col = await getCollection('counter');
+  const amount = await col.countDocuments();
+  if (amount == 0) await col.insertOne({ count: 0 });
+}
+
+async function count(): Promise<number> {
+  const { doc, unlock } = await lockDocument('counter', {});
+
+  doc.count++;
+
+  await unlock(doc);
+
+  return doc.count;
+}
 
 describe('db stuff', () => {
   afterAll(async () => {
@@ -10,25 +31,25 @@ describe('db stuff', () => {
   });
 
   it('single count', async () => {
-    const nr = await count('single');
+    const nr = await count();
     expect(nr).toBe(1);
   });
 
   it('operation is atomic', async () => {
     let nr = 0;
     const times = 4;
-    async function countMulti(ref: string) {
+    async function countMulti() {
       for (let i = 0; i < times; i++) {
-        await count(ref + '_' + i);
+        await count();
         nr++;
       }
     }
     await Promise.all(
       Array(5)
         .fill(0)
-        .map(async (_, i) => await countMulti(i + ''))
+        .map(async (_, i) => await countMulti())
     );
 
-    expect(await count('final')).toBe(++nr);
+    expect(await count()).toBe(++nr);
   });
 });

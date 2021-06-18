@@ -1,10 +1,12 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+const dbName = 'hw';
+
 import { MongoClient } from 'mongodb';
 
 let cache: MongoClient;
-export async function getMongoConnection(): Promise<MongoClient> {
+async function getMongoConnection(): Promise<MongoClient> {
   if (cache) return cache;
 
   return (cache = await MongoClient.connect(process.env.MONGODB_URI, {
@@ -17,8 +19,11 @@ export async function closeConnection(): Promise<void> {
   const client = await getMongoConnection();
   return client.close();
 }
+
 const timeout = (ms: number) => new Promise((r) => setTimeout(r, ms));
-async function lockDoc(col: any, q: Record<string, string>, ref: string) {
+export async function lockDocument(col: any | string, q: Record<string, string>) {
+  if (typeof col == 'string') col = await getCollection(col);
+
   let tries = 0;
   while (tries++ < 100) {
     const res = await col.findOneAndUpdate({ ...q, locked: { $exists: false } }, { $set: { locked: true } });
@@ -30,36 +35,12 @@ async function lockDoc(col: any, q: Record<string, string>, ref: string) {
           await col.findOneAndReplace({ _id: res.value._id }, newDoc);
         },
       };
-    //console.log('fail', ref);
     timeout(100 * Math.random());
   }
   throw new Error(`Failed getting lock after ${tries} tries`);
 }
 
-export async function resetCount() {
+export async function getCollection(name: string) {
   const client = await getMongoConnection();
-  const col = client.db('hw').collection('counter');
-  await col.deleteMany({});
-}
-async function getCountCol() {
-  const client = await getMongoConnection();
-  return client.db('hw').collection('counter');
-}
-export async function initCount() {
-  const col = await getCountCol();
-  const amount = await col.countDocuments();
-  if (amount == 0) await col.insertOne({ count: 0 });
-}
-export async function count(ref?: string): Promise<number> {
-  const col = await getCountCol();
-
-  // console.log(await col.find().toArray());
-
-  const { doc, unlock } = await lockDoc(col, {}, ref);
-
-  doc.count++;
-
-  await unlock(doc);
-
-  return doc.count;
+  return client.db(dbName).collection(name);
 }
