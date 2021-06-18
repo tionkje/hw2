@@ -1,4 +1,4 @@
-import { Competition, ThrowerId, CategoryId, MeterId, Judge, Height } from './throwerSort';
+import { Competition, ThrowerId, CategoryId, MeterId, Judge, Height } from './Competition';
 
 it('add a thrower/category/meter', () => {
   const comp = new Competition();
