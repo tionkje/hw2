@@ -175,9 +175,9 @@ export class Competition {
     return throwers.map((t) => this.throwers.indexOf(t));
   }
 
-  judgeThrow(throwerId: ThrowerId, height: Height, judge: Judge): void {
+  judgeThrow(throwerId: ThrowerId, height: Height, judge: Judge, categoryId?: CategoryId): void {
     const thrower = this.throwers[throwerId];
-    thrower.judge(height, judge);
+    thrower.judge(height, judge, categoryId);
   }
 
   categoryRanking(categoryId: CategoryId): Array<[ThrowerId, number]> {
