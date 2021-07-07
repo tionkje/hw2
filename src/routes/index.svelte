@@ -1,9 +1,31 @@
 <script context="module" lang="ts">
   export const prerender = true;
+  export async function load({ fetch }) {
+    let res = await fetch('/api/compo');
+    if (res.ok) {
+      return {
+        props: { compos: await res.json() },
+      };
+    }
+    console.error(res.text());
+    console.error(await res.text());
+  }
 </script>
 
 <script lang="ts">
   import Counter from '$lib/Counter/index.svelte';
+
+  export let compos;
+
+  async function test() {
+    var body = { a: 'test' };
+
+    var res = await fetch('/api/compo', {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    });
+    var bla = await res.text();
+  }
 </script>
 
 <svelte:head>
@@ -11,20 +33,12 @@
 </svelte:head>
 
 <section>
-  <h1>
-    <div class="welcome">
-      <picture>
-        <source srcset="svelte-welcome.webp" type="image/webp" />
-        <img src="svelte-welcome.png" alt="Welcome" />
-      </picture>
-    </div>
+  <pre>
+  {JSON.stringify(compos)}
+  </pre>
+  hai
 
-    to your new<br />SvelteKit app
-  </h1>
-
-  <h2>
-    try editing <strong>src/routes/index.svelte</strong>
-  </h2>
+  <button on:click={(e) => test()}>TEST</button>
 
   <Counter />
 </section>
