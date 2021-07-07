@@ -15,9 +15,6 @@ const config = {
     target: '#svelte',
     adapter: vercel(),
     vite: {
-      define: {
-        'process.env.MONGODB_URI': 'process.env.MONGODB_URI',
-      },
       ssr: {
         external: Object.keys(pkg.dependencies),
       },

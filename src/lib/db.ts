@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+const { MONGODB_URI } = process.env;
 const dbName = 'hw';
 
 import { MongoClient } from 'mongodb';
@@ -9,7 +10,7 @@ let cache: MongoClient;
 async function getMongoConnection(): Promise<MongoClient> {
   if (cache) return cache;
 
-  return (cache = await MongoClient.connect(process.env.MONGODB_URI, {
+  return (cache = await MongoClient.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }));
