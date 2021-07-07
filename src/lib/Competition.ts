@@ -124,6 +124,15 @@ export class Competition {
     this.meters = (comp.meters ?? []).map((x) => new Meter(x));
   }
 
+  toJSON(): CompetitionData {
+    return {
+      name: this.name,
+      throwers: this.throwers,
+      categories: this.categories,
+      meters: this.meters,
+    };
+  }
+
   addThrower(data: ThrowerData): void {
     data.name = data.name ?? `no name ${this.throwers.length}`;
     const thrower = new Thrower(data);

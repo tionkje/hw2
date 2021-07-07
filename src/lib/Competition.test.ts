@@ -12,8 +12,8 @@ it('add a thrower/category/meter', () => {
   expect(comp.meters.length).toBe(1);
 });
 
-function createSampleCompetition() {
-  return new Competition({
+function createSampleCompetitionData() {
+  return {
     name: 'TestCompetition',
     categories: [{ name: 'Heren 16+' }, { name: 'Dames 16+' }],
     throwers: [
@@ -21,12 +21,12 @@ function createSampleCompetition() {
       { name: 'Bob', categories: { 0: {} } },
     ],
     meters: [{ name: 'nr 1', height: 8, categories: [0, 1] }],
-  });
+  };
 }
 
 describe('competition', () => {
   let comp: Competition;
-  beforeEach(() => (comp = createSampleCompetition()));
+  beforeEach(() => (comp = new Competition(createSampleCompetitionData())));
 
   const meter1 = 0;
   const astrid = 0,
@@ -43,6 +43,11 @@ describe('competition', () => {
 
   it('has a name', () => {
     expect(comp.name).toBe('TestCompetition');
+  });
+
+  it('can Convert Compo to data', () => {
+    const data = JSON.parse(JSON.stringify(comp));
+    expect(data).toEqual(createSampleCompetitionData());
   });
 
   describe('throworder', () => {
