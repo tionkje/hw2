@@ -1,0 +1,1955 @@
+{
+  "_id": "ranking_2017-05-25T11:42:16.157Z",
+  "_rev": "142-8496e58d9686fb2e1f974f452514546b",
+  "name": "Wereldkampioenschap Hoogwerpen 2017",
+  "throwers": [
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "150",
+      "name": "Ruth Verbeire",
+      "nr": 52,
+      "rugnr": "51",
+      "attempts": {
+        "7": [
+          "X",
+          "X",
+          "X"
+        ]
+      }
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 10,
+      "hwId": "5",
+      "name": "Louis François",
+      "nr": 4,
+      "rugnr": "34",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "V"
+        ],
+        "12": [
+          "V"
+        ],
+        "14": [
+          "X",
+          "X",
+          "X"
+        ],
+        "11.5": [
+          "V"
+        ],
+        "12.3": [
+          "V"
+        ],
+        "12.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "12.7": [
+          "V"
+        ],
+        "12.9": [
+          "X",
+          "V"
+        ],
+        "13.1": [
+          "V"
+        ],
+        "13.5": [
+          "V"
+        ],
+        "13.7": [
+          "V"
+        ]
+      },
+      "skipHeight": 12.2,
+      "eliminated": 14,
+      "rankNr": 1
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 10,
+      "hwId": "1",
+      "name": "Paul Willems",
+      "nr": 1,
+      "rugnr": "33",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "V"
+        ],
+        "12": [
+          "X",
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "12.3": [
+          "X",
+          "V"
+        ],
+        "12.5": [
+          "X",
+          "V"
+        ],
+        "12.7": [
+          "X",
+          "V"
+        ],
+        "12.9": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 12.2,
+      "eliminated": 12.9,
+      "rankNr": 2
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 9,
+      "hwId": "47",
+      "name": "Jules François",
+      "nr": 17,
+      "rugnr": "35",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "V"
+        ],
+        "12": [
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "V"
+        ],
+        "11.5": [
+          "V"
+        ],
+        "12.1": [
+          "X",
+          "V"
+        ],
+        "12.3": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 12.2,
+      "eliminated": 12.3,
+      "rankNr": 3
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "148",
+      "name": "Sander Vanderbeke",
+      "nr": 50,
+      "rugnr": "48",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "V"
+        ],
+        "12": [
+          "X",
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "12.1": [
+          "X",
+          "V"
+        ],
+        "12.3": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 12.2,
+      "eliminated": 12.3,
+      "rankNr": 4
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8.5,
+      "hwId": "58",
+      "name": "Tom Meiresonne",
+      "nr": 20,
+      "rugnr": "1",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "V"
+        ],
+        "12": [
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ],
+        "11.5": [
+          "V"
+        ],
+        "12.2": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 12.1,
+      "eliminated": 12.2,
+      "rankNr": 5
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 10,
+      "hwId": "4",
+      "name": "Thomas Raes",
+      "nr": 3,
+      "rugnr": "37",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "V"
+        ],
+        "12": [
+          "X",
+          "V"
+        ],
+        "11.5": [
+          "V"
+        ],
+        "12.1": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 10.5,
+      "eliminated": 12.1,
+      "rankNr": 6
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 9.5,
+      "hwId": "82",
+      "name": "Wolfgang Schillinger",
+      "nr": 27,
+      "rugnr": "17",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "V"
+        ],
+        "12": [
+          "X",
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ],
+        "11.5": [
+          "V"
+        ],
+        "12.1": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 12.1,
+      "rankNr": 7
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "108",
+      "name": "Nino Vanbesien",
+      "nr": 36,
+      "rugnr": "31",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "V"
+        ],
+        "12": [
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "12.3": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 12.2,
+      "eliminated": 12.3,
+      "rankNr": 8
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "138",
+      "name": "Maximilian Kahl",
+      "nr": 40,
+      "rugnr": "13",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "V"
+        ],
+        "12": [
+          "X",
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "V"
+        ],
+        "12.1": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 12.1,
+      "rankNr": 9
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 9.5,
+      "hwId": "28",
+      "name": "Mathias De Smet",
+      "nr": 11,
+      "rugnr": "42",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "V"
+        ],
+        "12": [
+          "X",
+          "X",
+          "X"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ],
+        "11.5": [
+          "V"
+        ]
+      },
+      "eliminated": 12,
+      "rankNr": 10
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 9.5,
+      "hwId": "3",
+      "name": "Bastiaan Deknudt",
+      "nr": 2,
+      "rugnr": "27",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "V"
+        ],
+        "12": [
+          "X",
+          "X",
+          "X"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 12,
+      "rankNr": 11
+    },
+    {
+      "categoryid": "Beloften Jongens",
+      "startHeight": 9,
+      "hwId": "79",
+      "name": "Robbe De Groot",
+      "nr": 25,
+      "rugnr": "39",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "11": [
+          "V"
+        ],
+        "9.2": [
+          "V"
+        ],
+        "9.3": [
+          "V"
+        ],
+        "10.1": [
+          "V"
+        ],
+        "11.4": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 9.4,
+      "eliminated": 11.4,
+      "rankNr": 1
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 9,
+      "hwId": "21",
+      "name": "Bjorn Princen",
+      "nr": 10,
+      "rugnr": "29",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 9.5,
+      "eliminated": 11.5,
+      "rankNr": 12
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8.5,
+      "hwId": "67",
+      "name": "Paul Kiekens",
+      "nr": 22,
+      "rugnr": "43",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 9.5,
+      "eliminated": 11.5,
+      "rankNr": 13
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8.5,
+      "hwId": "144",
+      "name": "Jens Van Gyseghem",
+      "nr": 46,
+      "rugnr": "49",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 10.5,
+      "eliminated": 11.5,
+      "rankNr": 14
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8.5,
+      "hwId": "45",
+      "name": "Pieter Gabriel",
+      "nr": 16,
+      "rugnr": "38",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ],
+        "11.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 11.5,
+      "rankNr": 15
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 10,
+      "hwId": "142",
+      "name": "Mario Jurka",
+      "nr": 44,
+      "rugnr": "19",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "X"
+        ],
+        "10.5": [
+          "V"
+        ]
+      },
+      "eliminated": 11,
+      "rankNr": 16
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "7",
+      "name": "Kris De Ridder",
+      "nr": 5,
+      "rugnr": "52",
+      "attempts": {
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "X"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ]
+      },
+      "skipHeight": 9,
+      "eliminated": 11,
+      "rankNr": 17
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 9,
+      "hwId": "29",
+      "name": "Wouter Huybens",
+      "nr": 12,
+      "rugnr": "28",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "X"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "V"
+        ]
+      },
+      "eliminated": 11,
+      "rankNr": 18
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8.5,
+      "hwId": "8",
+      "name": "Erwin De Troyer",
+      "nr": 6,
+      "rugnr": "30",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "X"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "V"
+        ]
+      },
+      "skipHeight": 8.5,
+      "eliminated": 11,
+      "rankNr": 19
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "80",
+      "name": "Felix Schlaich",
+      "nr": 26,
+      "rugnr": "4",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 11,
+      "rankNr": 20
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 9,
+      "hwId": "12",
+      "name": "Bram Schockaert",
+      "nr": 9,
+      "rugnr": "20",
+      "attempts": {
+        "9": [
+          "X",
+          "V"
+        ],
+        "10": [
+          "X",
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "X"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 11,
+      "rankNr": 21
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "83",
+      "name": "Herbert Schillinger",
+      "nr": 28,
+      "rugnr": "16",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "V"
+        ],
+        "10": [
+          "X",
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 11,
+      "rankNr": 22
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "136",
+      "name": "Jan Brees",
+      "nr": 38,
+      "rugnr": "8",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "V"
+        ],
+        "10": [
+          "X",
+          "X",
+          "V"
+        ],
+        "11": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 11,
+      "rankNr": 23
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "9",
+      "name": "Michel Renders",
+      "nr": 7,
+      "rugnr": "32",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 10.5,
+      "rankNr": 24
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "140",
+      "name": "Marco Cantatori",
+      "nr": 42,
+      "rugnr": "15",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "10": [
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 10.5,
+      "rankNr": 25
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "32",
+      "name": "Jan De Schutter",
+      "nr": 13,
+      "rugnr": "6",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "10": [
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "X",
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 10.5,
+      "rankNr": 26
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "93",
+      "name": "Benjamin Briot",
+      "nr": 32,
+      "rugnr": "24",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "10": [
+          "X",
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "X",
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "10.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 10.5,
+      "rankNr": 27
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "10",
+      "name": "Anne Renders",
+      "nr": 8,
+      "rugnr": "26",
+      "attempts": {
+        "7": [
+          "V"
+        ],
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "7.5": [
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ],
+        "9.1": [
+          "V"
+        ],
+        "9.6": [
+          "X",
+          "X",
+          "V"
+        ],
+        "9.7": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 9.7,
+      "rankNr": 2
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "137",
+      "name": "Maarten Bertens",
+      "nr": 39,
+      "rugnr": "9",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "10": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "V"
+        ]
+      },
+      "eliminated": 10,
+      "rankNr": 28
+    },
+    {
+      "name": "Steven De Saedeleer",
+      "startHeight": 8,
+      "categoryid": "Heren",
+      "nr": 54,
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "10": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 10,
+      "rankNr": 29
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8.5,
+      "hwId": "48",
+      "name": "Siemen Vanderhaegen",
+      "nr": 18,
+      "rugnr": "36",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "10": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "X",
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 10,
+      "rankNr": 30
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "77",
+      "name": "Svenja Freimoser",
+      "nr": 24,
+      "rugnr": "7",
+      "attempts": {
+        "7": [
+          "V"
+        ],
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "V"
+        ],
+        "7.5": [
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "9.1": [
+          "X",
+          "X",
+          "X"
+        ],
+        "9.6": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "finaleGrant": [
+        9.1
+      ],
+      "eliminated": 9.6,
+      "rankNr": 3
+    },
+    {
+      "categoryid": "Beloften Jongens",
+      "startHeight": 6,
+      "hwId": "109",
+      "name": "Mattan Broeders",
+      "nr": 37,
+      "rugnr": "2",
+      "attempts": {
+        "6": [
+          "V"
+        ],
+        "7": [
+          "V"
+        ],
+        "8": [
+          "X",
+          "V"
+        ],
+        "9": [
+          "X",
+          "V"
+        ],
+        "6.5": [
+          "V"
+        ],
+        "7.5": [
+          "V"
+        ],
+        "8.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "9.1": [
+          "V"
+        ],
+        "9.2": [
+          "X",
+          "X",
+          "V"
+        ],
+        "9.3": [
+          "X",
+          "V"
+        ],
+        "9.4": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 9.4,
+      "rankNr": 2
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "95",
+      "name": "Barbara De Beer",
+      "nr": 34,
+      "rugnr": "44",
+      "attempts": {
+        "7": [
+          "V"
+        ],
+        "8": [
+          "V"
+        ],
+        "9": [
+          "V"
+        ],
+        "7.5": [
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "X"
+        ],
+        "9.1": [
+          "X",
+          "V"
+        ],
+        "9.6": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "finaleGrant": [
+        9.5
+      ],
+      "eliminated": 9.6,
+      "rankNr": 4
+    },
+    {
+      "categoryid": "Beloften Jongens",
+      "startHeight": 6,
+      "hwId": "143",
+      "name": "Sander Bertels",
+      "nr": 45,
+      "rugnr": "21",
+      "attempts": {
+        "6": [
+          "V"
+        ],
+        "7": [
+          "V"
+        ],
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "X"
+        ],
+        "6.5": [
+          "V"
+        ],
+        "7.5": [
+          "V"
+        ],
+        "8.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "9.1": [
+          "X",
+          "V"
+        ],
+        "9.2": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "finaleGrant": [
+        9
+      ],
+      "eliminated": 9.2,
+      "rankNr": 3
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 9,
+      "hwId": "90",
+      "name": "Marc Sodoyez",
+      "nr": 30,
+      "rugnr": "22",
+      "attempts": {
+        "9": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 9.5,
+      "rankNr": 31
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8.5,
+      "hwId": "91",
+      "name": "Pieter-Jan Mestdag",
+      "nr": 31,
+      "rugnr": "40",
+      "attempts": {
+        "9": [
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 9.5,
+      "rankNr": 32
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "149",
+      "name": "Sien Van Den Abbeele",
+      "nr": 51,
+      "rugnr": "50",
+      "attempts": {
+        "7": [
+          "V"
+        ],
+        "8": [
+          "X",
+          "V"
+        ],
+        "9": [
+          "X",
+          "V"
+        ],
+        "7.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 9.5,
+      "rankNr": 5
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "49",
+      "name": "Vik Van Schuylenbergh",
+      "nr": 19,
+      "rugnr": "41",
+      "attempts": {
+        "8": [
+          "X",
+          "V"
+        ],
+        "9": [
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 9.5,
+      "rankNr": 33
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "41",
+      "name": "Tine Jansegers",
+      "nr": 14,
+      "rugnr": "3",
+      "attempts": {
+        "7": [
+          "V"
+        ],
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "V"
+        ],
+        "7.5": [
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "9.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 9.5,
+      "rankNr": 6
+    },
+    {
+      "categoryid": "Beloften Meisjes",
+      "startHeight": 6,
+      "hwId": "146",
+      "name": "Hannah De Cock",
+      "nr": 48,
+      "rugnr": "46",
+      "attempts": {
+        "6": [
+          "V"
+        ],
+        "7": [
+          "V"
+        ],
+        "8": [
+          "X",
+          "X",
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "V"
+        ],
+        "6.5": [
+          "V"
+        ],
+        "7.5": [
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "8.1": [
+          "V"
+        ],
+        "8.2": [
+          "V"
+        ],
+        "8.4": [
+          "V"
+        ],
+        "8.6": [
+          "V"
+        ],
+        "8.7": [
+          "V"
+        ],
+        "8.8": [
+          "V"
+        ],
+        "9.1": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "finaleGrant": [
+        8.5
+      ],
+      "eliminated": 9.1,
+      "rankNr": 1
+    },
+    {
+      "categoryid": "Beloften Meisjes",
+      "startHeight": 6,
+      "hwId": "151",
+      "name": "Lara Schockaert",
+      "nr": 53,
+      "rugnr": "53",
+      "attempts": {
+        "7": [
+          "V"
+        ],
+        "8": [
+          "X",
+          "X",
+          "X"
+        ],
+        "6.5": [
+          "V"
+        ],
+        "7.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "8.5": [
+          "V"
+        ],
+        "8.1": [
+          "X",
+          "V"
+        ],
+        "8.2": [
+          "V"
+        ],
+        "8.4": [
+          "V"
+        ],
+        "8.6": [
+          "X",
+          "X",
+          "V"
+        ],
+        "8.7": [
+          "V"
+        ],
+        "8.8": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "skipHeight": 6,
+      "finaleGrant": [
+        8
+      ],
+      "eliminated": 8.8,
+      "rankNr": 2
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "68",
+      "name": "Daniel Cantatori",
+      "nr": 23,
+      "rugnr": "11",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "V"
+        ]
+      },
+      "eliminated": 9,
+      "draw": 29,
+      "rankNr": 34
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "87",
+      "name": "Andreas Kahl",
+      "nr": 29,
+      "rugnr": "12",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "V"
+        ]
+      },
+      "eliminated": 9,
+      "draw": 23,
+      "rankNr": 34
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "66",
+      "name": "Florian Bickel",
+      "nr": 21,
+      "rugnr": "10",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 9,
+      "rankNr": 36
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "139",
+      "name": "Nils Schillinger",
+      "nr": 41,
+      "rugnr": "14",
+      "attempts": {
+        "8": [
+          "V"
+        ],
+        "9": [
+          "X",
+          "X",
+          "X"
+        ],
+        "8.5": [
+          "X",
+          "X",
+          "V"
+        ]
+      },
+      "eliminated": 9,
+      "rankNr": 37
+    },
+    {
+      "categoryid": "Beloften Jongens",
+      "startHeight": 6,
+      "hwId": "94",
+      "name": "Yarne Van steenwinckel",
+      "nr": 33,
+      "rugnr": "25",
+      "attempts": {
+        "6": [
+          "V"
+        ],
+        "7": [
+          "V"
+        ],
+        "8": [
+          "X",
+          "V"
+        ],
+        "6.5": [
+          "V"
+        ],
+        "7.5": [
+          "V"
+        ],
+        "8.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 8.5,
+      "rankNr": 4
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "147",
+      "name": "Yente Vanheusden",
+      "nr": 49,
+      "rugnr": "47",
+      "attempts": {
+        "7": [
+          "V"
+        ],
+        "8": [
+          "X",
+          "X",
+          "V"
+        ],
+        "7.5": [
+          "V"
+        ],
+        "8.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 8.5,
+      "rankNr": 7
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "141",
+      "name": "Ann-Katrin Beisel",
+      "nr": 43,
+      "rugnr": "18",
+      "attempts": {
+        "7": [
+          "X",
+          "V"
+        ],
+        "8": [
+          "X",
+          "X",
+          "V"
+        ],
+        "7.5": [
+          "V"
+        ],
+        "8.5": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "eliminated": 8.5,
+      "rankNr": 8
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "145",
+      "name": "Marie Schockaert",
+      "nr": 47,
+      "rugnr": "45",
+      "attempts": {
+        "7": [
+          "V"
+        ],
+        "8": [
+          "X",
+          "X",
+          "X"
+        ],
+        "7.5": [
+          "V"
+        ]
+      },
+      "eliminated": 8,
+      "rankNr": 9
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "96",
+      "name": "Ana-Alicia Lamontagne",
+      "nr": 35,
+      "rugnr": "23",
+      "attempts": {
+        "7": [
+          "X",
+          "V"
+        ],
+        "8": [
+          "X",
+          "X",
+          "X"
+        ],
+        "7.5": [
+          "V"
+        ]
+      },
+      "eliminated": 8,
+      "rankNr": 10
+    },
+    {
+      "categoryid": "Beloften Meisjes",
+      "startHeight": 6,
+      "hwId": "43",
+      "name": "Jolien Witpas",
+      "nr": 15,
+      "rugnr": "5",
+      "attempts": {
+        "6": [
+          "V"
+        ],
+        "7": [
+          "V"
+        ],
+        "8": [
+          "X",
+          "X",
+          "X"
+        ],
+        "6.5": [
+          "V"
+        ],
+        "7.5": [
+          "X",
+          "X",
+          "V"
+        ],
+        "8.1": [
+          "X",
+          "X",
+          "X"
+        ]
+      },
+      "finaleGrant": [
+        8
+      ],
+      "eliminated": 8.1,
+      "rankNr": 3
+    }
+  ],
+  "categories": {
+    "Heren": {
+      "name": "Heren",
+      "id": "Heren",
+      "startHeight": 8,
+      "active": false
+    },
+    "Dames": {
+      "name": "Dames",
+      "id": "Dames",
+      "startHeight": 7
+    },
+    "Beloften Meisjes": {
+      "name": "Beloften Meisjes",
+      "id": "Beloften Meisjes",
+      "startHeight": 6,
+      "active": false
+    },
+    "Beloften Jongens": {
+      "name": "Beloften Jongens",
+      "id": "Beloften Jongens",
+      "startHeight": 6,
+      "active": false
+    }
+  },
+  "active": false,
+  "metrics": [
+    {
+      "nextHeights": [],
+      "currThrower": null,
+      "nextThrower": null,
+      "currHeight": 14,
+      "activeCategories": [
+        "Heren"
+      ],
+      "throwerOrder": []
+    },
+    {
+      "activeCategories": [
+        "Beloften Meisjes"
+      ],
+      "nextHeights": [],
+      "currHeight": 7,
+      "currThrower": null,
+      "nextThrower": null,
+      "throwerOrder": []
+    }
+  ]
+}
