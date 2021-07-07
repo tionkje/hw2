@@ -6,9 +6,9 @@ export type MeterId = number;
 export type Height = number;
 export type Judge = 'X' | 'V';
 
-type ThrowerData = {
+export type ThrowerData = {
   name?: string;
-  categories?: Record<CategoryId, Record<Height, Judge[]>>;
+  categories?: Record<CategoryId, Record<Height, [Judge, Judge?, Judge?]>>;
   // categories?: CategoryId[];
   // throws?: Record<Height, Judge[]>;
   skipHeight?: Height;
