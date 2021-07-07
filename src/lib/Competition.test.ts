@@ -14,6 +14,7 @@ it('add a thrower/category/meter', () => {
 
 function createSampleCompetition() {
   return new Competition({
+    name: 'TestCompetition',
     categories: [{ name: 'Heren 16+' }, { name: 'Dames 16+' }],
     throwers: [
       { name: 'Astrid', categories: { 1: {} } },
@@ -39,6 +40,10 @@ describe('competition', () => {
     comp.judgeThrow(throwerId, height, 'X');
     comp.judgeThrow(throwerId, height, 'X');
   }
+
+  it('has a name', () => {
+    expect(comp.name).toBe('TestCompetition');
+  });
 
   describe('throworder', () => {
     it('generates a throw order when no throws yet', () => {

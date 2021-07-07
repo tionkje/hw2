@@ -104,18 +104,21 @@ class Meter {
   }
 }
 
-type CompetitionData = {
+export type CompetitionData = {
+  name?: string;
   throwers?: Array<ThrowerData>;
   categories?: Array<CategoryData>;
   meters?: Array<MeterData>;
 };
 
 export class Competition {
+  name = '';
   throwers: Thrower[] = [];
   categories: Category[] = [];
   meters: Meter[] = [];
 
   constructor(comp: CompetitionData = {}) {
+    this.name = comp.name;
     this.throwers = (comp.throwers ?? []).map((x) => new Thrower(x));
     this.categories = (comp.categories ?? []).map((x) => new Category(x));
     this.meters = (comp.meters ?? []).map((x) => new Meter(x));
