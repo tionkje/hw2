@@ -35,10 +35,10 @@ describe('competition', () => {
   const heren = 0,
     dames = 1;
 
-  function eliminateThrower(throwerId: ThrowerId, height: Height) {
-    comp.judgeThrow(throwerId, height, 'X');
-    comp.judgeThrow(throwerId, height, 'X');
-    comp.judgeThrow(throwerId, height, 'X');
+  function eliminateThrower(throwerId: ThrowerId, height: Height, categoryid: CategoryId) {
+    comp.judgeThrow(throwerId, height, 'X', categoryid);
+    comp.judgeThrow(throwerId, height, 'X', categoryid);
+    comp.judgeThrow(throwerId, height, 'X', categoryid);
   }
 
   it('has a name', () => {
@@ -57,19 +57,25 @@ describe('competition', () => {
     });
 
     it('generates a throw order after a first success throw', () => {
-      comp.judgeThrow(astrid, 8, 'V');
+      comp.judgeThrow(astrid, 8, 'V', dames);
       const throwOrder = comp.meterThrowOrder(meter1);
       expect(throwOrder).toEqual([bob]);
     });
 
     it('generates a throw order after a first fail throw', () => {
-      comp.judgeThrow(astrid, 8, 'X');
+      comp.judgeThrow(astrid, 8, 'X', dames);
       const throwOrder = comp.meterThrowOrder(meter1);
       expect(throwOrder).toEqual([bob, astrid]);
     });
 
+    it('excludes category', () => {
+      comp.meters[meter1].categories = [heren];
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([bob]);
+    });
+
     it('eliminate player after 3 fails', () => {
-      eliminateThrower(astrid, 8);
+      eliminateThrower(astrid, 8, dames);
       const throwOrder = comp.meterThrowOrder(meter1);
       expect(throwOrder).toEqual([bob]);
     });
@@ -81,95 +87,151 @@ describe('competition', () => {
     });
 
     it('recreates throw order on next height', () => {
-      comp.judgeThrow(astrid, 8, 'V');
-      comp.judgeThrow(bob, 8, 'V');
+      comp.judgeThrow(astrid, 8, 'V', dames);
+      comp.judgeThrow(bob, 8, 'V', heren);
       comp.setMeterHeight(meter1, 8.5);
       const throwOrder = comp.meterThrowOrder(meter1);
       expect(throwOrder).toEqual([astrid, bob]);
+    });
+
+    it('multiple failed throws sort', () => {
+      const chris = 2;
+      comp.addThrower({ name: 'Chris', categories: { 0: {} } });
+
+      comp.judgeThrow(bob, 8, 'X', heren);
+      comp.judgeThrow(bob, 8, 'X', heren);
+      comp.judgeThrow(chris, 8, 'X', heren);
+
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([astrid, chris, bob]);
+    });
+
+    it('exclude successfully thrown', () => {
+      comp.judgeThrow(astrid, 8, 'X', dames);
+      comp.judgeThrow(bob, 8, 'V', heren);
+
+      const throwOrder = comp.meterThrowOrder(meter1);
+      expect(throwOrder).toEqual([astrid]);
     });
   });
 
   describe('standing', () => {
     beforeEach(() => comp.addThrower({ name: 'Chris', categories: { 0: {} } }));
-    beforeEach(() => eliminateThrower(astrid, 8));
+    beforeEach(() => eliminateThrower(astrid, 8, dames));
 
-    const getRanking = () => comp.categoryRanking(heren).sort(([a], [b]) => a - b);
-    //.sort(([a],[b])=>a-b)
-    //.map(([throwerId,rank])=>throwerId);
+    const getOrderedRanking = (category = heren) => comp.categoryRanking(category).sort(([a], [b]) => a - b);
 
     it('creates empty ranking when no eliminations', () => {
-      expect(getRanking()).toEqual([]);
+      expect(getOrderedRanking()).toEqual([]);
     });
 
     it('create single entry ranking on 1 elimination', () => {
-      eliminateThrower(bob, 8);
+      eliminateThrower(bob, 8, heren);
 
-      expect(getRanking()).toEqual([[bob, 1]]);
+      expect(getOrderedRanking()).toEqual([[bob, 1]]);
     });
 
     it('creates ranking when all eliminated', () => {
-      eliminateThrower(chris, 8);
-      comp.judgeThrow(bob, 8, 'V');
-      eliminateThrower(bob, 8.5);
+      eliminateThrower(chris, 8, heren);
+      comp.judgeThrow(bob, 8, 'V', heren);
+      eliminateThrower(bob, 8.5, heren);
 
-      expect(getRanking()).toEqual([
+      expect(getOrderedRanking()).toEqual([
         [bob, 0],
         [chris, 1],
       ]);
     });
 
     it('creates ranking when all eliminated', () => {
-      eliminateThrower(bob, 8);
-      comp.judgeThrow(chris, 8, 'V');
-      eliminateThrower(chris, 8.5);
+      eliminateThrower(bob, 8, heren);
+      comp.judgeThrow(chris, 8, 'V', heren);
+      eliminateThrower(chris, 8.5, heren);
 
-      expect(getRanking()).toEqual([
+      expect(getOrderedRanking()).toEqual([
         [bob, 1],
         [chris, 0],
       ]);
     });
 
     it('support draws', () => {
-      eliminateThrower(bob, 8);
-      eliminateThrower(chris, 8);
+      eliminateThrower(bob, 8, heren);
+      eliminateThrower(chris, 8, heren);
 
-      expect(getRanking()).toEqual([
+      expect(getOrderedRanking()).toEqual([
         [bob, 0],
         [chris, 0],
       ]);
     });
 
     it('less fails ranks higher', () => {
-      comp.judgeThrow(chris, 7, 'V');
-      comp.judgeThrow(bob, 7, 'V');
-      comp.judgeThrow(bob, 8, 'X');
-      comp.judgeThrow(bob, 8, 'V');
-      comp.judgeThrow(chris, 8, 'V');
+      comp.judgeThrow(chris, 7, 'V', heren);
+      comp.judgeThrow(bob, 7, 'V', heren);
+      comp.judgeThrow(bob, 8, 'X', heren);
+      comp.judgeThrow(bob, 8, 'V', heren);
+      comp.judgeThrow(chris, 8, 'V', heren);
 
-      eliminateThrower(bob, 8.5);
-      eliminateThrower(chris, 8.5);
+      eliminateThrower(bob, 8.5, heren);
+      eliminateThrower(chris, 8.5, heren);
 
-      expect(getRanking()).toEqual([
+      expect(getOrderedRanking()).toEqual([
         [bob, 1],
         [chris, 0],
       ]);
     });
 
     it('skipped Heights', () => {
-      comp.judgeThrow(bob, 7, 'X');
-      comp.judgeThrow(bob, 7, 'V');
-      comp.judgeThrow(chris, 7, 'V');
-      comp.judgeThrow(bob, 8, 'X');
-      comp.judgeThrow(bob, 8, 'V');
-      comp.judgeThrow(chris, 8, 'V');
+      comp.judgeThrow(bob, 7, 'X', heren);
+      comp.judgeThrow(bob, 7, 'V', heren);
+      comp.judgeThrow(chris, 7, 'V', heren);
+      comp.judgeThrow(bob, 8, 'X', heren);
+      comp.judgeThrow(bob, 8, 'V', heren);
+      comp.judgeThrow(chris, 8, 'V', heren);
 
-      eliminateThrower(bob, 8.5);
-      eliminateThrower(chris, 9);
+      eliminateThrower(bob, 8.5, heren);
+      eliminateThrower(chris, 9, heren);
 
-      expect(getRanking()).toEqual([
+      expect(getOrderedRanking()).toEqual([
         [bob, 1],
         [chris, 0],
       ]);
+    });
+
+    it('rank height differ', () => {
+      comp.judgeThrow(bob, 7, 'V', heren);
+      eliminateThrower(bob, 8, heren);
+
+      comp.judgeThrow(chris, 7, 'V', heren);
+      comp.judgeThrow(chris, 8, 'V', heren);
+      eliminateThrower(chris, 8.5, heren);
+
+      expect(getOrderedRanking()).toEqual([
+        [bob, 1],
+        [chris, 0],
+      ]);
+    });
+  });
+
+  describe('finales', () => {
+    function CreateFinaleCategory() {
+      comp.addThrower({ name: 'Chris' });
+      comp.addCategory({ name: 'Heren 16+ Finale' });
+
+      comp.throwers[chris].addToCategory(herenFinale);
+      comp.throwers[bob].addToCategory(herenFinale);
+
+      comp.setMeterHeight(meter1, 10);
+      comp.meters[meter1].categories = [herenFinale];
+    }
+
+    const chris = 2;
+    const herenFinale = 2;
+    const getThrowOrder = () => comp.meterThrowOrder(meter1);
+
+    beforeEach(() => CreateFinaleCategory());
+
+    it('can judge a finale throw', () => {
+      comp.judgeThrow(bob, 10, 'X', herenFinale);
+      expect(getThrowOrder()).toEqual([chris, bob]);
     });
   });
 });

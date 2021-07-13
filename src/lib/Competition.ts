@@ -17,15 +17,12 @@ export type ThrowerData = {
 
 class Thrower {
   name: string;
-  // categories: CategoryId[];
   categories: Record<CategoryId, Record<Height, Judge[]>> = {};
-  // throws: Record<Height, Judge[]>;
   skipHeight?: Height;
 
   constructor(data: ThrowerData) {
     this.name = data.name;
     this.categories = data.categories ?? {};
-    // this.throws = data.throws ?? {};
     this.skipHeight = data.skipHeight;
   }
 
@@ -33,21 +30,19 @@ class Thrower {
     this.skipHeight = height;
   }
 
-  defaultCategory(): CategoryId | null {
-    const cat = Object.keys(this.categories)[0];
-    if (cat == undefined) return null;
-    return Number(cat);
-  }
-
-  getThrowsAtHeight(height: Height, categoryId: CategoryId = this.defaultCategory()) {
+  getThrowsAtHeight(height: Height, categoryId: CategoryId) {
     return this.categories[categoryId][height] || [];
   }
 
-  isEliminatingThrow(throws: Array<Judge>): boolean {
-    return throws.filter((j) => j == 'X').length == 3;
+  getFailedAttemptCount(throws: Array<Judge>): number {
+    return throws.filter((j) => j == 'X').length;
   }
 
-  getHighestSuccess(categoryId: CategoryId = this.defaultCategory()): Height | null {
+  isEliminatingThrow(throws: Array<Judge>): boolean {
+    return this.getFailedAttemptCount(throws) == 3;
+  }
+
+  getHighestSuccess(categoryId: CategoryId): Height | null {
     return (
       Object.entries(this.categories[categoryId])
         .filter(([height, throws]) => !this.isEliminatingThrow(throws))
@@ -56,18 +51,24 @@ class Thrower {
     );
   }
 
-  isEliminated(categoryId: CategoryId = this.defaultCategory()) {
+  isEliminated(categoryId: CategoryId) {
     return Object.entries(this.categories[categoryId]).some(([height, throws]) => this.isEliminatingThrow(throws));
   }
 
-  needsThrowAtHeight(height: Height, categoryId: CategoryId = this.defaultCategory()) {
+  needsThrowAtHeight(height: Height, categoryId: CategoryId) {
     const throws = this.getThrowsAtHeight(height, categoryId);
     return throws.length != 3 && !throws.includes('V') && (this.skipHeight == undefined || this.skipHeight < height);
   }
 
-  judge(height: Height, judge: Judge, categoryId: CategoryId = this.defaultCategory()) {
+  judge(height: Height, judge: Judge, categoryId: CategoryId) {
+    assert(this.categories[categoryId], `Thrower needs to be added to category before judges`);
+
     if (!this.categories[categoryId][height]) this.categories[categoryId][height] = [];
     this.categories[categoryId][height].push(judge);
+  }
+
+  addToCategory(categoryId: CategoryId) {
+    if (!this.categories[categoryId]) this.categories[categoryId] = {};
   }
 }
 
@@ -133,20 +134,23 @@ export class Competition {
     };
   }
 
-  addThrower(data: ThrowerData): void {
+  addThrower(data: ThrowerData): Thrower {
     data.name = data.name ?? `no name ${this.throwers.length}`;
     const thrower = new Thrower(data);
     this.throwers.push(thrower);
+    return thrower;
   }
-  addCategory(data: CategoryData): void {
+  addCategory(data: CategoryData): Category {
     data.name = data.name ?? `data ${this.categories.length}`;
     const category = new Category(data);
     this.categories.push(category);
+    return category;
   }
-  addHeightMeter(data: MeterData): void {
+  addHeightMeter(data: MeterData): Meter {
     data.name = data.name ?? `data ${this.meters.length}`;
     const meter = new Meter(data);
     this.meters.push(meter);
+    return meter;
   }
 
   skipHeight(throwerId: ThrowerId, height: Height): void {
@@ -181,13 +185,13 @@ export class Competition {
       if (!aThrows) return -1;
       if (!bThrows) return 1;
 
-      return 0;
+      return a.getFailedAttemptCount(aThrows) - b.getFailedAttemptCount(bThrows);
     });
 
     return throwers.map((t) => this.throwers.indexOf(t));
   }
 
-  judgeThrow(throwerId: ThrowerId, height: Height, judge: Judge, categoryId?: CategoryId): void {
+  judgeThrow(throwerId: ThrowerId, height: Height, judge: Judge, categoryId: CategoryId): void {
     const thrower = this.throwers[throwerId];
     thrower.judge(height, judge, categoryId);
   }
