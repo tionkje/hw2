@@ -634,20 +634,6 @@
     {
       "categoryid": "Heren",
       "startHeight": 8,
-      "hwId": "180",
-      "name": "Natal Borgeat",
-      "nr": 14,
-      "rugnr": "65",
-      "attempts": {
-        "8": ["X", "X", "X"]
-      },
-      "eliminated": 8,
-      "draw": 9,
-      "rankNr": 24
-    },
-    {
-      "categoryid": "Heren",
-      "startHeight": 8,
       "hwId": "179",
       "name": "Massimo Brescanzin",
       "nr": 9,
@@ -657,6 +643,20 @@
       },
       "eliminated": 8,
       "draw": 14,
+      "rankNr": 24
+    },
+    {
+      "categoryid": "Heren",
+      "startHeight": 8,
+      "hwId": "180",
+      "name": "Natal Borgeat",
+      "nr": 14,
+      "rugnr": "65",
+      "attempts": {
+        "8": ["X", "X", "X"]
+      },
+      "eliminated": 8,
+      "draw": 9,
       "rankNr": 24
     },
     {
