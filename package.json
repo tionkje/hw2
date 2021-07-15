@@ -45,7 +45,8 @@
     "@lukeed/uuid": "^2.0.0",
     "cookie": "^0.4.1",
     "dotenv": "^10.0.0",
-    "mongodb": "^3.6.9"
+    "mongodb": "^3.6.9",
+    "mongodb-client-encryption": "^1.2.6"
   },
   "lint-staged": {
     "*.{js,svelte,ts}": "eslint --cache --fix",

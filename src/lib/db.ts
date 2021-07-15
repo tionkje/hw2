@@ -4,7 +4,8 @@ dotenv.config();
 const { MONGODB_URI } = process.env;
 const dbName = 'hw';
 
-import { MongoClient } from 'mongodb';
+import mongodb from 'mongodb';
+const { MongoClient } = mongodb;
 
 let cache: MongoClient;
 async function getMongoConnection(): Promise<MongoClient> {
