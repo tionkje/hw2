@@ -5,19 +5,24 @@ export type CategoryId = number;
 export type MeterId = number;
 export type Height = number;
 export type Judge = 'X' | 'V';
+export type Attempts = Record<Height, [Judge, Judge?, Judge?]>;
 
 export type ThrowerData = {
   name?: string;
-  categories?: Record<CategoryId, Record<Height, [Judge, Judge?, Judge?]>>;
+  categories?: Record<CategoryId, Attempts>;
   // categories?: CategoryId[];
   // throws?: Record<Height, Judge[]>;
   skipHeight?: Height;
   rank?: number;
 };
 
+const getFailedAttemptCount = (throws: [Judge, Judge?, Judge?]) => {
+  return throws?.filter((x) => x == 'X').length || 0;
+};
+
 class Thrower {
   name: string;
-  categories: Record<CategoryId, Record<Height, Judge[]>> = {};
+  categories: Record<CategoryId, Attempts> = {};
   skipHeight?: Height;
 
   constructor(data: ThrowerData) {
@@ -34,25 +39,23 @@ class Thrower {
     return this.categories[categoryId][height] || [];
   }
 
-  getFailedAttemptCount(throws: Array<Judge>): number {
-    return throws.filter((j) => j == 'X').length;
-  }
-
-  isEliminatingThrow(throws: Array<Judge>): boolean {
-    return this.getFailedAttemptCount(throws) == 3;
+  isEliminatingThrow(categoryId: CategoryId, height: Height): boolean {
+    return getFailedAttemptCount(this.categories[categoryId][height]) == 3;
   }
 
   getHighestSuccess(categoryId: CategoryId): Height | null {
     return (
       Object.entries(this.categories[categoryId])
-        .filter(([height, throws]) => !this.isEliminatingThrow(throws))
+        .filter(([height, throws]) => !this.isEliminatingThrow(categoryId, height))
         .map(([height, throws]) => Number(height))
         .sort((a, b) => b - a)[0] || null
     );
   }
 
   isEliminated(categoryId: CategoryId) {
-    return Object.entries(this.categories[categoryId]).some(([height, throws]) => this.isEliminatingThrow(throws));
+    return Object.entries(this.categories[categoryId]).some(([height, throws]) =>
+      this.isEliminatingThrow(categoryId, Number(height))
+    );
   }
 
   needsThrowAtHeight(height: Height, categoryId: CategoryId) {
@@ -117,6 +120,7 @@ export class Competition {
   throwers: Thrower[] = [];
   categories: Category[] = [];
   meters: Meter[] = [];
+  legacySortLessDraws?: boolean;
 
   constructor(comp: CompetitionData = {}) {
     this.name = comp.name;
@@ -185,7 +189,7 @@ export class Competition {
       if (!aThrows) return -1;
       if (!bThrows) return 1;
 
-      return a.getFailedAttemptCount(aThrows) - b.getFailedAttemptCount(bThrows);
+      return getFailedAttemptCount(aThrows) - getFailedAttemptCount(bThrows);
     });
 
     return throwers.map((t) => this.throwers.indexOf(t));
@@ -225,7 +229,8 @@ export class Competition {
       const res = heights
         .filter((h) => h <= aHigh)
         .map((height) => {
-          return aThrows[height].filter((x) => x == 'X').length - bThrows[height].filter((x) => x == 'X').length;
+          if (this.legacySortLessDraws) return (aThrows[height]?.length || 0) - (bThrows[height]?.length || 0);
+          return getFailedAttemptCount(aThrows[height]) - getFailedAttemptCount(bThrows[height]);
         })
         .find((x) => x != 0);
       return res || 0;
@@ -245,8 +250,20 @@ export class Competition {
 
     return eliminated.map((t, rank) => {
       const tid = this.throwers.indexOf(t);
+
+      // recursively finds all throwers we drawed with and gets lowest rank from it
+      const visited = [];
+      const getMinDraw = (tid, rank) => {
+        if (!draws[tid] || visited.includes(tid)) return rank;
+        visited.push(tid);
+        const dtid = draws[tid];
+        const drawThrower = this.throwers[dtid];
+        const drawRank = eliminated.indexOf(drawThrower);
+        return Math.min(rank, getMinDraw(dtid, drawRank));
+      };
+
       // if this has a draw, use the smallest as rank
-      if (draws[tid]) rank = Math.min(rank, eliminated.indexOf(this.throwers[draws[tid]]));
+      rank = getMinDraw(tid, rank);
       // get rank by adding the not yet eliminated count
       return [tid, rank + throwers.length - eliminated.length];
     });

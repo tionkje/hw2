@@ -31,7 +31,8 @@ describe('competition', () => {
   const meter1 = 0;
   const astrid = 0,
     bob = 1,
-    chris = 2;
+    chris = 2,
+    dave = 3;
   const heren = 0,
     dames = 1;
 
@@ -163,6 +164,20 @@ describe('competition', () => {
       ]);
     });
 
+    it('tripple draw', () => {
+      comp.addThrower({ name: 'Dave', categories: { 0: {} } });
+
+      eliminateThrower(bob, 8, heren);
+      eliminateThrower(chris, 8, heren);
+      eliminateThrower(dave, 8, heren);
+
+      expect(getOrderedRanking()).toEqual([
+        [bob, 0],
+        [chris, 0],
+        [dave, 0],
+      ]);
+    });
+
     it('less fails ranks higher', () => {
       comp.judgeThrow(chris, 7, 'V', heren);
       comp.judgeThrow(bob, 7, 'V', heren);
@@ -206,6 +221,18 @@ describe('competition', () => {
 
       expect(getOrderedRanking()).toEqual([
         [bob, 1],
+        [chris, 0],
+      ]);
+    });
+
+    it('rank with skipped heights', () => {
+      comp.judgeThrow(bob, 7, 'V', heren);
+      comp.judgeThrow(bob, 8, 'V', heren);
+      eliminateThrower(bob, 8.5, heren);
+      comp.judgeThrow(chris, 8, 'V', heren);
+      eliminateThrower(chris, 8.5, heren);
+      expect(getOrderedRanking()).toEqual([
+        [bob, 0],
         [chris, 0],
       ]);
     });

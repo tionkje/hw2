@@ -1,6 +1,14 @@
 import CompoConvert from './CompoConvert';
+import { promises as fs } from 'fs';
 
 const copy = (o) => JSON.parse(JSON.stringify(o));
+
+function convertAndEnsureNoChanges(compo) {
+  const backup = copy(compo);
+  const newCompo = CompoConvert(compo);
+  expect(compo).toEqual(backup);
+  return newCompo;
+}
 
 it('converts an empty competition', () => {
   function createEmptyOldData() {
@@ -12,7 +20,8 @@ it('converts an empty competition', () => {
   }
   const oldCompo = createEmptyOldData();
 
-  const newCompo = CompoConvert(oldCompo);
+  // create copy here to create object instead of class
+  const newCompo = copy(CompoConvert(oldCompo));
 
   expect(oldCompo).toEqual(createEmptyOldData());
   expect(newCompo).toEqual({ categories: [], meters: [], name: '', throwers: [] });
@@ -27,7 +36,7 @@ it('converts a competition', () => {
         startHeight: 10,
         hwId: 2,
         name: 'Piet Callebaut',
-        nr: 4,
+        nr: 1,
         rugnr: 55,
         attempts: {
           10: ['S'],
@@ -50,9 +59,7 @@ it('converts a competition', () => {
     },
   };
 
-  const backup = copy(oldCompo);
-  const newCompo = copy(CompoConvert(oldCompo));
-  expect(oldCompo).toEqual(backup);
+  const newCompo = convertAndEnsureNoChanges(oldCompo);
   expect(newCompo).toEqual({
     name: 'CompetitionName',
     categories: [{ name: 'Heren' }],
@@ -62,8 +69,6 @@ it('converts a competition', () => {
         skipHeight: 10.5,
         categories: {
           0: {
-            10: ['S'],
-            10.5: ['S'],
             11: ['X', 'V'],
             11.5: ['V'],
             12: ['X', 'X', 'X'],
@@ -72,5 +77,40 @@ it('converts a competition', () => {
       },
     ],
     meters: [],
+  });
+});
+
+describe('from file', () => {
+  let oldCompo, newCompo;
+  ['wk2019', 'wk2018', 'wk2017'].forEach((wkName) => {
+    const oldFileName = `./wedstrijdData/${wkName}.json`;
+    const newFileName = `./wedstrijdData/new_${wkName}.json`;
+
+    beforeEach(async () => {
+      oldCompo = JSON.parse(await fs.readFile(oldFileName, 'utf-8'));
+
+      newCompo = convertAndEnsureNoChanges(oldCompo);
+      newCompo.legacySortLessDraws = true;
+
+      // write new to disk if changed
+      const old = await fs.readFile(newFileName, 'utf8').catch(() => {
+        console.log('creating', newFileName);
+      });
+      const n = JSON.stringify(newCompo, null, 2);
+      if (old !== n) await fs.writeFile(newFileName, n);
+    });
+
+    ['Heren', 'Dames', 'Beloften Jongens', 'Beloften Meisjes'].forEach((catName) => {
+      it(`${wkName} ${catName} correct ranking`, async () => {
+        const heren = newCompo.categories.findIndex((c) => c.name == catName);
+        const newHeren = newCompo.throwers.filter((t) => t.categories[heren]);
+        expect(newCompo.categoryRanking(0).map(([nr, rank]) => [nr, rank, newCompo.throwers[nr].name])).toEqual(
+          oldCompo.throwers
+            .sort((a, b) => a.rankNr - b.rankNr)
+            .filter((t) => t.categoryid == 'Heren')
+            .map((t) => [t.nr - 1, t.rankNr - 1, t.name])
+        );
+      });
+    });
   });
 });

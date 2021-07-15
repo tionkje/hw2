@@ -3,10 +3,8 @@ import { strict as assert } from 'assert';
 
 type Height = number;
 type OldCategoryId = string;
-// type OldJudge = 'X' | 'V' | 'S';
-type OldJudge = string;
-// type OldAttempts = [OldJudge, OldJudge?, OldJudge?];
-type OldAttempts = OldJudge[];
+type OldJudge = 'X' | 'V' | 'S';
+type OldAttempts = Record<Height, [OldJudge, OldJudge?, OldJudge?]>;
 
 type OldThrowerData = {
   name: string;
@@ -15,7 +13,7 @@ type OldThrowerData = {
   hwId: number;
   nr: number;
   rugnr: number;
-  attempts: Record<Height, OldAttempts>;
+  attempts: OldAttempts;
   skipHeight?: Height;
   eliminated?: Height;
   rankNr: number;
@@ -32,6 +30,8 @@ type OldCompetitionData = {
   throwers: Array<OldThrowerData>;
   categories: Record<string, OldCategoryData>;
 };
+
+const copy = (x: unknown) => JSON.parse(JSON.stringify(x));
 
 export default function CompoConvert(old: OldCompetitionData): Competition {
   const compo: CompetitionData = {};
@@ -50,18 +50,26 @@ export default function CompoConvert(old: OldCompetitionData): Competition {
   old.throwers.forEach((oldThrower) => {
     const thrower: ThrowerData = {};
     thrower.name = oldThrower.name;
+    thrower.hwId = oldThrower.hwId;
+    thrower.rugnr = oldThrower.rugnr;
 
-    const heights = Object.keys(oldThrower.attempts)
+    // convert to single skipHeight variable
+    const skippedHeights = Object.keys(oldThrower.attempts)
       .map((x) => Number(x))
       .filter((h) => oldThrower.attempts[h].includes('S'))
       .sort((a, b) => b - a);
-    thrower.skipHeight = Math.max(Number(heights[0] || 0), oldThrower.startHeight);
+    thrower.skipHeight = Math.max(Number(skippedHeights[0] || 0), oldThrower.startHeight);
+
+    // delete 'S' (skipped) heights
+    const newAttempts = copy(oldThrower.attempts);
+    skippedHeights.forEach((h) => delete newAttempts[h]);
 
     thrower.categories = {};
     const catId = catIdMap[oldThrower.categoryid];
-    thrower.categories[catId] = oldThrower.attempts;
+    thrower.categories[catId] = newAttempts;
 
-    compo.throwers.push(thrower);
+    assert(!compo.throwers[oldThrower.nr - 1]);
+    compo.throwers[oldThrower.nr - 1] = thrower;
   });
 
   return new Competition(compo);
