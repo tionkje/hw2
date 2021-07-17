@@ -81,8 +81,8 @@ it('converts a competition', () => {
 });
 
 describe('from file', () => {
-  let oldCompo, newCompo;
   ['wk2019', 'wk2018', 'wk2017'].forEach((wkName) => {
+    let oldCompo, newCompo;
     const oldFileName = `./wedstrijdData/${wkName}.json`;
     const newFileName = `./wedstrijdData/new_${wkName}.json`;
 
@@ -107,7 +107,7 @@ describe('from file', () => {
         expect(newCompo.categoryRanking(heren).map(([nr, rank]) => [nr, rank, newCompo.throwers[nr].name])).toEqual(
           oldCompo.throwers
             .sort((a, b) => a.rankNr - b.rankNr)
-            .filter((t) => t.categoryid == 'Heren')
+            .filter((t) => t.categoryid == catName)
             .map((t) => [t.nr - 1, t.rankNr - 1, t.name])
         );
       });

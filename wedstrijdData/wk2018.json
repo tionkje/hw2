@@ -896,20 +896,6 @@
     {
       "categoryid": "Dames",
       "startHeight": 7,
-      "hwId": "96",
-      "name": "Ana-Alicia Lamontagne",
-      "nr": 29,
-      "rugnr": "29",
-      "attempts": {
-        "7": ["X", "X", "X"]
-      },
-      "eliminated": 7,
-      "draw": 26,
-      "rankNr": 36
-    },
-    {
-      "categoryid": "Dames",
-      "startHeight": 7,
       "hwId": "170",
       "name": "Trinh Vo",
       "nr": 6,
@@ -919,7 +905,21 @@
       },
       "eliminated": 7,
       "draw": 29,
-      "rankNr": 36
+      "rankNr": 6
+    },
+    {
+      "categoryid": "Dames",
+      "startHeight": 7,
+      "hwId": "96",
+      "name": "Ana-Alicia Lamontagne",
+      "nr": 29,
+      "rugnr": "29",
+      "attempts": {
+        "7": ["X", "X", "X"]
+      },
+      "eliminated": 7,
+      "draw": 6,
+      "rankNr": 6
     }
   ],
   "categories": {

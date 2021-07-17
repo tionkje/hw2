@@ -12,7 +12,8 @@
       "rugnr": "51",
       "attempts": {
         "7": ["X", "X", "X"]
-      }
+      },
+      "rankNr": 10
     },
     {
       "categoryid": "Heren",
@@ -565,7 +566,7 @@
         "9.7": ["X", "X", "X"]
       },
       "eliminated": 9.7,
-      "rankNr": 2
+      "rankNr": 1
     },
     {
       "categoryid": "Heren",
@@ -634,7 +635,7 @@
       },
       "finaleGrant": [9.1],
       "eliminated": 9.6,
-      "rankNr": 3
+      "rankNr": 2
     },
     {
       "categoryid": "Beloften Jongens",
@@ -678,7 +679,7 @@
       },
       "finaleGrant": [9.5],
       "eliminated": 9.6,
-      "rankNr": 4
+      "rankNr": 3
     },
     {
       "categoryid": "Beloften Jongens",
@@ -747,7 +748,7 @@
         "9.5": ["X", "X", "X"]
       },
       "eliminated": 9.5,
-      "rankNr": 5
+      "rankNr": 4
     },
     {
       "categoryid": "Heren",
@@ -781,7 +782,7 @@
         "9.5": ["X", "X", "X"]
       },
       "eliminated": 9.5,
-      "rankNr": 6
+      "rankNr": 5
     },
     {
       "categoryid": "Beloften Meisjes",
@@ -929,7 +930,7 @@
         "8.5": ["X", "X", "X"]
       },
       "eliminated": 8.5,
-      "rankNr": 7
+      "rankNr": 6
     },
     {
       "categoryid": "Dames",
@@ -945,7 +946,7 @@
         "8.5": ["X", "X", "X"]
       },
       "eliminated": 8.5,
-      "rankNr": 8
+      "rankNr": 7
     },
     {
       "categoryid": "Dames",
@@ -960,7 +961,7 @@
         "7.5": ["V"]
       },
       "eliminated": 8,
-      "rankNr": 9
+      "rankNr": 8
     },
     {
       "categoryid": "Dames",
@@ -975,7 +976,7 @@
         "7.5": ["V"]
       },
       "eliminated": 8,
-      "rankNr": 10
+      "rankNr": 9
     },
     {
       "categoryid": "Beloften Meisjes",
