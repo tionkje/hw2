@@ -1,6 +1,7 @@
+import type { EndpointOutput, Request } from '@sveltejs/kit';
 import { getCompetitions } from '$lib/CompetitionDB';
 
-export async function get() {
+export async function get(): Promise<EndpointOutput> {
   const compos = await getCompetitions();
   // console.log(compos);
 
@@ -9,11 +10,11 @@ export async function get() {
   };
 }
 
-export async function put({ body }) {
-  body = JSON.parse(body);
+export async function put({ body }: Request): Promise<EndpointOutput> {
+  // body = JSON.parse(body);
   console.log(body);
 
   return {
-    body: { res: body },
+    // body: { res: body },
   };
 }

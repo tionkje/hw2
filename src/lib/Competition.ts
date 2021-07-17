@@ -14,6 +14,8 @@ export type ThrowerData = {
   // throws?: Record<Height, Judge[]>;
   skipHeight?: Height;
   rank?: number;
+  hwId?: number;
+  rugnr?: number;
 };
 
 const getFailedAttemptCount = (throws: [Judge, Judge?, Judge?]) => {
@@ -46,28 +48,28 @@ class Thrower {
   getHighestSuccess(categoryId: CategoryId): Height | null {
     return (
       Object.entries(this.categories[categoryId])
-        .filter(([height, throws]) => !this.isEliminatingThrow(categoryId, height))
-        .map(([height, throws]) => Number(height))
+        .filter(([height]) => !this.isEliminatingThrow(categoryId, Number(height)))
+        .map(([height]) => Number(height))
         .sort((a, b) => b - a)[0] || null
     );
   }
 
   isEliminated(categoryId: CategoryId) {
-    return Object.entries(this.categories[categoryId]).some(([height, throws]) =>
+    return Object.entries(this.categories[categoryId]).some(([height]) =>
       this.isEliminatingThrow(categoryId, Number(height))
     );
   }
 
   needsThrowAtHeight(height: Height, categoryId: CategoryId) {
-    const throws = this.getThrowsAtHeight(height, categoryId);
+    const throws: [Judge?, Judge?, Judge?] = this.getThrowsAtHeight(height, categoryId);
     return throws.length != 3 && !throws.includes('V') && (this.skipHeight == undefined || this.skipHeight < height);
   }
 
   judge(height: Height, judge: Judge, categoryId: CategoryId) {
     assert(this.categories[categoryId], `Thrower needs to be added to category before judges`);
 
-    if (!this.categories[categoryId][height]) this.categories[categoryId][height] = [];
-    this.categories[categoryId][height].push(judge);
+    if (!this.categories[categoryId][height]) this.categories[categoryId][height] = [judge];
+    else this.categories[categoryId][height].push(judge);
   }
 
   addToCategory(categoryId: CategoryId) {
@@ -253,7 +255,7 @@ export class Competition {
 
       // recursively finds all throwers we drawed with and gets lowest rank from it
       const visited = [];
-      const getMinDraw = (tid, rank) => {
+      const getMinDraw = (tid: ThrowerId, rank: number) => {
         if (!draws[tid] || visited.includes(tid)) return rank;
         visited.push(tid);
         const dtid = draws[tid];

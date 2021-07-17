@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
+  import type { LoadOutput, LoadInput } from '@sveltejs/kit';
   export const prerender = true;
-  export async function load({ fetch }) {
+  export async function load({ fetch }: LoadInput): Promise<LoadOutput> {
     let res = await fetch('/api/compo');
     if (res.ok) {
       return {
@@ -25,6 +26,7 @@
       body: JSON.stringify(body),
     });
     var bla = await res.text();
+    console.log(bla);
   }
 </script>
 
@@ -38,7 +40,7 @@
   </pre>
   hai
 
-  <button on:click={(e) => test()}>TEST</button>
+  <button on:click={() => test()}>TEST</button>
 
   <Counter />
 </section>
@@ -50,24 +52,5 @@
     justify-content: center;
     align-items: center;
     flex: 1;
-  }
-
-  h1 {
-    width: 100%;
-  }
-
-  .welcome {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding: 0 0 calc(100% * 495 / 2048) 0;
-  }
-
-  .welcome img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    display: block;
   }
 </style>

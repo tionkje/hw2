@@ -4,14 +4,14 @@ dotenv.config();
 const { MONGODB_URI } = process.env;
 const dbName = 'hw';
 
+import type { Collection } from '@types/mongodb';
 import mongodb from 'mongodb';
-const { MongoClient } = mongodb;
 
-let cache: MongoClient;
-async function getMongoConnection(): Promise<MongoClient> {
+let cache: mongodb.MongoClient;
+async function getMongoConnection(): Promise<mongodb.MongoClient> {
   if (cache) return cache;
 
-  return (cache = await MongoClient.connect(MONGODB_URI, {
+  return (cache = await mongodb.MongoClient.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }));
@@ -42,7 +42,7 @@ export async function lockDocument(col: any | string, q: Record<string, string>)
   throw new Error(`Failed getting lock after ${tries} tries`);
 }
 
-export async function getCollection(name: string) {
+export async function getCollection(name: string): Promise<Collection> {
   const client = await getMongoConnection();
   return client.db(dbName).collection(name);
 }

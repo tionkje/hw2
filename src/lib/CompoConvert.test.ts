@@ -104,7 +104,7 @@ describe('from file', () => {
       it(`${wkName} ${catName} correct ranking`, async () => {
         const heren = newCompo.categories.findIndex((c) => c.name == catName);
         const newHeren = newCompo.throwers.filter((t) => t.categories[heren]);
-        expect(newCompo.categoryRanking(0).map(([nr, rank]) => [nr, rank, newCompo.throwers[nr].name])).toEqual(
+        expect(newCompo.categoryRanking(heren).map(([nr, rank]) => [nr, rank, newCompo.throwers[nr].name])).toEqual(
           oldCompo.throwers
             .sort((a, b) => a.rankNr - b.rankNr)
             .filter((t) => t.categoryid == 'Heren')

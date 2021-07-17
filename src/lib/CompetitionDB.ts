@@ -1,4 +1,4 @@
-import { Competition, ThrowerId, CategoryId, MeterId, Judge, Height } from './Competition';
+import { Competition } from './Competition';
 import { closeConnection, getCollection, lockDocument } from './db';
 
 async function doThing(_id) {
