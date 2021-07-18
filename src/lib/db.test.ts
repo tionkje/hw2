@@ -12,7 +12,9 @@ async function initCount() {
 }
 
 async function count(): Promise<number> {
-  const { doc, unlock } = await lockDocument('counter', {});
+  const res = await lockDocument('counter', {});
+  const unlock = res.unlock;
+  const doc = res.doc as { count: number };
 
   doc.count++;
 
@@ -47,7 +49,7 @@ describe('db stuff', () => {
     await Promise.all(
       Array(5)
         .fill(0)
-        .map(async (_, i) => await countMulti())
+        .map(async () => await countMulti())
     );
 
     expect(await count()).toBe(++nr);

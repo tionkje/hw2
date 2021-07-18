@@ -6,7 +6,7 @@ export async function get(): Promise<EndpointOutput> {
   // console.log(compos);
 
   return {
-    body: { compos: compos },
+    body: { compos: JSON.stringify(compos) },
   };
 }
 

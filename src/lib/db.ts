@@ -4,8 +4,7 @@ dotenv.config();
 const { MONGODB_URI } = process.env;
 const dbName = 'hw';
 
-import type { Collection } from '@types/mongodb';
-import mongodb from 'mongodb';
+import mongodb, { Collection } from 'mongodb';
 
 let cache: mongodb.MongoClient;
 async function getMongoConnection(): Promise<mongodb.MongoClient> {
@@ -23,8 +22,13 @@ export async function closeConnection(): Promise<void> {
 }
 
 const timeout = (ms: number) => new Promise((r) => setTimeout(r, ms));
-export async function lockDocument(col: any | string, q: Record<string, string>) {
-  if (typeof col == 'string') col = await getCollection(col);
+export async function lockDocument(
+  _col: Collection | string,
+  q: Record<string, string>
+): Promise<{ doc: Record<string, unknown>; unlock: (doc: Record<string, unknown>) => Promise<void> }> {
+  let col: Collection;
+  if (typeof _col == 'string') col = await getCollection(_col);
+  else col = _col;
 
   let tries = 0;
   while (tries++ < 100) {
@@ -33,7 +37,7 @@ export async function lockDocument(col: any | string, q: Record<string, string>)
     if (res.value)
       return {
         doc: res.value,
-        unlock: async (newDoc: unknown) => {
+        unlock: async (newDoc: Record<string, unknown>) => {
           await col.findOneAndReplace({ _id: res.value._id }, newDoc);
         },
       };
