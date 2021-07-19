@@ -51,6 +51,24 @@ describe('competition', () => {
     expect(data).toEqual(createSampleCompetitionData());
   });
 
+  it.only('exports all data', () => {
+    eliminateThrower(bob, 8, heren);
+
+    const data = comp.createData();
+    expect(data).toEqual({
+      name: 'TestCompetition',
+      categories: [
+        { name: 'Heren 16+', ranking: [[bob, 0]] },
+        { name: 'Dames 16+', ranking: [] },
+      ],
+      throwers: [
+        { name: 'Astrid', categories: { 1: {} } },
+        { name: 'Bob', categories: { 0: { '8': ['X', 'X', 'X'] } } },
+      ],
+      meters: [{ name: 'nr 1', height: 8, categories: [0, 1], throwOrder: [astrid] }],
+    });
+  });
+
   describe('throworder', () => {
     it('generates a throw order when no throws yet', () => {
       const throwOrder = comp.meterThrowOrder(meter1);

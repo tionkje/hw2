@@ -270,4 +270,15 @@ export class Competition {
       return [tid, rank + throwers.length - eliminated.length];
     });
   }
+
+  createData() {
+    const data = JSON.parse(JSON.stringify(this));
+    data.meters.forEach((m, mid) => {
+      m.throwOrder = this.meterThrowOrder(mid);
+    });
+    data.categories.forEach((cat, catId) => {
+      cat.ranking = this.categoryRanking(catId);
+    });
+    return data;
+  }
 }
