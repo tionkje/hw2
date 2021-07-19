@@ -83,8 +83,8 @@ it('converts a competition', () => {
 describe('from file', () => {
   ['wk2019', 'wk2018', 'wk2017'].forEach((wkName) => {
     let oldCompo, newCompo;
-    const oldFileName = `./wedstrijdData/${wkName}.json`;
-    const newFileName = `./wedstrijdData/new_${wkName}.json`;
+    const oldFileName = `./static/wedstrijdData/${wkName}.json`;
+    const newFileName = `./static/wedstrijdData/new_${wkName}.json`;
 
     beforeEach(async () => {
       oldCompo = JSON.parse(await fs.readFile(oldFileName, 'utf-8'));
