@@ -43,6 +43,5 @@ export async function getList(): Promise<CompetitionHeader[]> {
 export async function getCompetition(compid: string): Promise<string> {
   const compdata = JSON.parse(await fs.readFile(path.join(folder, compid), 'utf8'));
   const comp = CompoConvert(compdata);
-  // comp.
-  return JSON.stringify(comp);
+  return JSON.stringify(comp.createData());
 }

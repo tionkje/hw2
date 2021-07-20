@@ -51,7 +51,8 @@ describe('competition', () => {
     expect(data).toEqual(createSampleCompetitionData());
   });
 
-  it.only('exports all data', () => {
+  it('exports all data', () => {
+    comp.judgeThrow(bob, 7.5, 'V', heren);
     eliminateThrower(bob, 8, heren);
 
     const data = comp.createData();
@@ -63,7 +64,7 @@ describe('competition', () => {
       ],
       throwers: [
         { name: 'Astrid', categories: { 1: {} } },
-        { name: 'Bob', categories: { 0: { '8': ['X', 'X', 'X'] } } },
+        { name: 'Bob', categories: { 0: { '7.5': ['V'], '8': ['X', 'X', 'X'] } }, success: 7.5 },
       ],
       meters: [{ name: 'nr 1', height: 8, categories: [0, 1], throwOrder: [astrid] }],
     });

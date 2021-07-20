@@ -279,6 +279,13 @@ export class Competition {
     data.categories.forEach((cat, catId) => {
       cat.ranking = this.categoryRanking(catId);
     });
+    data.throwers.forEach((t) => {
+      Object.keys(t.categories).forEach((cat) => {
+        const heights = Object.keys(t.categories[cat]).filter((height) => t.categories[cat][height].includes('V'));
+        const success = heights.sort((a, b) => b - a)[0];
+        if (success) t.success = Number(success);
+      });
+    });
     return data;
   }
 }
