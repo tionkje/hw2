@@ -66,6 +66,8 @@ it('converts a competition', () => {
     throwers: [
       {
         name: 'Piet Callebaut',
+        hwId: 2,
+        rugnr: 55,
         skipHeight: 10.5,
         categories: {
           0: {

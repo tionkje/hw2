@@ -26,11 +26,15 @@ class Thrower {
   name: string;
   categories: Record<CategoryId, Attempts> = {};
   skipHeight?: Height;
+  hwId?: number;
+  rugnr?: number;
 
   constructor(data: ThrowerData) {
     this.name = data.name;
     this.categories = data.categories ?? {};
     this.skipHeight = data.skipHeight;
+    this.hwId = data.hwId;
+    this.rugnr = data.rugnr;
   }
 
   setSkipHeight(height: Height) {
