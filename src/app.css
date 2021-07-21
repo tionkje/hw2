@@ -15,9 +15,11 @@
   --column-width: 42rem;
   --column-margin-top: 4rem;
 }
+* {
+  box-sizing: border-box;
+}
 
 body {
-  min-height: 100vh;
   margin: 0;
   background-color: var(--primary-color);
   background: linear-gradient(

@@ -10,7 +10,6 @@
         props: { compo: await res.json(), categoryId: page.query.get('cat') },
       };
     }
-    /* console.error(res.text()); */
     console.error(await res.text());
   }
 </script>
@@ -26,54 +25,78 @@
     .filter((x, i, a) => a.indexOf(x) == i)
     .sort((a, b) => a - b);
 
-  // $: location.hash = categoryId;
+  let sideopen = false;
 </script>
 
-<ul>
+<ul class:open={sideopen}>
+  <div class="icon btn" on:click={(e) => (sideopen = false)}>×</div>
+  <li><a href="..">List</a></li>
   {#each compo.categories as cat, index}
-    <!-- <li class:active={categoryId == index} on:click={(e) => (categoryId = index)}>{cat.name}</li> -->
     <li class:active={categoryId == index}><a href="?cat={index}">{cat.name}</a></li>
   {/each}
 </ul>
 
-{#if compo.categories[categoryId]}
-  <div class="ranking" style="grid-template-columns: 1fr 1fr 1fr repeat({heights.length}, 1fr);">
-    <div class="topheader leftheader rank">#</div>
-    <div class="topheader leftheader height" />
-    <div class="topheader leftheader name">name</div>
-    {#each heights as height}
-      <div class="topheader">{height}</div>
-    {/each}
-    {#each compo.categories[categoryId].ranking as [throwerId, rank]}
-      <div class="leftheader rank">{rank + 1}</div>
-      <div class="leftheader height">{compo.throwers[throwerId].success}m</div>
-      <div class="leftheader name">{compo.throwers[throwerId].name}</div>
-      {#each heights as height, index}
+<main>
+  <nav>
+    <div class="icon btn" on:click={(e) => (sideopen = true)}>☰</div>
+
+    {compo.categories[categoryId]?.name || ''}
+  </nav>
+
+  <section>
+    {#if compo.categories[categoryId]}
+      <div class="ranking" style="grid-template-columns: repeat(4, max-content) repeat({heights.length}, 1fr);">
+        <div class="topheader leftheader">#</div>
+        <div class="topheader rank">#</div>
+        <div class="topheader height" />
+        <div class="topheader name">name</div>
+        {#each heights as height}
+          <div class="topheader">{height}</div>
+        {/each}
+        {#each compo.categories[categoryId].ranking as [throwerId, rank]}
+          <div class="leftheader">{compo.throwers[throwerId].rugnr}</div>
+          {#if compo.throwers[throwerId].success}
+            <div class="rank">{rank + 1}</div>
+            <div class="height">{compo.throwers[throwerId].success}m</div>
+          {:else}
+            <div class="rank">-</div>
+            <div class="height" />
+          {/if}
+          <div class="name">{compo.throwers[throwerId].name}</div>
+          {#each heights as height, index}
+            <div>
+              <!-- {compo.throwers[throwerId].categories[categoryId][height] || ' '} -->
+              <Attempts bind:attempts={compo.throwers[throwerId].categories[categoryId][height]} />
+            </div>
+          {/each}
+        {/each}
+      </div>
+    {:else}
+      {#each compo.categories as cat, index}
         <div>
-          <!-- {compo.throwers[throwerId].categories[categoryId][height] || ' '} -->
-          <Attempts bind:attempts={compo.throwers[throwerId].categories[categoryId][height]} />
+          <a href="?cat={index}">{cat.name}</a>
         </div>
       {/each}
-    {/each}
-  </div>
-{/if}
+    {/if}
+  </section>
+</main>
 
-<!-- <div> -->
-<!--   {#each throwers as thrower} -->
-<!--     <div> -->
-<!--       {thrower.name} -->
-<!--     </div> -->
-<!--   {/each} -->
-<!-- </div> -->
-
-<!-- <pre> -->
-<!--   {JSON.stringify(compo.categories[categoryId]?.ranking,0,2)} -->
-<!--   {JSON.stringify(throwers,0,2)} -->
-
-<!-- </pre> -->
 <style>
   ul {
+    transform: translate(-100%);
+    position: fixed;
     display: flex;
+    flex-direction: column;
+    transition: transform 0.4s;
+    z-index: 10;
+    background: white;
+    height: 100vh;
+    top: 0;
+    margin: 0;
+    padding: 0;
+  }
+  ul.open {
+    transform: translate(0);
   }
   ul > li {
     list-style: none;
@@ -84,15 +107,47 @@
     border-bottom: 1px solid red;
   }
 
+  nav {
+    display: flex;
+    align-items: center;
+  }
+  main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  section {
+    overflow: scroll;
+    height: 100%;
+  }
+  .icon {
+    font-size: 20px;
+    padding: 2px 5px;
+    width: 30px;
+    height: 30px;
+  }
+  .btn {
+    cursor: pointer;
+    transition: transform 0.4s;
+  }
+  .btn:hover {
+    transform: scale(1.1);
+  }
+
   .ranking {
     --grid-gap: 1px;
     --grid-cell-padding: 5px;
-    --rank-width: 17px;
+    --rank-width: 27px;
     --height-width: 50px;
 
     display: grid;
     grid-gap: var(--grid-gap);
-    width: 100vw;
+    width: max-content;
+    position: relative;
   }
   .ranking > * {
     background: white;
@@ -115,15 +170,11 @@
     z-index: 3;
   }
   .ranking .rank {
-    width: var(--rank-width);
     text-align: right;
   }
   .ranking .height {
-    width: var(--height-width);
     text-align: right;
-    left: calc(var(--rank-width) + 2 * var(--grid-cell-padding) + var(--grid-gap));
   }
   .ranking .name {
-    left: calc(var(--rank-width) + var(--height-width) + 4 * var(--grid-cell-padding) + 2 * var(--grid-gap));
   }
 </style>
