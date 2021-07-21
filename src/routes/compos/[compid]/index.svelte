@@ -32,9 +32,12 @@
   <div class="icon btn" on:click={(e) => (sideopen = false)}>×</div>
   <li><a href="..">List</a></li>
   {#each compo.categories as cat, index}
-    <li class:active={categoryId == index}><a href="?cat={index}">{cat.name}</a></li>
+    <li class:active={categoryId == index} on:click={(e) => (sideopen = false)}>
+      <a href="?cat={index}">{cat.name}</a>
+    </li>
   {/each}
 </ul>
+<div class="shim" class:open={sideopen} on:click={(e) => (sideopen = !sideopen)} />
 
 <main>
   <nav>
@@ -43,8 +46,8 @@
     {compo.categories[categoryId]?.name || ''}
   </nav>
 
-  <section>
-    {#if compo.categories[categoryId]}
+  {#if compo.categories[categoryId]}
+    <section>
       <div class="ranking" style="grid-template-columns: repeat(4, max-content) repeat({heights.length}, 1fr);">
         <div class="topheader leftheader">#</div>
         <div class="topheader rank">#</div>
@@ -71,14 +74,16 @@
           {/each}
         {/each}
       </div>
-    {:else}
+    </section>
+  {:else}
+    <section class="list">
       {#each compo.categories as cat, index}
         <div>
           <a href="?cat={index}">{cat.name}</a>
         </div>
       {/each}
-    {/if}
-  </section>
+    </section>
+  {/if}
 </main>
 
 <style>
@@ -97,6 +102,23 @@
   }
   ul.open {
     transform: translate(0);
+  }
+  .shim.open {
+    opacity: 0.1;
+    pointer-events: all;
+  }
+  .shim {
+    z-index: 9;
+    pointer-events: none;
+    /* z-index:-1; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: black;
+    opacity: 0;
+    transition: opacity 0.4s;
   }
   ul > li {
     list-style: none;
@@ -123,6 +145,12 @@
   section {
     overflow: scroll;
     height: 100%;
+  }
+  section.list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   .icon {
     font-size: 20px;
