@@ -8,26 +8,14 @@
         props: { compos: await res.json() },
       };
     }
-    /* console.error(res.text()); */
     console.error(await res.text());
   }
 </script>
 
 <script lang="ts">
-  /* import Counter from '$lib/Counter/index.svelte'; */
+  import Login from '$lib/Login.svelte';
 
   export let compos;
-
-  /* async function test() { */
-  /*   var body = { a: 'test' }; */
-  /*  */
-  /*   var res = await fetch('/api/compos', { */
-  /*     method: 'PUT', */
-  /*     body: JSON.stringify(body), */
-  /*   }); */
-  /*   var bla = await res.text(); */
-  /*   console.log(bla); */
-  /* } */
 </script>
 
 <svelte:head>
@@ -38,6 +26,8 @@
   {#each compos as comp}
     <a href="./compos/{comp.id}">{comp.name}</a>
   {/each}
+
+  <Login />
 </section>
 
 <style>

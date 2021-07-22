@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
   import Ranking from '$lib/Ranking.svelte';
+  import Login from '$lib/Login.svelte';
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
   export const prerender = true;
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
@@ -15,6 +16,7 @@
 </script>
 
 <script lang="ts">
+  import { session } from '$app/stores';
   export let compid;
   export let compo;
   export let categoryId;
@@ -23,6 +25,10 @@
 
   let sideopen = false;
 </script>
+
+<svelte:head>
+  <title>{compid} {catName}</title>
+</svelte:head>
 
 <ul class:open={sideopen}>
   <div class="icon btn" on:click={(e) => (sideopen = false)}>×</div>
@@ -33,6 +39,7 @@
       <a href="?cat={index}">{cat.name}</a>
     </li>
   {/each}
+  <li><Login /></li>
 </ul>
 <div class="shim" class:open={sideopen} on:click={(e) => (sideopen = !sideopen)} />
 

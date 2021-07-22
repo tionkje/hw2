@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let attempts;
+  export let attempts = [];
 </script>
 
 {#if attempts}

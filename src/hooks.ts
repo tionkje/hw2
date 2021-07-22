@@ -1,6 +1,9 @@
 import cookie from 'cookie';
 import { v4 as uuid } from '@lukeed/uuid';
 import type { Handle } from '@sveltejs/kit';
+import jwt from 'jwt-simple';
+
+const { LOGIN_SECRET } = process.env;
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -8,6 +11,11 @@ dotenv.config();
 export const handle: Handle = async ({ request, resolve }) => {
   const cookies = cookie.parse(request.headers.cookie || '');
   request.locals.userid = cookies.userid || uuid();
+
+  if (cookies.auth_token) {
+    const token = jwt.decode(cookies.auth_token, LOGIN_SECRET);
+    if (token) request.locals.loggedin = { loggedin: true };
+  }
 
   // TODO https://github.com/sveltejs/kit/issues/1046
   if (request.query.has('_method')) {
@@ -24,3 +32,12 @@ export const handle: Handle = async ({ request, resolve }) => {
 
   return response;
 };
+
+export function getSession(request) {
+  // only include properties needed client-side —
+  // exclude anything else attached to the user
+  // like access tokens etc
+  return {
+    loggedin: request.locals.loggedin,
+  };
+}
