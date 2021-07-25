@@ -3,18 +3,20 @@ import { v4 as uuid } from '@lukeed/uuid';
 import type { Handle } from '@sveltejs/kit';
 import jwt from 'jwt-simple';
 
-const { LOGIN_SECRET } = process.env;
-
 import dotenv from 'dotenv';
 dotenv.config();
 
+const { LOGIN_SECRET } = process.env;
+if (!LOGIN_SECRET) throw new Error(`Failed loading LOGIN_SECRET`);
+
 export const handle: Handle = async ({ request, resolve }) => {
   const cookies = cookie.parse(request.headers.cookie || '');
+  // TODO: remove userid cookie
   request.locals.userid = cookies.userid || uuid();
 
   if (cookies.auth_token) {
     const token = jwt.decode(cookies.auth_token, LOGIN_SECRET);
-    if (token) request.locals.loggedin = { loggedin: true };
+    if (token) request.locals.loggedin = { i_put_something_here: true };
   }
 
   // TODO https://github.com/sveltejs/kit/issues/1046

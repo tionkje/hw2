@@ -13,9 +13,19 @@
 </script>
 
 <script lang="ts">
+  import { session } from '$app/stores';
   import Login from '$lib/Login.svelte';
 
   export let compos;
+
+  async function delCompo(id, name) {
+    if (confirm(`Are you sure to delete ${name || id}?`)) {
+      const res = await fetch(`api/compos?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) return;
+      compos = compos.filter((c) => c._id !== id);
+      return;
+    }
+  }
 </script>
 
 <svelte:head>
@@ -24,10 +34,19 @@
 
 <section>
   {#each compos as comp}
-    <a href="./compos/{comp.id}">{comp.name}</a>
+    <div>
+      <a href="./compos/{comp._id}">{comp.name || comp._id}</a>
+      {#if !comp.fromFile && $session.loggedin}
+        <button on:click={(e) => delCompo(comp._id, comp.name)}>Delete</button>
+      {/if}
+    </div>
   {/each}
 
   <Login />
+
+  {#if $session.loggedin}
+    <a href="./new">New</a>
+  {/if}
 </section>
 
 <style>

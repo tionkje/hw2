@@ -10,7 +10,9 @@
     else errorMsg = res.statusText;
   }
   async function logout() {
-    $session.loggedin = false;
+    const res = await fetch(`/api/logout`);
+    if (res.ok) $session.loggedin = false;
+    else errorMsg = res.statusText;
   }
 </script>
 

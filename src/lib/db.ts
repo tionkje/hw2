@@ -17,7 +17,9 @@ async function getMongoConnection(): Promise<mongodb.MongoClient> {
 }
 
 export async function closeConnection(): Promise<void> {
-  const client = await getMongoConnection();
+  if (!cache) return;
+  const client = cache;
+  cache = null;
   return client.close();
 }
 
@@ -41,7 +43,7 @@ export async function lockDocument(
           await col.findOneAndReplace({ _id: res.value._id }, newDoc);
         },
       };
-    timeout(100 * Math.random());
+    await timeout(100 * Math.random());
   }
   throw new Error(`Failed getting lock after ${tries} tries`);
 }
