@@ -20,11 +20,19 @@
 
   async function delCompo(id, name) {
     if (confirm(`Are you sure to delete ${name || id}?`)) {
-      const res = await fetch(`api/compos?id=${id}`, { method: 'DELETE' });
+      const res = await fetch(`api/${id}`, { method: 'DELETE' });
       if (!res.ok) return;
       compos = compos.filter((c) => c._id !== id);
       return;
     }
+  }
+
+  async function createCompetition() {
+    const res = await fetch('api/compos', { method: 'POST' });
+    if (!res.ok) throw new Error(res.statusText);
+    const newCompo = await res.json();
+    compos.push(newCompo);
+    compos = compos;
   }
 </script>
 
@@ -45,7 +53,7 @@
   <Login />
 
   {#if $session.loggedin}
-    <a href="./new">New</a>
+    <button on:click={createCompetition}>Create New</button>
   {/if}
 </section>
 

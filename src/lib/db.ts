@@ -34,6 +34,7 @@ export async function lockDocument(
 
   let tries = 0;
   while (tries++ < 100) {
+    // console.log('Getting lock on', q);
     const res = await col.findOneAndUpdate({ ...q, locked: { $exists: false } }, { $set: { locked: true } });
 
     if (res.value)

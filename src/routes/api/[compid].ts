@@ -1,5 +1,5 @@
 import type { EndpointOutput, Request } from '@sveltejs/kit';
-import { getList, getCompetition } from '$lib/CompetitionDB';
+import { getCompetition, createCompetition, deleteCompetition, processCompo } from '$lib/CompetitionDB';
 
 export async function get({ params }: Request): Promise<EndpointOutput> {
   return {
@@ -7,11 +7,19 @@ export async function get({ params }: Request): Promise<EndpointOutput> {
   };
 }
 
-export async function put({ body }: Request): Promise<EndpointOutput> {
-  // body = JSON.parse(body);
+export async function del({ params, locals }): Promise<EndpointOutput> {
+  if (!locals.loggedin) return { status: 401 };
+  return {
+    body: await deleteCompetition(params.compid),
+  };
+}
+
+export async function put({ params, body, locals }: Request): Promise<EndpointOutput> {
+  if (!locals.loggedin) return { status: 401 };
+  body = JSON.parse(body);
   // console.log(body);
 
   return {
-    // body: { res: body },
+    body: JSON.stringify(await processCompo(params.compid, body)),
   };
 }

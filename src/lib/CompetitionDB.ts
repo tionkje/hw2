@@ -1,5 +1,5 @@
 import mongodb from 'mongodb';
-import { Competition, Com } from './Competition';
+import { Competition } from './Competition';
 import CompoConvert from './CompoConvert';
 import { getCollection, lockDocument } from './db';
 import { promises as fs } from 'fs';
@@ -7,14 +7,44 @@ import path from 'path';
 
 const COMPO_COLLECTION = 'competition';
 
-export async function doThing(_id: string): Promise<void> {
-  const { doc, unlock } = await lockDocument(COMPO_COLLECTION, { _id });
+type Action = {
+  func: string;
+  args: string[];
+};
+
+export async function handleCompoAction(competition: Competition, action: Action) {
+  const { func, args } = action;
+  switch (func) {
+    case 'setName': {
+      const [newName] = args;
+      competition.name = newName;
+      // console.log('setName', competition);
+      return;
+    }
+  }
+  await competition[func](...args);
+}
+
+export async function processCompo(_id: string, actions: Action | Action[]): Promise<Competition> {
+  if (!_id || _id == 'undefined') throw new Error(`Missing parameter _id`);
+  _id = mongodb.ObjectID(_id);
+  const result = await lockDocument(COMPO_COLLECTION, { _id });
+  const { unlock } = result;
+  let { doc } = result;
+
+  if (!Array.isArray(actions)) actions = [actions];
 
   try {
     const competition = new Competition(doc);
 
-    console.log(competition);
-    // doc.count++;
+    let action;
+    while ((action = actions.shift())) {
+      await handleCompoAction(competition, action);
+    }
+
+    doc = competition.createData();
+    doc._id = mongodb.ObjectID(doc._id);
+    return doc;
   } catch (e) {
     console.error(`failed`, e);
   } finally {
@@ -77,7 +107,9 @@ export async function getCompetition(compid: string): Promise<string> {
 export async function createCompetition() {
   const col = await getCollection(COMPO_COLLECTION);
 
-  const res = await col.insertOne({ test: 'A' });
+  const compo = JSON.parse(JSON.stringify(new Competition({})));
+
+  const res = await col.insertOne(compo);
   return await col.findOne({ _id: res.insertedId });
 }
 

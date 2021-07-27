@@ -16,6 +16,8 @@
 </script>
 
 <script lang="ts">
+  import Modal from '$lib/Modal.svelte';
+  import EditCompetition from '$lib/EditCompetition.svelte';
   import { session } from '$app/stores';
   export let compid;
   export let compo;
@@ -24,14 +26,24 @@
   $: catName = compo.categories[categoryId]?.name || '';
 
   let sideopen = false;
+  let editOpen = false;
 </script>
 
 <svelte:head>
-  <title>{compid} {catName}</title>
+  <title>{compo.name || compo._id || compid} {catName}</title>
 </svelte:head>
+
+{#if $session.loggedin}
+  <Modal bind:open={editOpen} canClose={false}>
+    <EditCompetition bind:compo on:close={(e) => (editOpen = false)} />
+  </Modal>
+{/if}
 
 <ul class:open={sideopen}>
   <div class="icon btn" on:click={(e) => (sideopen = false)}>×</div>
+  {#if $session.loggedin}
+    <li><a href on:click|preventDefault={(e) => (editOpen = true)}>Edit</a></li>
+  {/if}
   <li><a href="..">List</a></li>
   <li><a href="./print/{compid}?cat={categoryId}">Print</a></li>
   {#each compo.categories as cat, index}
@@ -46,7 +58,7 @@
 <main>
   <nav>
     <div class="icon btn" on:click={(e) => (sideopen = true)}>☰</div>
-
+    {compo.name || compo._id || compid}
     {catName}
   </nav>
 

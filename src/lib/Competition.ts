@@ -115,6 +115,7 @@ class Meter {
 }
 
 export type CompetitionData = {
+  _id?: string;
   name?: string;
   throwers?: Array<ThrowerData>;
   categories?: Array<CategoryData>;
@@ -122,6 +123,7 @@ export type CompetitionData = {
 };
 
 export class Competition {
+  _id?: string;
   name = '';
   throwers: Thrower[] = [];
   categories: Category[] = [];
@@ -129,19 +131,11 @@ export class Competition {
   legacySortLessDraws?: boolean;
 
   constructor(comp: CompetitionData = {}) {
+    this._id = comp._id;
     this.name = comp.name;
     this.throwers = (comp.throwers ?? []).map((x) => new Thrower(x));
     this.categories = (comp.categories ?? []).map((x) => new Category(x));
     this.meters = (comp.meters ?? []).map((x) => new Meter(x));
-  }
-
-  toJSON(): CompetitionData {
-    return {
-      name: this.name,
-      throwers: this.throwers,
-      categories: this.categories,
-      meters: this.meters,
-    };
   }
 
   addThrower(data: ThrowerData): Thrower {
@@ -273,6 +267,16 @@ export class Competition {
       // get rank by adding the not yet eliminated count
       return [tid, rank + throwers.length - eliminated.length];
     });
+  }
+
+  toJSON(): CompetitionData {
+    return {
+      _id: this._id,
+      name: this.name,
+      throwers: this.throwers,
+      categories: this.categories,
+      meters: this.meters,
+    };
   }
 
   createData() {
