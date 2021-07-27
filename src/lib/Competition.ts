@@ -16,6 +16,7 @@ export type ThrowerData = {
   rank?: number;
   hwId?: number;
   rugnr?: number;
+  success?: Height;
 };
 
 const getFailedAttemptCount = (throws: [Judge, Judge?, Judge?]) => {
@@ -83,6 +84,7 @@ class Thrower {
 
 type CategoryData = {
   name?: string;
+  ranking?: [ThrowerId, number][];
 };
 
 class Category {
@@ -96,6 +98,7 @@ type MeterData = {
   name?: string;
   height?: Height;
   categories?: CategoryId[];
+  throwOrder?: ThrowerId[];
 };
 
 class Meter {
@@ -281,15 +284,17 @@ export class Competition {
 
   createData() {
     const data = JSON.parse(JSON.stringify(this));
-    data.meters.forEach((m, mid) => {
+    data.meters.forEach((m: MeterData, mid: MeterId) => {
       m.throwOrder = this.meterThrowOrder(mid);
     });
-    data.categories.forEach((cat, catId) => {
+    data.categories.forEach((cat: CategoryData, catId: CategoryId) => {
       cat.ranking = this.categoryRanking(catId);
     });
-    data.throwers.forEach((t) => {
+    data.throwers.forEach((t: ThrowerData) => {
       Object.keys(t.categories).forEach((cat) => {
-        const heights = Object.keys(t.categories[cat]).filter((height) => t.categories[cat][height].includes('V'));
+        const heights = Object.keys(t.categories[cat])
+          .filter((height) => t.categories[cat][height].includes('V'))
+          .map(Number);
         const success = heights.sort((a, b) => b - a)[0];
         if (success) t.success = Number(success);
       });

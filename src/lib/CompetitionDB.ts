@@ -1,5 +1,5 @@
 import mongodb from 'mongodb';
-import { Competition } from './Competition';
+import { Competition, CompetitionData } from './Competition';
 import CompoConvert from './CompoConvert';
 import { getCollection, lockDocument } from './db';
 import { promises as fs } from 'fs';
@@ -25,25 +25,28 @@ export async function handleCompoAction(competition: Competition, action: Action
   await competition[func](...args);
 }
 
-export async function processCompo(_id: string, actions: Action | Action[]): Promise<Competition> {
+export async function processCompo(
+  _id: string | mongodb.ObjectID,
+  actions: Action | Action[]
+): Promise<CompetitionData> {
   if (!_id || _id == 'undefined') throw new Error(`Missing parameter _id`);
-  _id = mongodb.ObjectID(_id);
+  _id = new mongodb.ObjectID(_id);
   const result = await lockDocument(COMPO_COLLECTION, { _id });
   const { unlock } = result;
-  let { doc } = result;
+  let doc = result.doc as Record<string, string | mongodb.ObjectID>;
 
   if (!Array.isArray(actions)) actions = [actions];
 
   try {
     const competition = new Competition(doc);
 
-    let action;
+    let action: Action;
     while ((action = actions.shift())) {
       await handleCompoAction(competition, action);
     }
 
     doc = competition.createData();
-    doc._id = mongodb.ObjectID(doc._id);
+    doc._id = new mongodb.ObjectID(doc._id);
     return doc;
   } catch (e) {
     console.error(`failed`, e);

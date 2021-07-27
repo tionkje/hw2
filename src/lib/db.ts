@@ -26,7 +26,7 @@ export async function closeConnection(): Promise<void> {
 const timeout = (ms: number) => new Promise((r) => setTimeout(r, ms));
 export async function lockDocument(
   _col: Collection | string,
-  q: Record<string, string>
+  q: Record<string, string | mongodb.ObjectID>
 ): Promise<{ doc: Record<string, unknown>; unlock: (doc: Record<string, unknown>) => Promise<void> }> {
   let col: Collection;
   if (typeof _col == 'string') col = await getCollection(_col);
