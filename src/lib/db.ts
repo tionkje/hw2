@@ -32,6 +32,9 @@ export async function lockDocument(
   if (typeof _col == 'string') col = await getCollection(_col);
   else col = _col;
 
+  const doc = await col.findOne(q);
+  if (!doc) throw new Error(`Doc not found with query ${JSON.stringify(q)}`);
+
   let tries = 0;
   while (tries++ < 100) {
     // console.log('Getting lock on', q);
@@ -46,7 +49,11 @@ export async function lockDocument(
       };
     await timeout(100 * Math.random());
   }
-  throw new Error(`Failed getting lock after ${tries} tries`);
+
+  // assume stuck in locked state
+  console.log(`Failed getting lock after ${tries} tries. assuming stuck and stealing lock`);
+  await col.findOneAndUpdate(q, { $unset: { locked: '' } });
+  return lockDocument(_col, q);
 }
 
 export async function getCollection(name: string): Promise<Collection> {
