@@ -36,6 +36,7 @@ export async function processCompo(
   let doc = result.doc as Record<string, string | mongodb.ObjectID>;
 
   if (!Array.isArray(actions)) actions = [actions];
+  console.log(`processCompo: `, actions);
 
   try {
     const competition = new Competition(doc);
@@ -45,12 +46,13 @@ export async function processCompo(
       await handleCompoAction(competition, action);
     }
 
-    doc = competition.createData();
+    doc = competition;
     doc._id = new mongodb.ObjectID(doc._id);
     return doc;
   } catch (e) {
     console.error(`failed`, e);
   } finally {
+    console.log('final', doc);
     await unlock(doc);
   }
 }
@@ -94,7 +96,9 @@ export async function getCompetition(compid: string): Promise<string> {
   async function fromDB(compid) {
     compid = mongodb.ObjectID(compid);
     const col = await getCollection(COMPO_COLLECTION);
-    return new Competition(await col.findOne({ _id: compid }));
+    const comp = await col.findOne({ _id: compid });
+    if (!comp) throw new Error(`Competition ${compid} not found`);
+    return new Competition(comp);
   }
 
   let res;

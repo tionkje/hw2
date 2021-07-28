@@ -10,8 +10,6 @@ export type Attempts = Record<Height, [Judge, Judge?, Judge?]>;
 export type ThrowerData = {
   name?: string;
   categories?: Record<CategoryId, Attempts>;
-  // categories?: CategoryId[];
-  // throws?: Record<Height, Judge[]>;
   skipHeight?: Height;
   rank?: number;
   hwId?: number;

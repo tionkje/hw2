@@ -27,6 +27,9 @@
 
   let sideopen = false;
   let editOpen = false;
+
+  // TEMP
+  // editOpen = true;
 </script>
 
 <svelte:head>
@@ -68,6 +71,9 @@
     </section>
   {:else}
     <section class="list">
+      {#if $session.loggedin && compo.categories.length == 0}
+        <a href on:click|preventDefault={(e) => (editOpen = true)}>Edit</a>
+      {/if}
       {#each compo.categories as cat, index}
         <div>
           <a href="?cat={index}">{cat.name}</a>

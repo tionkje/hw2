@@ -1,23 +1,11 @@
 <script lang="ts">
+  import ImportThrowers from '$lib/ImportThrowers.svelte';
   import { createEventDispatcher } from 'svelte';
   export let compo;
+
   const dispatch = createEventDispatcher();
   function close() {
     dispatch('close');
-  }
-
-  let list;
-  async function getList() {
-    const res = await fetch('/api/hwget?action=list');
-    if (!res.ok) throw new Error(res.statusText);
-    list = await res.json();
-  }
-
-  let throwers;
-  async function getThrowers(id) {
-    const res = await fetch(`/api/hwget?action=throwers&id=${id}`);
-    if (!res.ok) throw new Error(res.statusText);
-    throwers = await res.json();
   }
 
   // let newCompo;
@@ -26,39 +14,26 @@
   //   if (!res.ok) throw new Error(res.statusText);
   //   newCompo = await res.json();
   // }
-  async function submit(e) {
+
+  async function submitName(e) {
     const newName = e.target.name.value;
-    console.log(compo);
+    // console.log(compo);
     const data = { func: 'setName', args: [newName] };
     const res = await fetch(`/api/${compo._id}`, { method: 'PUT', body: JSON.stringify(data) });
     if (!res.ok) throw new Error(res.statusText);
-    console.log(await res.json());
+    // console.log(await res.json());
     compo.name = newName;
   }
   let name = compo.name;
 </script>
 
 <main>
-  <form on:submit|preventDefault={submit}>
+  <form on:submit|preventDefault={submitName}>
     <input type="text" name="name" bind:value={name} />
   </form>
 
-  {#if list}
-    {#each list as compo}
-      <div>
-        {compo.name}
-        <button on:click={(e) => getThrowers(compo.id)}>Fetch Throwers</button>
-      </div>
-    {/each}
-  {:else}
-    <button on:click={getList}>Fetch list</button>
-  {/if}
-  <!-- <pre>{JSON.stringify(list,0,2)}</pre> -->
-
-  {#if throwers}
-    {#each throwers as thrower}
-      <div>{thrower.rugnr} {thrower.category} {thrower.startHeight} {thrower.name}</div>
-    {/each}
+  {#if compo.throwers.length == 0}
+    <ImportThrowers bind:compo />
   {/if}
 
   <pre>{JSON.stringify(compo, 0,2)}</pre>
@@ -67,6 +42,10 @@
 </main>
 
 <style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
   main {
     background: white;
     max-width: 1024px;
