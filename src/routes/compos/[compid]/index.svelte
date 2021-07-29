@@ -5,6 +5,7 @@
   export const prerender = true;
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
     const { compid } = page.params;
+    console.log('compos:', compid, page.query.get('cat'));
     let res = await fetch(`/api/${compid}`);
     if (res.ok) {
       return {
@@ -94,7 +95,7 @@
     </section>
   {/if}
 
-  <pre>{JSON.stringify(compo,0,2)}</pre>
+  <!-- <pre>{JSON.stringify(compo,0,2)}</pre> -->
 </main>
 
 <style>
