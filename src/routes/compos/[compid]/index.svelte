@@ -27,6 +27,7 @@
 
   let sideopen = false;
   let editOpen = false;
+  let addMeterOpen = false;
 
   // TEMP
   // editOpen = true;
@@ -58,12 +59,23 @@
 </ul>
 <div class="shim" class:open={sideopen} on:click={(e) => (sideopen = !sideopen)} />
 
+<Modal bind:open={addMeterOpen} canClose={false}>
+  Add meter
+  <!-- <EditCompetition bind:compo on:close={(e) => (editOpen = false)} /> -->
+</Modal>
+
 <main>
   <nav>
     <div class="icon btn" on:click={(e) => (sideopen = true)}>☰</div>
     {compo.name || compo._id || compid}
     {catName}
   </nav>
+
+  {#if compo.meters.length == 0}
+    {#if $session.loggedin}
+      <button on:click={(e) => (addMeterOpen = true)}>Add Meter</button>
+    {/if}
+  {/if}
 
   {#if compo.categories[categoryId]}
     <section>
@@ -81,6 +93,8 @@
       {/each}
     </section>
   {/if}
+
+  <pre>{JSON.stringify(compo,0,2)}</pre>
 </main>
 
 <style>

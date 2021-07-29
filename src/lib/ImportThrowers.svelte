@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { API } from '$lib/serverApi';
   export let compo;
 
   let list;
@@ -23,29 +24,22 @@
     throwers.forEach((t) => (cats[t.category] = 1));
     cats = Object.keys(cats);
     console.log(cats);
+    let result;
     cats.forEach((catName) => {
-      data.push({ func: 'addCategory', args: [{ name: catName }] });
+      result = API.addCategory(compo._id, { name: catName });
     });
 
     throwers.forEach((t) => {
-      data.push({
-        func: 'addThrower',
-        args: [
-          {
-            name: t.name,
-            categories: { [cats.indexOf(t.category)]: {} },
-            skipHeight: t.startHeight,
-            hwId: t.id,
-            rugnr: t.rugnr,
-          },
-        ],
-      });
+      const newThrower = {
+        name: t.name,
+        categories: { [cats.indexOf(t.category)]: {} },
+        skipHeight: t.startHeight,
+        hwId: t.id,
+        rugnr: t.rugnr,
+      };
+      result = API.addThrower(compo._id, newThrower);
     });
-
-    const res = await fetch(`/api/${compo._id}`, { method: 'PUT', body: JSON.stringify(data) });
-    if (!res.ok) throw new Error(res.statusText);
-
-    compo = await res.json();
+    compo = await result;
   }
 
   // TEMP

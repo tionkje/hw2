@@ -9,9 +9,14 @@
     .flatMap((t) => Object.keys(t.categories[categoryId]))
     .filter((x, i, a) => a.indexOf(x) == i)
     .sort((a, b) => a - b);
+  let catName;
+  $: catName = compo.categories[categoryId]?.name || '';
 </script>
 
-{#if categoryId && compo.categories[categoryId]}
+{#if categoryId && compo.categories[categoryId]?.ranking.length == 0}
+  No rankings yet for {catName}
+{/if}
+{#if categoryId && compo.categories[categoryId]?.ranking.length > 0}
   <div class="ranking" style="grid-template-columns: repeat(4, max-content) repeat({heights.length}, 1fr);">
     <div class="topheader leftheader">#</div>
     <div class="topheader rank">#</div>
