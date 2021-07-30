@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
-  export const prerender = true;
+  // export const prerender = true;
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
     console.log(page.query.toString());
     let res = await fetch('/api/compos');
