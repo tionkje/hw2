@@ -5,7 +5,9 @@
   export const prerender = true;
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
     const { compid } = page.params;
+    // testing
     console.log('compos:', compid, page.query.get('cat'));
+    console.log(Object.fromEntries(page.query));
     let res = await fetch(`/api/${compid}`);
     if (res.ok) {
       return {
