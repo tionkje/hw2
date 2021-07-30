@@ -17,7 +17,7 @@
   import { session } from '$app/stores';
   import Login from '$lib/Login.svelte';
 
-  export let compos;
+  export let compos = [];
 
   async function delCompo(id, name) {
     if (confirm(`Are you sure to delete ${name || id}?`)) {
