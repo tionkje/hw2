@@ -63,6 +63,7 @@ type CompetitionHeader = {
 };
 
 const folder = 'static/wedstrijdData';
+// const folder = '/wedstrijdData';
 
 export async function getList(): Promise<CompetitionHeader[]> {
   async function getFromDB() {
@@ -88,11 +89,18 @@ export async function getList(): Promise<CompetitionHeader[]> {
   return dbList.concat(fileList);
 }
 
-export async function getCompetition(compid: string): Promise<string> {
+export async function getOldCompetition(compid: string): Promise<string> {
   async function fromFile(compid: string) {
+    // const res = await fetch(path.join(folder,compid)+'.json');
+    // if(!res.ok) throw new Error(`compo ${compid} not found`);
+    // const compdata = await res.json();
     const compdata = JSON.parse(await fs.readFile(path.join(folder, compid + '.json'), 'utf8'));
     return CompoConvert(compdata);
   }
+  const res = await fromFile(compid);
+  return res.createData();
+}
+export async function getCompetition(compid: string): Promise<string> {
   async function fromDB(compid) {
     compid = mongodb.ObjectID(compid);
     const col = await getCollection(COMPO_COLLECTION);
@@ -101,13 +109,12 @@ export async function getCompetition(compid: string): Promise<string> {
     return new Competition(comp);
   }
 
-  let res;
-  try {
-    res = await fromFile(compid);
-  } catch (e) {
-    console.log('Getting from file failed, trying from DB', e);
-    res = await fromDB(compid);
-  }
+  // try {
+  //   res = await fromFile(compid);
+  // } catch (e) {
+  //   console.log('Getting from file failed, trying from DB', e);
+  const res = await fromDB(compid);
+  // }
   return res.createData();
 }
 

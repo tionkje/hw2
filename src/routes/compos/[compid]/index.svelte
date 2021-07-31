@@ -1,20 +1,36 @@
 <script context="module" lang="ts">
+  // import CompoConvert from '$lib/CompoConvert';
   import Ranking from '$lib/Ranking.svelte';
   import Login from '$lib/Login.svelte';
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
   // export const prerender = true;
+  async function fetchCompo(fetch, compid) {
+    let res;
+    res = await fetch(`/api/old_${compid}`);
+    // res = await fetch(`/wedstrijdData/${compid}.json`);
+    if (res.ok) {
+      const compo = await res.json();
+      return compo;
+      // return CompoConvert(compo).createData();
+    } else console.log('Failed getting old compo:', res.status, await res.text());
+    res = await fetch(`/api/${compid}`);
+    if (res.ok) return await res.json();
+    else console.log('Failed getting compo:', res.status, await res.text());
+  }
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
     const { compid } = page.params;
-    // testing
     console.log('compos:', compid, page.query.get('cat'));
     console.log(Object.fromEntries(page.query));
-    let res = await fetch(`/api/${compid}`);
-    if (res.ok) {
-      return {
-        props: { compid, compo: await res.json(), categoryId: page.query.get('cat') },
-      };
-    }
-    console.error(await res.text());
+
+    const compo = await fetchCompo(fetch, compid);
+    console.log('compo:', compo);
+    const props = {
+      compid,
+      categoryId: page.query.get('cat'),
+      compo,
+    };
+
+    return { props };
   }
 </script>
 
