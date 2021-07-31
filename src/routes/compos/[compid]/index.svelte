@@ -2,7 +2,7 @@
   import Ranking from '$lib/Ranking.svelte';
   import Login from '$lib/Login.svelte';
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
-  export const prerender = true;
+  // export const prerender = true;
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
     const { compid } = page.params;
     // testing

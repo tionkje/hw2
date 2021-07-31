@@ -1,15 +1,15 @@
 <script context="module" lang="ts">
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
-  // export const prerender = true;
+  export const prerender = true;
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
-    console.log(page.query.toString());
-    // let res = await fetch('/api/compos');
-    // if (res.ok) {
-    return {
-      // props: { compos: await res.json() },
-    };
-    // }
-    // console.error(await res.text());
+    // console.log(page.query.toString());
+    let res = await fetch('/api/compos');
+    if (res.ok) {
+      return {
+        props: { compos: await res.json() },
+      };
+    }
+    console.error(await res.text());
   }
 </script>
 
