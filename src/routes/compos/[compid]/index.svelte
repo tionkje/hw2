@@ -23,7 +23,7 @@
     console.log(Object.fromEntries(page.query));
 
     const compo = await fetchCompo(fetch, compid);
-    console.log('compo:', compo);
+    // console.log('compo:', compo);
     const props = {
       compid,
       categoryId: page.query.get('cat'),
