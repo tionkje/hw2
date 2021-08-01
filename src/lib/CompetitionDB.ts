@@ -62,9 +62,10 @@ type CompetitionHeader = {
   name: string;
 };
 
-const folder = 'static/wedstrijdData';
+// const folder = 'static/wedstrijdData';
 // const folder = '/wedstrijdData';
 // const folder = './_wedstrijdData';
+const folder = '.';
 
 export async function getList(): Promise<CompetitionHeader[]> {
   async function getFromDB() {
@@ -75,12 +76,23 @@ export async function getList(): Promise<CompetitionHeader[]> {
   async function getFromFile() {
     const fileList = (await fs.readdir(folder)).filter((x) => !x.match(/^new_/));
 
-    return Promise.all(
-      fileList.map(async (fileName) => {
-        const content = JSON.parse(await fs.readFile(path.join(folder, fileName), 'utf8'));
-        return { name: content.name, _id: fileName.replace(/\.json$/, ''), fromFile: true };
-      })
-    );
+    return (
+      await Promise.all(
+        fileList.map(async (fileName) => {
+          const fn = path.join(folder, fileName);
+          const finfo = await fs.stat(fn);
+          if (!finfo.isFile()) return;
+          console.log(finfo.isFile());
+          let content;
+          try {
+            content = JSON.parse(await fs.readFile(fn, 'utf8'));
+          } catch (e) {
+            console.log('Failed getting file', e);
+          }
+          return { name: content?.name, _id: fileName.replace(/\.json$/, ''), fromFile: true };
+        })
+      )
+    ).filter((x) => x);
   }
 
   let dbList = getFromDB();
