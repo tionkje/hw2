@@ -62,10 +62,10 @@ type CompetitionHeader = {
   name: string;
 };
 
-// const folder = 'static/wedstrijdData';
+const folder = 'static/wedstrijdData';
 // const folder = '/wedstrijdData';
 // const folder = './_wedstrijdData';
-const folder = '.';
+// const folder = '.';
 
 export async function getList(): Promise<CompetitionHeader[]> {
   async function getFromDB() {
