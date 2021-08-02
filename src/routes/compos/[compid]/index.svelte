@@ -1,18 +1,13 @@
 <script context="module" lang="ts">
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
   async function fetchCompo(fetch, compid) {
-    let res;
-    res = await fetch(`/api/old_${compid}`);
-    if (res.ok) return await res.json();
-    else console.log('Failed getting old compo:', res.status, await res.text());
-
-    res = await fetch(`/api/${compid}`);
+    let res = await fetch(`/api/${compid}`);
     if (res.ok) return await res.json();
     else console.log('Failed getting compo:', res.status, await res.text());
   }
 
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
-    const { compid } = page.params.compid;
+    const { compid } = page.params;
     return {
       props: {
         compid,

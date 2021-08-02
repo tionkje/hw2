@@ -9,7 +9,8 @@ import {
 
 export async function get({ params }: Request): Promise<EndpointOutput> {
   const { compid } = params;
-  if (compid.match(/^old_/)) return { body: await getOldCompetition(params.compid) };
+  console.log('compid:', compid);
+  if (compid.match(/^old_/)) return { body: await getOldCompetition(params.compid.replace(/^old_/, '')) };
   return { body: await getCompetition(params.compid) };
 }
 
