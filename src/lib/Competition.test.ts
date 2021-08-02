@@ -5,7 +5,7 @@ it('add a thrower/category/meter', () => {
 
   comp.addThrower({});
   comp.addCategory({});
-  comp.addHeightMeter({});
+  comp.addMeter({});
 
   expect(comp.throwers.length).toBe(1);
   expect(comp.categories.length).toBe(1);

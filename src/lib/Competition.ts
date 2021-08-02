@@ -151,7 +151,7 @@ export class Competition {
     this.categories.push(category);
     return category;
   }
-  addHeightMeter(data: MeterData): Meter {
+  addMeter(data: MeterData): Meter {
     data.name = data.name ?? `data ${this.meters.length}`;
     const meter = new Meter(data);
     this.meters.push(meter);
