@@ -63,9 +63,6 @@ type CompetitionHeader = {
 };
 
 const folder = 'static/wedstrijdData';
-// const folder = '/wedstrijdData';
-// const folder = './_wedstrijdData';
-// const folder = '.';
 
 export async function getList(): Promise<CompetitionHeader[]> {
   async function getFromDB() {
@@ -82,7 +79,6 @@ export async function getList(): Promise<CompetitionHeader[]> {
           const fn = path.join(folder, fileName);
           const finfo = await fs.stat(fn);
           if (!finfo.isFile()) return;
-          console.log(finfo.isFile());
           let content;
           try {
             content = JSON.parse(await fs.readFile(fn, 'utf8'));
@@ -103,31 +99,16 @@ export async function getList(): Promise<CompetitionHeader[]> {
 }
 
 export async function getOldCompetition(compid: string): Promise<string> {
-  async function fromFile(compid: string) {
-    // const res = await fetch(path.join(folder,compid)+'.json');
-    // if(!res.ok) throw new Error(`compo ${compid} not found`);
-    // const compdata = await res.json();
-    const compdata = JSON.parse(await fs.readFile(path.join(folder, compid + '.json'), 'utf8'));
-    return CompoConvert(compdata);
-  }
-  const res = await fromFile(compid);
-  return res.createData();
+  const compdata = JSON.parse(await fs.readFile(path.join(folder, compid + '.json'), 'utf8'));
+  return CompoConvert(compdata).createData();
 }
-export async function getCompetition(compid: string): Promise<string> {
-  async function fromDB(compid) {
-    compid = mongodb.ObjectID(compid);
-    const col = await getCollection(COMPO_COLLECTION);
-    const comp = await col.findOne({ _id: compid });
-    if (!comp) throw new Error(`Competition ${compid} not found`);
-    return new Competition(comp);
-  }
 
-  // try {
-  //   res = await fromFile(compid);
-  // } catch (e) {
-  //   console.log('Getting from file failed, trying from DB', e);
-  const res = await fromDB(compid);
-  // }
+export async function getCompetition(compid: string): Promise<string> {
+  compid = mongodb.ObjectID(compid);
+  const col = await getCollection(COMPO_COLLECTION);
+  const comp = await col.findOne({ _id: compid });
+  if (!comp) throw new Error(`Competition ${compid} not found`);
+  const res = new Competition(comp);
   return res.createData();
 }
 

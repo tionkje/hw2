@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
   import Ranking from '$lib/Ranking.svelte';
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
-  // export const prerender = true;
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
     const { compid } = page.params;
     let res = await fetch(`/api/${compid}`);
