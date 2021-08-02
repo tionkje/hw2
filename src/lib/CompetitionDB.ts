@@ -98,12 +98,13 @@ export async function getList(): Promise<CompetitionHeader[]> {
   return dbList.concat(fileList);
 }
 
-export async function getOldCompetition(compid: string): Promise<string> {
+async function getOldCompetition(compid: string): Promise<string> {
   const compdata = JSON.parse(await fs.readFile(path.join(folder, compid + '.json'), 'utf8'));
   return CompoConvert(compdata).createData();
 }
 
 export async function getCompetition(compid: string): Promise<string> {
+  if (compid.match(/^old_/)) return getOldCompetition(compid.replace(/^old_/, ''));
   compid = mongodb.ObjectID(compid);
   const col = await getCollection(COMPO_COLLECTION);
   const comp = await col.findOne({ _id: compid });

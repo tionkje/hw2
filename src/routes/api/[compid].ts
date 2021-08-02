@@ -1,16 +1,7 @@
 import type { EndpointOutput, Request } from '@sveltejs/kit';
-import {
-  getCompetition,
-  getOldCompetition,
-  createCompetition,
-  deleteCompetition,
-  processCompo,
-} from '$lib/CompetitionDB';
+import { getCompetition, deleteCompetition, processCompo } from '$lib/CompetitionDB';
 
 export async function get({ params }: Request): Promise<EndpointOutput> {
-  const { compid } = params;
-  console.log('compid:', compid);
-  if (compid.match(/^old_/)) return { body: await getOldCompetition(params.compid.replace(/^old_/, '')) };
   return { body: await getCompetition(params.compid) };
 }
 
