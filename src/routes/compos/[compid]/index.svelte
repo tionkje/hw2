@@ -23,6 +23,7 @@
   import Login from '$lib/Login.svelte';
   import Modal from '$lib/Modal.svelte';
   import EditCompetition from '$lib/EditCompetition.svelte';
+  import EditMeters from '$lib/EditMeters.svelte';
   import { session } from '$app/stores';
   export let compid;
   export let compo;
@@ -32,7 +33,7 @@
 
   let sideopen = false;
   let editOpen = false;
-  let addMeterOpen = false;
+  let editMeterOpen = false;
 
   // TEMP
   // editOpen = true;
@@ -64,9 +65,9 @@
 </ul>
 <div class="shim" class:open={sideopen} on:click={(e) => (sideopen = !sideopen)} />
 
-<Modal bind:open={addMeterOpen} canClose={false}>
+<Modal bind:open={editMeterOpen} canClose={false}>
   Add meter
-  <!-- <EditCompetition bind:compo on:close={(e) => (editOpen = false)} /> -->
+  <EditMeters bind:compo on:close={(e) => (editMeterOpen = false)} />
 </Modal>
 
 <main>
@@ -78,7 +79,7 @@
 
   {#if compo.meters.length == 0}
     {#if $session.loggedin}
-      <button on:click={(e) => (addMeterOpen = true)}>Add Meter</button>
+      <button on:click={(e) => (editMeterOpen = true)}>Add Meter</button>
     {/if}
   {/if}
 
