@@ -12,19 +12,6 @@ type Action = {
   args: string[];
 };
 
-export async function handleCompoAction(competition: Competition, action: Action) {
-  const { func, args } = action;
-  switch (func) {
-    case 'setName': {
-      const [newName] = args;
-      competition.name = newName;
-      // console.log('setName', competition);
-      return;
-    }
-  }
-  await competition[func](...args);
-}
-
 export async function processCompo(
   _id: string | mongodb.ObjectID,
   actions: Action | Action[]
@@ -43,7 +30,8 @@ export async function processCompo(
 
     let action: Action;
     while ((action = actions.shift())) {
-      await handleCompoAction(competition, action);
+      const { func, args } = action;
+      await competition[func](...args);
     }
 
     doc = competition;

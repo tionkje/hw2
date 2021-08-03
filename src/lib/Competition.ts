@@ -107,7 +107,7 @@ class Meter {
   constructor(data: MeterData) {
     this.name = data.name;
     this.height = data.height;
-    this.categories = data.categories;
+    this.categories = data.categories ?? [];
   }
 
   setHeight(height: Height): void {
@@ -139,6 +139,10 @@ export class Competition {
     this.meters = (comp.meters ?? []).map((x) => new Meter(x));
   }
 
+  setName(name: string) {
+    this.name = name;
+  }
+
   addThrower(data: ThrowerData): Thrower {
     data.name = data.name ?? `no name ${this.throwers.length}`;
     const thrower = new Thrower(data);
@@ -158,13 +162,17 @@ export class Competition {
     return meter;
   }
 
-  skipHeight(throwerId: ThrowerId, height: Height): void {
-    this.throwers[throwerId].setSkipHeight(height);
+  removeMeter(meterId: MeterId): void {
+    this.meters.splice(meterId, 1);
   }
 
   setMeterHeight(meterId: MeterId, height: Height): void {
     const meter = this.meters[meterId];
     meter.setHeight(height);
+  }
+
+  skipHeight(throwerId: ThrowerId, height: Height): void {
+    this.throwers[throwerId].setSkipHeight(height);
   }
 
   meterThrowOrder(meterId: MeterId): Array<ThrowerId> {

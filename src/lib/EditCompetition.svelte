@@ -8,13 +8,6 @@
     dispatch('close');
   }
 
-  // let newCompo;
-  // async function createCompetition() {
-  //   const res = await fetch('/api/compos', { method: 'POST' });
-  //   if (!res.ok) throw new Error(res.statusText);
-  //   newCompo = await res.json();
-  // }
-
   async function submitName(e) {
     const newName = e.target.name.value;
     // console.log(compo);

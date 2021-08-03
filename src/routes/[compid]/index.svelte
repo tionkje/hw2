@@ -54,6 +54,9 @@
   {#if $session.loggedin}
     <li><a href on:click|preventDefault={(e) => (editOpen = true)}>Edit</a></li>
   {/if}
+  {#if $session.loggedin}
+    <li><a href on:click|preventDefault={(e) => (editMeterOpen = true)}>Meters</a></li>
+  {/if}
   <li><a href="..">List</a></li>
   <li><a href="./print/{compid}?cat={categoryId}">Print</a></li>
   {#each compo.categories as cat, index}
