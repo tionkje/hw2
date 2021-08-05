@@ -34,13 +34,13 @@ export async function processCompo(
       await competition[func](...args);
     }
 
-    doc = competition;
+    doc = competition.createData();
     doc._id = new mongodb.ObjectID(doc._id);
     return doc;
   } catch (e) {
     console.error(`failed`, e);
   } finally {
-    console.log('final', doc);
+    // console.log('final', doc);
     await unlock(doc);
   }
 }

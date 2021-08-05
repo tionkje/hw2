@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { compo, categoryId } from '$lib/stores.js';
+  import { compo, categoryId, meterId } from '$lib/stores.js';
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
   async function fetchCompo(fetch, compid) {
     let res = await fetch(`/api/${compid}`);
@@ -11,6 +11,7 @@
     const { compid } = page.params;
     compo.set(await fetchCompo(fetch, compid));
     categoryId.set(page.query.get('cat'));
+    meterId.set(page.query.get('met'));
     return { props: { compid } };
   }
 </script>
@@ -78,7 +79,7 @@
     <button on:click={(e) => (editMeterOpen = true)}>Add Meter</button>
   {/if}
 
-  {#if $compo.categories[$categoryId]}
+  {#if $compo.categories[$categoryId] || $compo.meters[$meterId]}
     <section>
       <slot />
     </section>
@@ -87,9 +88,16 @@
       {#if $session.loggedin && $compo.categories.length == 0}
         <a href on:click|preventDefault={(e) => (editOpen = true)}>Edit</a>
       {/if}
-      {#each $compo.categories as cat, index}
+      <h4>Categories</h4>
+      {#each $compo.categories as cat, categoryId}
         <div>
-          <a href="?cat={index}">{cat.name}</a>
+          <a href="?cat={categoryId}">{cat.name}</a>
+        </div>
+      {/each}
+      <h4>Meters</h4>
+      {#each $compo.meters as meter, meterId}
+        <div>
+          <a href="?met={meterId}">{meter.name}</a>
         </div>
       {/each}
     </section>

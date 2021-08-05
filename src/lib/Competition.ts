@@ -171,6 +171,10 @@ export class Competition {
     meter.setHeight(height);
   }
 
+  updateMeter(meterId: MeterId, meter: MeterData): void {
+    this.meters[meterId] = new Meter(meter);
+  }
+
   skipHeight(throwerId: ThrowerId, height: Height): void {
     this.throwers[throwerId].setSkipHeight(height);
   }

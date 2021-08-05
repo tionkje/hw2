@@ -13,37 +13,32 @@
   $: catName = compo.categories[categoryId]?.name || '';
 </script>
 
-{#if categoryId && compo.categories[categoryId]?.ranking.length == 0}
-  No rankings yet for {catName}
-{/if}
-{#if categoryId && compo.categories[categoryId]?.ranking.length > 0}
-  <div class="ranking" style="grid-template-columns: repeat(4, max-content) repeat({heights.length}, 1fr);">
-    <div class="topheader leftheader">#</div>
-    <div class="topheader rank">#</div>
-    <div class="topheader height" />
-    <div class="topheader name">name</div>
-    {#each heights as height}
-      <div class="topheader">{height}</div>
+<div class="ranking" style="grid-template-columns: repeat(4, max-content) repeat({heights.length}, 1fr);">
+  <div class="topheader leftheader">#</div>
+  <div class="topheader rank">#</div>
+  <div class="topheader height" />
+  <div class="topheader name">name</div>
+  {#each heights as height}
+    <div class="topheader">{height}</div>
+  {/each}
+  {#each compo.categories[categoryId].ranking as [throwerId, rank]}
+    <div class="leftheader">{compo.throwers[throwerId].rugnr}</div>
+    {#if compo.throwers[throwerId].success}
+      <div class="rank">{rank + 1}</div>
+      <div class="height">{compo.throwers[throwerId].success}m</div>
+    {:else}
+      <div class="rank">-</div>
+      <div class="height" />
+    {/if}
+    <div class="name">{compo.throwers[throwerId].name}</div>
+    {#each heights as height, index}
+      <div>
+        <!-- {compo.throwers[throwerId].categories[categoryId][height] || ' '} -->
+        <Attempts bind:attempts={compo.throwers[throwerId].categories[categoryId][height]} />
+      </div>
     {/each}
-    {#each compo.categories[categoryId].ranking as [throwerId, rank]}
-      <div class="leftheader">{compo.throwers[throwerId].rugnr}</div>
-      {#if compo.throwers[throwerId].success}
-        <div class="rank">{rank + 1}</div>
-        <div class="height">{compo.throwers[throwerId].success}m</div>
-      {:else}
-        <div class="rank">-</div>
-        <div class="height" />
-      {/if}
-      <div class="name">{compo.throwers[throwerId].name}</div>
-      {#each heights as height, index}
-        <div>
-          <!-- {compo.throwers[throwerId].categories[categoryId][height] || ' '} -->
-          <Attempts bind:attempts={compo.throwers[throwerId].categories[categoryId][height]} />
-        </div>
-      {/each}
-    {/each}
-  </div>
-{/if}
+  {/each}
+</div>
 
 <style>
   .ranking {
