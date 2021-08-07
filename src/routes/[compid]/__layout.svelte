@@ -1,15 +1,35 @@
 <script context="module" lang="ts">
   import { compo, categoryId, meterId } from '$lib/stores.js';
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
-  async function fetchCompo(fetch, compid) {
-    let res = await fetch(`/api/${compid}`);
-    if (res.ok) return await res.json();
-    else console.log('Failed getting compo:', res.status, await res.text());
+
+  async function doFetch(fetch, url) {
+    let res = await fetch(url);
+    if (!res.ok) throw new Error(url + ' failed status: ' + res.statusText);
+    return await res.json();
+  }
+
+  async function fetchHWInfo(fetch, hwIds) {
+    const [groups, throwers] = await Promise.all([
+      doFetch(fetch, `/api/hwget?action=groups`),
+      doFetch(fetch, `/api/hwget?action=allThrowers&list=[${hwIds.join()}]`),
+    ]);
+
+    return {
+      groups: Object.fromEntries(groups.map((g) => [g.id, g])),
+      throwers: Object.fromEntries(throwers.map((t) => [t.id, t])),
+    };
   }
 
   export async function load({ fetch, page }: LoadInput): Promise<LoadOutput> {
     const { compid } = page.params;
-    compo.set(await fetchCompo(fetch, compid));
+
+    const compoData = await doFetch(fetch, `/api/${compid}`);
+    const hwInfoData = await fetchHWInfo(
+      fetch,
+      compoData.throwers.map((x) => x.hwId)
+    );
+
+    compo.set(compoData);
     categoryId.set(page.query.get('cat'));
     meterId.set(page.query.get('met'));
     return { props: { compid } };

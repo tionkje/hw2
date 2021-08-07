@@ -60,3 +60,14 @@ export async function getCollection(name: string): Promise<Collection> {
   const client = await getMongoConnection();
   return client.db(dbName).collection(name);
 }
+
+export async function getCacheEntries(colname: string, ids: string[]) {
+  const col = await getCollection(colname);
+  return await col.find({ _id: { $in: ids } }).toArray();
+}
+export async function storeCacheEntries(colname: string, entries: unknown[]) {
+  const col = await getCollection(colname);
+  entries.forEach((doc) => {
+    col.replaceOne({ _id: doc._id }, doc, { upsert: true });
+  });
+}

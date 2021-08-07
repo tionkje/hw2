@@ -16,5 +16,3 @@
 {#if $meterId && $compo.meters[$meterId]?.throwOrder.length > 0}
   <ThrowOrder bind:compo={$compo} bind:meterId={$meterId} />
 {/if}
-
-<!-- <pre>{JSON.stringify($compo.meters[$meterId],0,2)}</pre> -->
