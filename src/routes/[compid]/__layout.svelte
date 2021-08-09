@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { compo, categoryId, meterId } from '$lib/stores.js';
+  import { compo, categoryId, meterId, hwInfo } from '$lib/stores.js';
   import type { LoadOutput, LoadInput } from '@sveltejs/kit';
 
   async function doFetch(fetch, url) {
@@ -29,6 +29,7 @@
       compoData.throwers.map((x) => x.hwId)
     );
 
+    hwInfo.set(hwInfoData);
     compo.set(compoData);
     categoryId.set(page.query.get('cat'));
     meterId.set(page.query.get('met'));
