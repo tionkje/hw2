@@ -28,7 +28,6 @@
         .map((tid) => [tid, -1]),
       ...r,
     ];
-    console.log(throwOrder);
   }
 </script>
 

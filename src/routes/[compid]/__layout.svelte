@@ -57,6 +57,21 @@
   let sideopen = false;
   let editOpen = false;
   let editMeterOpen = false;
+
+  import { onMount } from 'svelte';
+  import { PUSHER_KEY, PUSHER_CLUSTER } from '$lib/Env';
+  import Pusher from 'pusher-js';
+
+  onMount(() => {
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher(PUSHER_KEY, {
+      cluster: PUSHER_CLUSTER,
+    });
+
+    var channel = pusher.subscribe(`compo_${compid}`);
+    channel.bind('full', (data) => ($compo = data));
+  });
 </script>
 
 <svelte:head>
