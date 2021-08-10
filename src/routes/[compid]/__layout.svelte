@@ -38,7 +38,10 @@
 </script>
 
 <script lang="ts">
-  import { session } from '$app/stores';
+  import { session, page } from '$app/stores';
+
+  // $: $meterId = $page.query.get('met');
+  // $: $categoryId = $page.query.get('cat');
 
   import Login from '$lib/Login.svelte';
 
@@ -80,9 +83,16 @@
   {/if}
   <li><a href="..">List</a></li>
   <li><a href="{compid}/print?cat={$categoryId}">Print</a></li>
+  <li><h4>categories</h4></li>
   {#each $compo.categories as cat, index}
     <li class:active={$categoryId == index} on:click={(e) => (sideopen = false)}>
       <a href="?cat={index}">{cat.name}</a>
+    </li>
+  {/each}
+  <li><h4>meters</h4></li>
+  {#each $compo.meters as meter, mid}
+    <li class:active={$meterId == mid} on:click={(e) => (sideopen = false)}>
+      <a href="?met={mid}">{meter.name}</a>
     </li>
   {/each}
   <li><Login /></li>
@@ -138,6 +148,7 @@
     top: 0;
     margin: 0;
     padding: 0;
+    min-width: 30vw;
   }
   ul.open {
     transform: translate(0);
@@ -162,7 +173,7 @@
   ul > li {
     list-style: none;
     cursor: pointer;
-    margin: 5px;
+    margin: 5px 20px;
   }
   ul > li.active {
     border-bottom: 1px solid red;

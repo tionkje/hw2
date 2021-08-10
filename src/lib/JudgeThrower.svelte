@@ -43,13 +43,13 @@
 </script>
 
 <div class="judgePanel">
-  <h1>{height}m</h1>
-  <h2>{thrower.name}</h2>
-  [<Attempts attempts={thrower.categories[categoryId][height]} />]
-  {thrower.rugnr}
-  <img src={countryImg(td.hwThrower.land)} width="64" height="64" />
-  <img src={throwerImg(td.hwThrower.id)} width="150" height="150" />
-  <img src={groupImg(td.group.id)} width="150" height="150" />
+  <div class="height">{height}m</div>
+  <div class="name">{thrower.name}</div>
+  <!-- [<Attempts attempts={thrower.categories[categoryId][height]} />] -->
+  <div class="rugnr">{thrower.rugnr}</div>
+  <img class="countryimg" src={countryImg(td.hwThrower.land)} width="64" height="64" />
+  <img class="faceimg" src={throwerImg(td.hwThrower.id)} width="150" height="150" />
+  <img class="groupimg" src={groupImg(td.group.id)} width="150" height="150" />
   {td.hwThrower.recordhoogte}
   {td.hwThrower.hoogschikking}
   {td.group.code}
@@ -65,7 +65,7 @@
     </button>
   {/if}
 
-  <pre>{JSON.stringify(getThrowerData(thrower),0,2)}</pre>
+  <!-- <pre>{JSON.stringify(getThrowerData(thrower),0,2)}</pre> -->
   <!-- <pre>{JSON.stringify($hwInfo.throwers[thrower.thrower.hwId],0,2)}</pre> -->
 </div>
 

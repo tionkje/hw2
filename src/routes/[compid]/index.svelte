@@ -6,13 +6,10 @@
   $: catName = $compo.categories[$categoryId]?.name || '';
 </script>
 
-{#if $categoryId && $compo.categories[$categoryId]?.ranking.length == 0}
-  No rankings yet for {catName}
-{/if}
-{#if $categoryId && $compo.categories[$categoryId]?.ranking.length > 0}
-  <Ranking bind:compo={$compo} bind:categoryId={$categoryId} />
+{#if $categoryId && $compo.categories[$categoryId]}
+  <Ranking />
 {/if}
 
-{#if $meterId && $compo.meters[$meterId]?.throwOrder.length > 0}
-  <ThrowOrder bind:compo={$compo} bind:meterId={$meterId} />
+{#if $meterId && $compo.meters[$meterId]}
+  <ThrowOrder />
 {/if}
