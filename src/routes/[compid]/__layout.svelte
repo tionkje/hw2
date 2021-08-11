@@ -39,6 +39,7 @@
 
 <script lang="ts">
   import { session, page } from '$app/stores';
+  import { editCompoOpen, editMeterOpen, sideOpen } from '$lib/stores.js';
 
   // $: $meterId = $page.query.get('met');
   // $: $categoryId = $page.query.get('cat');
@@ -53,10 +54,6 @@
 
   let catName;
   $: catName = $compo.categories[$categoryId]?.name || '';
-
-  let sideopen = false;
-  let editOpen = false;
-  let editMeterOpen = false;
 
   import { onMount } from 'svelte';
   import { PUSHER_KEY, PUSHER_CLUSTER } from '$lib/Env';
@@ -79,50 +76,50 @@
 </svelte:head>
 
 {#if $session.loggedin}
-  <Modal bind:open={editOpen} canClose={false}>
-    <EditCompetition bind:compo={$compo} on:close={(e) => (editOpen = false)} />
+  <Modal bind:open={$editCompoOpen} canClose={false}>
+    <EditCompetition bind:compo={$compo} on:close={(e) => ($editCompoOpen = false)} />
   </Modal>
-  <Modal bind:open={editMeterOpen} canClose={false}>
+  <Modal bind:open={$editMeterOpen} canClose={false}>
     Add meter
-    <EditMeters bind:compo={$compo} on:close={(e) => (editMeterOpen = false)} />
+    <EditMeters bind:compo={$compo} on:close={(e) => ($editMeterOpen = false)} />
   </Modal>
 {/if}
 
-<ul class:open={sideopen}>
-  <div class="icon btn" on:click={(e) => (sideopen = false)}>×</div>
+<ul class:open={$sideOpen}>
+  <div class="icon btn" on:click={(e) => ($sideOpen = false)}>×</div>
   {#if $session.loggedin}
-    <li><a href on:click|preventDefault={(e) => (editOpen = true)}>Edit</a></li>
+    <li><a href on:click|preventDefault={(e) => ($editCompoOpen = true)}>Edit</a></li>
   {/if}
   {#if $session.loggedin}
-    <li><a href on:click|preventDefault={(e) => (editMeterOpen = true)}>Meters</a></li>
+    <li><a href on:click|preventDefault={(e) => ($editMeterOpen = true)}>Meters</a></li>
   {/if}
   <li><a href="..">List</a></li>
   <li><a href="{compid}/print?cat={$categoryId}">Print</a></li>
   <li><h4>categories</h4></li>
   {#each $compo.categories as cat, index}
-    <li class:active={$categoryId == index} on:click={(e) => (sideopen = false)}>
+    <li class:active={$categoryId == index} on:click={(e) => ($sideOpen = false)}>
       <a href="?cat={index}">{cat.name}</a>
     </li>
   {/each}
   <li><h4>meters</h4></li>
   {#each $compo.meters as meter, mid}
-    <li class:active={$meterId == mid} on:click={(e) => (sideopen = false)}>
+    <li class:active={$meterId == mid} on:click={(e) => ($sideOpen = false)}>
       <a href="?met={mid}">{meter.name}</a>
     </li>
   {/each}
   <li><Login /></li>
 </ul>
-<div class="shim" class:open={sideopen} on:click={(e) => (sideopen = !sideopen)} />
+<div class="shim" class:open={$sideOpen} on:click={(e) => ($sideOpen = !$sideOpen)} />
 
 <main>
   <nav>
-    <div class="icon btn" on:click={(e) => (sideopen = true)}>☰</div>
+    <div class="icon btn" on:click={(e) => ($sideOpen = true)}>☰</div>
     {$compo.name || $compo._id}
     {catName}
   </nav>
 
   {#if !compid.match('old_') && $compo.meters.length == 0 && $session.loggedin}
-    <button on:click={(e) => (editMeterOpen = true)}>Add Meter</button>
+    <button on:click={(e) => ($editMeterOpen = true)}>Add Meter</button>
   {/if}
 
   {#if $compo.categories[$categoryId] || $compo.meters[$meterId]}
@@ -132,7 +129,7 @@
   {:else}
     <section class="list">
       {#if $session.loggedin && $compo.categories.length == 0}
-        <a href on:click|preventDefault={(e) => (editOpen = true)}>Edit</a>
+        <a href on:click|preventDefault={(e) => ($editCompoOpen = true)}>Edit</a>
       {/if}
       <h4>Categories</h4>
       {#each $compo.categories as cat, categoryId}
