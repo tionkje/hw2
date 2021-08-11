@@ -39,7 +39,7 @@
 
 <script lang="ts">
   import { session, page } from '$app/stores';
-  import { editCompoOpen, editMeterOpen, sideOpen } from '$lib/stores.js';
+  import { editCompoOpen, editMeterOpen, editThrowerOpen, sideOpen } from '$lib/stores.js';
 
   // $: $meterId = $page.query.get('met');
   // $: $categoryId = $page.query.get('cat');
@@ -49,6 +49,7 @@
   import Modal from '$lib/Modal.svelte';
   import EditCompetition from '$lib/EditCompetition.svelte';
   import EditMeters from '$lib/EditMeters.svelte';
+  import EditThrower from '$lib/EditThrower.svelte';
 
   export let compid;
 
@@ -82,6 +83,10 @@
   <Modal bind:open={$editMeterOpen} canClose={false}>
     Add meter
     <EditMeters bind:compo={$compo} on:close={(e) => ($editMeterOpen = false)} />
+  </Modal>
+  <Modal bind:open={$editThrowerOpen} canClose={false}>
+    Add meter
+    <EditThrower bind:throwerId={$editThrowerOpen} bind:compo={$compo} on:close={(e) => ($editThrowerOpen = false)} />
   </Modal>
 {/if}
 

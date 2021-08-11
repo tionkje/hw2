@@ -6,11 +6,13 @@
 
   import Attempts from '$lib/Attempts.svelte';
   import JudgeThrower from '$lib/JudgeThrower.svelte';
+  import Thrower from '$lib/Thrower.svelte';
 
   let meter;
   $: meter = $compo.meters[$meterId];
   let throwers;
   $: throwers = (meter?.throwOrder ?? []).map((tid) => ({
+    tid,
     categoryId: meter.categories.find((catId) => $compo.throwers[tid].categories[catId]),
     thrower: $compo.throwers[tid],
   }));
@@ -32,7 +34,7 @@
       <div class="attempts" />
       {#each throwers as thrower, index}
         <div class="rugnr">{thrower.thrower.rugnr}</div>
-        <div class="name">{thrower.thrower.name}</div>
+        <div class="name"><Thrower bind:throwerId={thrower.tid} /></div>
         <div class="attempts">
           <Attempts attempts={thrower.thrower.categories[thrower.categoryId][height]} />
           {#if index == 0}
@@ -78,6 +80,7 @@
   }
   .rugnr {
     text-align: right;
+    display: block;
   }
   .attempts {
     text-align: right;

@@ -1,7 +1,8 @@
 <script lang="ts">
   import { API } from '$lib/serverApi';
   import { session } from '$app/stores';
-  import { compo, meterId, hwInfo } from '$lib/stores.js';
+  import { compo, meterId, hwInfo } from '$lib/stores';
+  import { throwerImg, groupImg, countryImg } from '$lib/logos';
 
   import Attempts from '$lib/Attempts.svelte';
 
@@ -29,17 +30,6 @@
   async function judgeFail() {
     await judge('X');
   }
-
-  // https://images.weserv.nl/
-  // <img src="//images.weserv.nl/?url=ory.weserv.nl/lichtenstein.jpg&w=300">
-  // var picsurl= path=> `//images.weserv.nl/?url=http://www.hoogwerpers.be/hoogwerpers/pics/${path}`;
-  var picsurl = (path) =>
-    `//images.weserv.nl/?url=http://www.hoogwerpers.be/hoogwerpers/pics/${path}&w=150&h=150&t=letterbox&bg=white`;
-
-  // var picsurl= `http://www.hoogwerpers.be/hoogwerpers/pics`;
-  var throwerImg = (hwid) => picsurl(`werper${hwid}.jpg`);
-  var groupImg = (vgid) => picsurl(`groep${vgid}.jpg`);
-  var countryImg = (co) => `https://www.countryflags.io/${co}/flat/64.png`;
 </script>
 
 <div class="judgePanel">

@@ -1,6 +1,9 @@
 <script lang="ts">
   import { compo, categoryId, meterId } from '$lib/stores.js';
+
   import Attempts from '$lib/Attempts.svelte';
+  import Thrower from '$lib/Thrower.svelte';
+
   let throwers;
   $: throwers = $compo.throwers.filter((t) => t.categories[$categoryId]);
   let throwOrder;
@@ -56,7 +59,8 @@
       <div class="rank">-</div>
       <div class="height" />
     {/if}
-    <div class="name">{$compo.throwers[throwerId].name}</div>
+    <!-- <div class="name">{$compo.throwers[throwerId].name}</div> -->
+    <div class="name"><Thrower bind:throwerId /></div>
     {#each heights as height, index}
       <div>
         <!-- {$compo.throwers[throwerId].categories[$categoryId][height] || ' '} -->
