@@ -41,7 +41,7 @@
     {/each}
   </section>
 
-  {#if $meterId}
+  {#if $meterId && throwers[0]}
     <JudgeThrower bind:throwerId={meter.throwOrder[0]} bind:categoryId={throwers[0].categoryId} />
   {/if}
 </main>
