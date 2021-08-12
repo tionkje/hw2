@@ -61,14 +61,17 @@
   import Pusher from 'pusher-js';
 
   onMount(() => {
-    Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
 
     var pusher = new Pusher(PUSHER_KEY, {
       cluster: PUSHER_CLUSTER,
     });
 
     var channel = pusher.subscribe(`compo_${compid}`);
-    channel.bind('full', (data) => ($compo = data));
+    channel.bind('full', (data) => {
+      console.log(data.throwers[data.meters[0].throwOrder[0]].name);
+      $compo = data;
+    });
   });
 </script>
 
