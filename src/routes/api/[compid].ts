@@ -35,6 +35,8 @@ export async function put({ params, body, locals }: Request): Promise<EndpointOu
   console.log('NEW thrower:', newCompo.throwers[newCompo.meters[0].throwOrder[0]].name);
 
   pusher.trigger(`compo_${compid}`, 'full', newCompo);
+  pusher.trigger(`compo_${compid}`, 'full', newCompo);
+  setTimeout(() => pusher.trigger(`compo_${compid}`, 'full', newCompo), 100);
 
   return {
     body: newCompo,
