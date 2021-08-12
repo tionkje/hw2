@@ -61,7 +61,7 @@
   import Pusher from 'pusher-js';
 
   onMount(() => {
-    // Pusher.logToConsole = true;
+    Pusher.logToConsole = true;
 
     var pusher = new Pusher(PUSHER_KEY, {
       cluster: PUSHER_CLUSTER,
