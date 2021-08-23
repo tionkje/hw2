@@ -57,20 +57,31 @@
   $: catName = $compo.categories[$categoryId]?.name || '';
 
   import { onMount } from 'svelte';
-  import { PUSHER_KEY, PUSHER_CLUSTER } from '$lib/Env';
-  import Pusher from 'pusher-js';
+
+  // import { PUSHER_KEY, PUSHER_CLUSTER } from '$lib/Env';
+  // import Pusher from 'pusher-js';
+
+  import Ably from 'ably';
+  import { ABLY_CHANNEL, ABLY_API_KEY_READONLY } from '$lib/Env';
+  const ably = new Ably.Realtime(ABLY_API_KEY_READONLY);
 
   onMount(() => {
     // Pusher.logToConsole = true;
 
-    var pusher = new Pusher(PUSHER_KEY, {
-      cluster: PUSHER_CLUSTER,
-    });
+    // var pusher = new Pusher(PUSHER_KEY, {
+    //   cluster: PUSHER_CLUSTER,
+    // });
 
-    var channel = pusher.subscribe(`compo_${compid}`);
-    channel.bind('full', (data) => {
-      console.log(data.throwers[data.meters[0].throwOrder[0]].name);
-      $compo = data;
+    // var channel = pusher.subscribe(`compo_${compid}`);
+    // channel.bind('full', (data) => {
+    //   console.log(data.throwers[data.meters[0].throwOrder[0]].name);
+    //   $compo = data;
+    // });
+
+    var channel = ably.channels.get(ABLY_CHANNEL);
+    channel.subscribe(`compo_${compid}`, function (message) {
+      console.log('Received a greeting message in realtime: ' + message.data);
+      $compo = message.data;
     });
   });
 </script>
