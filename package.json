@@ -32,7 +32,6 @@
     "lint-staged": "^11.1.1",
     "prettier": "~2.2.1",
     "prettier-plugin-svelte": "^2.3.1",
-    "pusher-js": "^7.0.3",
     "svelte": "^3.41.0",
     "svelte-check": "^2.2.3",
     "svelte-preprocess": "^4.7.4",
@@ -50,8 +49,7 @@
     "hw2": "link:",
     "jwt-simple": "^0.5.6",
     "mongodb": "^3.6.10",
-    "mongodb-client-encryption": "^1.2.6",
-    "pusher": "^5.0.0"
+    "mongodb-client-encryption": "^1.2.6"
   },
   "lint-staged": {
     "*.{js,svelte,ts}": "eslint --cache --fix",
