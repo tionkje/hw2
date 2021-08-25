@@ -97,6 +97,15 @@ describe('competition', () => {
     it('eliminate player after 3 fails', () => {
       eliminateThrower(astrid, 8, dames);
       const throwOrder = comp.meterThrowOrder(meter1);
+      console.log(comp, throwOrder);
+      expect(throwOrder).toEqual([bob]);
+    });
+
+    it('eliminate player after 3 fails at next height', () => {
+      eliminateThrower(astrid, 8, dames);
+      comp.setMeterHeight(meter1, 8.5);
+      const throwOrder = comp.meterThrowOrder(meter1);
+      console.log(comp, throwOrder);
       expect(throwOrder).toEqual([bob]);
     });
 

@@ -181,9 +181,10 @@ export class Competition {
 
   meterThrowOrder(meterId: MeterId): Array<ThrowerId> {
     const meter = this.meters[meterId];
-    const throwers = this.throwers.filter(
-      // (t) => t.categories.some((catId) => meter.categories.includes(catId)) && t.needsThrowAtHeight(meter.height)
-      (t) => meter.categories.some((cat) => t.categories[cat] && t.needsThrowAtHeight(meter.height, cat))
+    const throwers = this.throwers.filter((t) =>
+      meter.categories.some(
+        (cat) => t.categories[cat] && t.needsThrowAtHeight(meter.height, cat) && !t.isEliminated(cat)
+      )
     );
 
     assert(
