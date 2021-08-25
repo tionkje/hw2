@@ -9,7 +9,7 @@
   }
 </script>
 
-<div class:open bind:this={me} on:click={captureClick}>
+<div class:open={open !== false} bind:this={me} on:click={captureClick}>
   <slot />
 </div>
 
