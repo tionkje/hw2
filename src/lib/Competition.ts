@@ -31,6 +31,14 @@ class Thrower {
   constructor(data: ThrowerData) {
     this.name = data.name;
     this.categories = data.categories ?? {};
+    // remove empty attempt arrays
+    Object.entries(this.categories).forEach(([cat, atts]) =>
+      Object.keys(atts).forEach((h) => {
+        if (!atts[h] || atts[h].length == 0) {
+          delete atts[h];
+        }
+      })
+    );
     this.skipHeight = data.skipHeight;
     this.hwId = data.hwId;
     this.rugnr = data.rugnr;
@@ -160,6 +168,10 @@ export class Competition {
     const meter = new Meter(data);
     this.meters.push(meter);
     return meter;
+  }
+
+  setThrower(throwerId: ThrowerId, data: ThrowerData) {
+    this.throwers[throwerId] = new Thrower(data);
   }
 
   removeMeter(meterId: MeterId): void {

@@ -1,5 +1,16 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+  function update() {
+    dispatch('update', attempts);
+  }
+
   export let attempts = [];
+  export let edit = false;
+  const onBlur = (e) => {
+    attempts = e.target.value.match(/X|V/gi);
+    update();
+  };
 </script>
 
 {#if attempts}
@@ -10,6 +21,9 @@
       <div class="X" />
     {/if}
   {/each}
+  {#if edit}
+    <input type="text" value={attempts.join(',')} on:blur={onBlur} />
+  {/if}
 {/if}
 
 <style>

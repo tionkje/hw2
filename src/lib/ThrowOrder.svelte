@@ -31,7 +31,7 @@
     <section>
       <div class="rugnr">#</div>
       <div class="name">name</div>
-      <div class="attempts" />
+      <div class="attempts">{height}m</div>
       {#each throwers as thrower, index}
         <div class="rugnr">{thrower.thrower.rugnr}</div>
         <div class="name"><Thrower bind:throwerId={thrower.tid} /></div>
