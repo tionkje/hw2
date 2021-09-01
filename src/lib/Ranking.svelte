@@ -4,8 +4,10 @@
   import Attempts from '$lib/Attempts.svelte';
   import Thrower from '$lib/Thrower.svelte';
 
+  // throwers in this category
   let throwers;
   $: throwers = $compo.throwers.filter((t) => t.categories[$categoryId]);
+
   let throwOrder;
   $: throwOrder = $compo.meters
     .flatMap((m) => m.throwOrder)
@@ -16,20 +18,26 @@
     .flatMap((t) => Object.keys(t.categories[$categoryId]))
     .filter((x, i, a) => a.indexOf(x) == i)
     .sort((a, b) => a - b);
+
   let catName;
   $: catName = $compo.categories[$categoryId]?.name || '';
+
   let ranking = [];
   $: {
-    const r = $compo.categories[$categoryId].ranking;
+    const ranked = $compo.categories[$categoryId].ranking;
     ranking = [
+      // upcoming throwers
       ...throwOrder.map((tid) => [tid, -1]),
+      // skipping this height
       ...throwers
         .slice()
         .sort((a, b) => a.skipHeight - b.skipHeight)
         .map((x) => $compo.throwers.indexOf(x))
-        .filter((tid) => !throwOrder.includes(tid) && !r.find(([id]) => id == tid))
-        .map((tid) => [tid, -1]),
-      ...r,
+        // filter all but the remaining throwers
+        .filter((tid) => !throwOrder.includes(tid) && !ranked.find(([id]) => id == tid))
+        .map((tid) => [tid, -2]),
+      // eliminated throwers
+      ...ranked,
     ];
   }
 </script>
@@ -45,7 +53,6 @@
   {#each heights as height}
     <div class="topheader">{height}m</div>
   {/each}
-  <!-- {#each $compo.categories[$categoryId].ranking as [throwerId, rank]} -->
   {#each ranking as [throwerId, rank]}
     <div class="leftheader">{$compo.throwers[throwerId].rugnr}</div>
     {#if $compo.throwers[throwerId].success}
@@ -56,14 +63,18 @@
       {/if}
       <div class="height">{$compo.throwers[throwerId].success}m</div>
     {:else}
+      <!-- eliminated without success -->
       <div class="rank">-</div>
       <div class="height" />
     {/if}
-    <!-- <div class="name">{$compo.throwers[throwerId].name}</div> -->
     <div class="name"><Thrower bind:throwerId /></div>
     {#each heights as height, index}
       <div>
-        <!-- {$compo.throwers[throwerId].categories[$categoryId][height] || ' '} -->
+        <!-- Skipping this height -->
+        {#if +$compo.throwers[throwerId].skipHeight >= height && $compo.throwers[throwerId].categories[$categoryId][height]?.length == 0}
+          &#10148;
+        {/if}
+
         <Attempts bind:attempts={$compo.throwers[throwerId].categories[$categoryId][height]} />
       </div>
     {/each}
