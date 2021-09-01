@@ -83,8 +83,7 @@
     Add meter
     <EditMeters bind:compo={$compo} on:close={(e) => ($editMeterOpen = false)} />
   </Modal>
-  <Modal bind:open={$editThrowerOpen} canClose={false}>
-    Add meter
+  <Modal bind:open={$editThrowerOpen} canClose={true}>
     <EditThrower bind:throwerId={$editThrowerOpen} on:close={(e) => ($editThrowerOpen = false)} />
   </Modal>
 {/if}

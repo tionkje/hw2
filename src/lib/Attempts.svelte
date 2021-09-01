@@ -14,15 +14,16 @@
 </script>
 
 {#if attempts}
-  {#each attempts as attempt}
-    {#if attempt == 'V'}
-      <div class="V" />
-    {:else}
-      <div class="X" />
-    {/if}
-  {/each}
   {#if edit}
     <input type="text" value={attempts.join(',')} on:blur={onBlur} />
+  {:else}
+    {#each attempts as attempt}
+      {#if attempt == 'V'}
+        <div class="V" />
+      {:else}
+        <div class="X" />
+      {/if}
+    {/each}
   {/if}
 {/if}
 
