@@ -21,10 +21,10 @@
 {:else}
   <form on:submit|preventDefault={submit}>
     <div>
-      <input value="a" name="login" placeholder="login" required />
+      <input name="login" placeholder="login" required />
     </div>
     <div>
-      <input value="a" name="password" type="password" placeholder="password" required />
+      <input name="password" type="password" placeholder="password" required />
     </div>
     <button>login</button>
     {#if errorMsg}
