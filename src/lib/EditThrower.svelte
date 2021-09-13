@@ -22,8 +22,10 @@
   const save = async () => {
     $compo = await API.setThrower($compo._id, throwerId, thrower);
   };
+  const reset = () => {
+    thrower = JSON.parse(JSON.stringify($compo.throwers[throwerId]));
+  };
 
-  $: if (thrower) thrower.skipHeight = thrower.skipHeight.replace(/\D/g, '.').replace(/^\.*(\d*)(\.\d*)?\.*$/, '$1$2');
   let td;
   $: td = getThrowerData(thrower);
   function getThrowerData(thrower) {
@@ -64,10 +66,13 @@
     <!-- {td.group.name} -->
     <div class="group">{td.group.shortname}</div>
 
-    <!-- <input type="text" value={thrower.name} on:blur={e=>thrower.name = e.target.value} /> -->
-    <input type="text" bind:value={thrower.name} />
-    <!-- <input type="text" value={thrower.skipHeight} on:blur={skipHeightBlur} /> -->
-    <input type="text" bind:value={thrower.skipHeight} />
+    <input type="text" value={thrower.name} on:change={(e) => (thrower.name = e.target.value)} />
+    <input
+      type="number"
+      step="0.1"
+      value={thrower.skipHeight}
+      on:change={(e) => (thrower.skipHeight = e.target.value)}
+    />
     {#if $meterId != null}
       <button on:click={(e) => (thrower.skipHeight = '' + $compo.meters[$meterId].height)}>
         {$compo.meters[$meterId].height}
@@ -97,6 +102,7 @@
     <footer>
       {#if hasChanges}
         <button on:click={save}>Save</button>
+        <button on:click={reset}>Reset</button>
       {/if}
       <button on:click={close}>Close</button>
     </footer>

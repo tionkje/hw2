@@ -91,25 +91,31 @@
 <ul class:open={$sideOpen}>
   <div class="icon btn" on:click={(e) => ($sideOpen = false)}>×</div>
   {#if $session.loggedin}
-    <li><a href on:click|preventDefault={(e) => ($editCompoOpen = true)}>Edit</a></li>
+    <li><a href on:click|preventDefault={(e) => ($editCompoOpen = true)}>Edit Competition</a></li>
   {/if}
   {#if $session.loggedin}
-    <li><a href on:click|preventDefault={(e) => ($editMeterOpen = true)}>Meters</a></li>
+    <li><a href on:click|preventDefault={(e) => ($editMeterOpen = true)}>Edit Meters</a></li>
   {/if}
-  <li><a href="..">List</a></li>
-  <li><a href="{compid}/print?cat={$categoryId}">Print</a></li>
-  <li><h4>categories</h4></li>
+  <li><a href="..">Back to List</a></li>
+  <li><a href="{compid}/print?cat={$categoryId}">Print Competition</a></li>
+  {#if $compo.categories.length}
+    <li><h4>Categories</h4></li>
+  {/if}
   {#each $compo.categories as cat, index}
     <li class:active={$categoryId == index} on:click={(e) => ($sideOpen = false)}>
       <a href="?cat={index}">{cat.name}</a>
     </li>
   {/each}
-  <li><h4>meters</h4></li>
+  {#if $compo.meters.length}
+    <li><h4>Meters</h4></li>
+  {/if}
   {#each $compo.meters as meter, mid}
     <li class:active={$meterId == mid} on:click={(e) => ($sideOpen = false)}>
       <a href="?met={mid}">{meter.name}</a>
     </li>
   {/each}
+
+  <hr />
   <li><Login /></li>
 </ul>
 <div class="shim" class:open={$sideOpen} on:click={(e) => ($sideOpen = !$sideOpen)} />
