@@ -65,7 +65,7 @@
   onMount(() => {
     var channel = ably.channels.get(ABLY_CHANNEL);
     channel.subscribe(`compo_${compid}`, function (message) {
-      console.log('Received a greeting message in realtime: ' + message.data);
+      console.log('Updated Compo', message.data);
       $compo = message.data;
     });
   });

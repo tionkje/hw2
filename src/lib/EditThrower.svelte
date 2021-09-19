@@ -52,13 +52,7 @@
       width="64"
       height="64"
     />
-    <img
-      class="faceimg"
-      on:load={(e) => console.log('hai', e.target.src)}
-      src={throwerImg(td.hwThrower.id)}
-      width="150"
-      height="150"
-    />
+    <img class="faceimg" src={throwerImg(td.hwThrower.id)} width="150" height="150" />
     <img class="groupimg" src={groupImg(td.group.id)} width="150" height="150" />
     <!-- {td.hwThrower.recordhoogte} -->
     <!-- {td.hwThrower.hoogschikking} -->

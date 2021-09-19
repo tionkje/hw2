@@ -53,7 +53,6 @@
     <img
       on:click={(e) => ($editThrowerOpen = throwerId)}
       class="faceimg"
-      on:load={(e) => console.log('hai', e.target.src)}
       src={throwerImg(td.hwThrower.id)}
       width="150"
       height="150"
