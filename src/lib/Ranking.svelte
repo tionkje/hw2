@@ -3,6 +3,7 @@
 
   import Attempts from '$lib/Attempts.svelte';
   import Thrower from '$lib/Thrower.svelte';
+  import HeightStats from '$lib/HeightStats.svelte';
 
   // throwers in this category
   let throwers;
@@ -51,7 +52,10 @@
   <div class="topheader height" />
   <div class="topheader name">name</div>
   {#each heights as height}
-    <div class="topheader">{height}m</div>
+    <div class="topheader">
+      <div>{height}m</div>
+      <HeightStats stats={$compo.categories[$categoryId].stats[height]} />
+    </div>
   {/each}
   {#each ranking as [throwerId, rank]}
     <div class="leftheader">{$compo.throwers[throwerId].rugnr}</div>
@@ -108,6 +112,9 @@
     top: 0;
     text-align: center;
     box-shadow: 0px 2px 4px 0px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .ranking .leftheader {
     position: sticky;

@@ -65,6 +65,15 @@ class Thrower {
     );
   }
 
+  getEliminatedHeight(categoryId: CategoryId): Height | null {
+    return (
+      Object.entries(this.categories[categoryId])
+        .filter(([height]) => this.isEliminatingThrow(categoryId, Number(height)))
+        .map(([height]) => Number(height))
+        .sort((a, b) => a - b)[0] || null
+    );
+  }
+
   isEliminated(categoryId: CategoryId) {
     return Object.entries(this.categories[categoryId]).some(([height]) =>
       this.isEliminatingThrow(categoryId, Number(height))
@@ -315,9 +324,28 @@ export class Competition {
     });
     data.categories.forEach((cat: CategoryData, catId: CategoryId) => {
       cat.ranking = this.categoryRanking(catId);
-      const throwers = data.throwers.filter((t) => t.categories[catId]);
+      const throwers = data.throwers.filter((t) => t.categories[catId]).map((t) => new Thrower(t));
+
+      // total throwers in this category
       cat.count = throwers.length;
-      cat.eliminated = throwers.filter((t) => new Thrower(t).isEliminated(catId)).length;
+      // eliminated throwers in this category
+      cat.eliminated = throwers.filter((t) => t.isEliminated(catId)).length;
+
+      // heigts throwers are eliminated
+      const eliminatedHeights = throwers.map((t) => t.isEliminated(catId) && t.getEliminatedHeight(catId));
+      // thrown heights of this category
+      const heights = throwers
+        .flatMap((t) => Object.keys(t.categories[catId]).map(Number))
+        .filter((x, i, a) => a.indexOf(x) == i);
+
+      // stats per height
+      cat.stats = {};
+      heights.forEach((h) => {
+        cat.stats[h] = {
+          count: eliminatedHeights.filter((x) => x === false || x >= h).length,
+          remaining: eliminatedHeights.filter((x) => x === false || x > h).length,
+        };
+      });
     });
     data.throwers.forEach((t: ThrowerData) => {
       Object.keys(t.categories).forEach((cat) => {

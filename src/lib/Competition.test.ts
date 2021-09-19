@@ -59,8 +59,17 @@ describe('competition', () => {
     expect(data).toEqual({
       name: 'TestCompetition',
       categories: [
-        { name: 'Heren 16+', count: 1, eliminated: 1, ranking: [[bob, 0]] },
-        { name: 'Dames 16+', count: 1, eliminated: 0, ranking: [] },
+        {
+          name: 'Heren 16+',
+          count: 1,
+          eliminated: 1,
+          ranking: [[bob, 0]],
+          stats: {
+            7.5: { count: 1, remaining: 1 },
+            8: { count: 1, remaining: 0 },
+          },
+        },
+        { name: 'Dames 16+', count: 1, eliminated: 0, ranking: [], stats: {} },
       ],
       throwers: [
         { name: 'Astrid', categories: { 1: {} } },
@@ -288,14 +297,38 @@ describe('competition', () => {
     });
   });
 
-  describe('categories', () => {
-    it('adds thrower count and eliminated', () => {
+  describe('stats', () => {
+    beforeEach(() => comp.addThrower({ name: 'Chris', categories: { 0: {} } }));
+
+    it('adds thrower count and eliminated to categories', () => {
       eliminateThrower(bob, 8, heren);
       const data = comp.createData();
-      expect(data.categories[heren].count).toBe(1);
+      expect(data.categories[heren].count).toBe(2);
       expect(data.categories[dames].count).toBe(1);
       expect(data.categories[heren].eliminated).toBe(1);
       expect(data.categories[dames].eliminated).toBe(0);
+    });
+
+    it('Add stats for each height', () => {
+      comp.judgeThrow(bob, 7, 'V', heren);
+      comp.judgeThrow(chris, 7, 'V', heren);
+      comp.judgeThrow(bob, 7.5, 'V', heren);
+      comp.judgeThrow(astrid, 7, 'V', dames);
+      eliminateThrower(bob, 8, heren);
+      comp.judgeThrow(chris, 8, 'V', heren);
+      comp.judgeThrow(chris, 8.5, 'V', heren);
+      eliminateThrower(chris, 9, heren);
+      const data = comp.createData();
+      expect(data.categories[heren].stats).toEqual({
+        7: { count: 2, remaining: 2 },
+        7.5: { count: 2, remaining: 2 },
+        8: { count: 2, remaining: 1 },
+        8.5: { count: 1, remaining: 1 },
+        9: { count: 1, remaining: 0 },
+      });
+      expect(data.categories[dames].stats).toEqual({
+        7: { count: 1, remaining: 1 },
+      });
     });
   });
 });
