@@ -46,6 +46,8 @@
               <input type="checkbox" bind:group={meter.categories} name="{categoryId}_cats" value={categoryId} />
               {cat.name}
             </label>
+            <span class="eliminated">{cat.eliminated}</span>
+            <span class="remaining">{cat.count - cat.eliminated}</span>
           </li>
         {/each}
         <ul>
@@ -78,5 +80,11 @@
   }
   .meter {
     border: 1px solid grey;
+  }
+  .eliminated {
+    color: red;
+  }
+  .remaining {
+    color: blue;
   }
 </style>
