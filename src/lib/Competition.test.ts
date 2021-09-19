@@ -59,8 +59,8 @@ describe('competition', () => {
     expect(data).toEqual({
       name: 'TestCompetition',
       categories: [
-        { name: 'Heren 16+', ranking: [[bob, 0]] },
-        { name: 'Dames 16+', ranking: [] },
+        { name: 'Heren 16+', count: 1, eliminated: 1, ranking: [[bob, 0]] },
+        { name: 'Dames 16+', count: 1, eliminated: 0, ranking: [] },
       ],
       throwers: [
         { name: 'Astrid', categories: { 1: {} } },
@@ -97,7 +97,6 @@ describe('competition', () => {
     it('eliminate player after 3 fails', () => {
       eliminateThrower(astrid, 8, dames);
       const throwOrder = comp.meterThrowOrder(meter1);
-      console.log(comp, throwOrder);
       expect(throwOrder).toEqual([bob]);
     });
 
@@ -105,7 +104,6 @@ describe('competition', () => {
       eliminateThrower(astrid, 8, dames);
       comp.setMeterHeight(meter1, 8.5);
       const throwOrder = comp.meterThrowOrder(meter1);
-      console.log(comp, throwOrder);
       expect(throwOrder).toEqual([bob]);
     });
 
@@ -287,6 +285,17 @@ describe('competition', () => {
     it('can judge a finale throw', () => {
       comp.judgeThrow(bob, 10, 'X', herenFinale);
       expect(getThrowOrder()).toEqual([chris, bob]);
+    });
+  });
+
+  describe('categories', () => {
+    it('adds thrower count and eliminated', () => {
+      eliminateThrower(bob, 8, heren);
+      const data = comp.createData();
+      expect(data.categories[heren].count).toBe(1);
+      expect(data.categories[dames].count).toBe(1);
+      expect(data.categories[heren].eliminated).toBe(1);
+      expect(data.categories[dames].eliminated).toBe(0);
     });
   });
 });

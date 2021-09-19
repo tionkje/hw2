@@ -91,6 +91,9 @@ class Thrower {
 type CategoryData = {
   name?: string;
   ranking?: [ThrowerId, number][];
+  count?: number;
+  eliminated?: number;
+  remaining?: number;
 };
 
 class Category {
@@ -312,6 +315,9 @@ export class Competition {
     });
     data.categories.forEach((cat: CategoryData, catId: CategoryId) => {
       cat.ranking = this.categoryRanking(catId);
+      const throwers = data.throwers.filter((t) => t.categories[catId]);
+      cat.count = throwers.length;
+      cat.eliminated = throwers.filter((t) => new Thrower(t).isEliminated(catId)).length;
     });
     data.throwers.forEach((t: ThrowerData) => {
       Object.keys(t.categories).forEach((cat) => {
