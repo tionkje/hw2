@@ -15,6 +15,10 @@
   import { session } from '$app/stores';
   import Login from '$lib/Login.svelte';
 
+  // close side of compo views when in list view
+  import { sideOpen } from '$lib/stores.js';
+  $sideOpen = false;
+
   export let compos = [];
 
   async function delCompo(id, name) {
