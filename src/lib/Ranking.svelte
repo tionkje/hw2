@@ -41,47 +41,57 @@
       ...ranked,
     ];
   }
+
+  let currentThrowers = [];
+  $: currentThrowers = $compo.meters.map((x) => x.throwOrder[0]);
 </script>
 
 <div
   class="ranking"
   style="grid-template-columns: repeat(4, max-content) {heights.length ? `repeat(${heights.length}, 1fr)` : ''};"
 >
-  <div class="topheader leftheader">#</div>
-  <div class="topheader rank">#</div>
-  <div class="topheader height" />
-  <div class="topheader name">name</div>
-  {#each heights as height}
-    <div class="topheader">
-      <div>{height}m</div>
-      <HeightStats stats={$compo.categories[$categoryId].stats[height]} />
-    </div>
-  {/each}
-  {#each ranking as [throwerId, rank]}
-    <div class="leftheader">{$compo.throwers[throwerId].rugnr}</div>
-    {#if $compo.throwers[throwerId].success}
-      {#if rank >= 0}
-        <div class="rank">{rank + 1}</div>
-      {:else}
-        <div class="rank">-</div>
-      {/if}
-      <div class="height">{$compo.throwers[throwerId].success}m</div>
-    {:else}
-      <!-- eliminated without success -->
-      <div class="rank">-</div>
-      <div class="height" />
-    {/if}
-    <div class="name"><Thrower bind:throwerId /></div>
-    {#each heights as height, index}
+  <div style="display:contents" class="topheader">
+    <div class="leftheader">#</div>
+    <div class="rank">#</div>
+    <div class="height" />
+    <div class="name">name</div>
+    {#each heights as height}
       <div>
-        <!-- Skipping this height -->
-        {#if +$compo.throwers[throwerId].skipHeight >= height && $compo.throwers[throwerId].categories[$categoryId][height]?.length == 0}
-          &#10148;
-        {/if}
-
-        <Attempts bind:attempts={$compo.throwers[throwerId].categories[$categoryId][height]} />
+        <div>{height}m</div>
+        <HeightStats stats={$compo.categories[$categoryId].stats[height]} />
       </div>
     {/each}
+  </div>
+  {#each ranking as [throwerId, rank]}
+    <div style="display:contents" class:current={currentThrowers.includes(throwerId)}>
+      <div class="leftheader">{$compo.throwers[throwerId].rugnr}</div>
+      {#if $compo.throwers[throwerId].success}
+        {#if rank >= 0}
+          <div class="rank">{rank + 1}</div>
+        {:else}
+          <div class="rank">-</div>
+        {/if}
+        <div class="height">{$compo.throwers[throwerId].success}m</div>
+      {:else}
+        <!-- eliminated without success -->
+        <div class="rank">-</div>
+        <div class="height" />
+      {/if}
+      <div class="name"><Thrower bind:throwerId /></div>
+      {#each heights as height, index}
+        <div class:activeHeight={$compo.meters.some((x) => x.height == height)}>
+          <!-- Skipping this height -->
+          {#if +$compo.throwers[throwerId].skipHeight >= height && $compo.throwers[throwerId].categories[$categoryId][height]?.length == 0}
+            &#10148;
+          {/if}
+
+          <Attempts bind:attempts={$compo.throwers[throwerId].categories[$categoryId][height]} />
+          {#if $compo.meters.some((x) => x.throwOrder[0] == throwerId && x.height == height)}
+            ?
+          {/if}
+        </div>
+      {/each}
+    </div>
   {/each}
 </div>
 
@@ -92,6 +102,8 @@
     --rank-width: 27px;
     --height-width: 50px;
     --background-color: white;
+    --background-color-current: #ffcaa4;
+    --background-color-active-height: #ffe1cb;
     --text-color: black;
     --shadow-color: #afafaf;
 
@@ -101,13 +113,13 @@
     position: relative;
     color: var(--text-color);
   }
-  .ranking > * {
+  .ranking > div > * {
     background: var(--background-color);
     white-space: nowrap;
     text-align: left;
     padding: 0px var(--grid-cell-padding);
   }
-  .ranking .topheader {
+  .ranking .topheader > div {
     position: sticky;
     top: 0;
     text-align: center;
@@ -123,6 +135,12 @@
   }
   .ranking .leftheader.topheader {
     z-index: 3;
+  }
+  .ranking .activeHeight {
+    background-color: var(--background-color-active-height);
+  }
+  .ranking .current > * {
+    background-color: var(--background-color-current);
   }
   .ranking .rank {
     text-align: right;

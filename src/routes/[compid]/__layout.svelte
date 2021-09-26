@@ -41,6 +41,11 @@
   import { session, page } from '$app/stores';
   import { editCompoOpen, editMeterOpen, editThrowerOpen, sideOpen } from '$lib/stores.js';
 
+  console.log('>> hwInfo:', $hwInfo);
+  console.log('>> compo:', $compo);
+  console.log('>> categoryId:', $categoryId);
+  console.log('>> meterId:', $meterId);
+
   // $: $meterId = $page.query.get('met');
   // $: $categoryId = $page.query.get('cat');
 

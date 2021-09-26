@@ -29,17 +29,21 @@
 <main>
   {#if throwers.length > 0}
     <section>
-      <div class="rugnr">#</div>
-      <div class="name">name</div>
-      <div class="attempts">{height}m</div>
+      <div style="display:contents">
+        <div class="rugnr">#</div>
+        <div class="name">name</div>
+        <div class="attempts">{height}m</div>
+      </div>
       {#each throwers as thrower, index}
-        <div class="rugnr">{thrower.thrower.rugnr}</div>
-        <div class="name"><Thrower bind:throwerId={thrower.tid} /></div>
-        <div class="attempts">
-          <Attempts attempts={thrower.thrower.categories[thrower.categoryId][height]} />
-          {#if index == 0}
-            ?
-          {/if}
+        <div class:first={index == 0} style="display:contents">
+          <div class="rugnr">{thrower.thrower.rugnr}</div>
+          <div class="name"><Thrower bind:throwerId={thrower.tid} /></div>
+          <div class="attempts">
+            <Attempts attempts={thrower.thrower.categories[thrower.categoryId][height]} />
+            {#if index == 0}
+              ?
+            {/if}
+          </div>
         </div>
       {/each}
     </section>
@@ -56,6 +60,7 @@
 <style>
   main {
     --background-color: white;
+    --background-color-first: #ffcaa4;
     --text-color: black;
 
     display: flex;
@@ -72,11 +77,14 @@
     grid-template-columns: repeat(3, max-content);
     grid-gap: 1px;
   }
-  section > * {
+  section > div > * {
     background-color: var(--background-color);
     display: flex;
     align-items: center;
     padding: 2px 5px;
+  }
+  section > .first > * {
+    background-color: var(--background-color-first);
   }
   .rugnr {
     text-align: right;
