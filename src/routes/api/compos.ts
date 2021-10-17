@@ -1,5 +1,5 @@
 import type { EndpointOutput } from '@sveltejs/kit';
-import { getList, createCompetition, deleteCompetition, processCompo } from '$lib/CompetitionDB';
+import { getList, createCompetition } from '$lib/CompetitionDB';
 
 export async function get(): Promise<EndpointOutput> {
   return {
