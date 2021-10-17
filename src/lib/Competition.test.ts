@@ -294,11 +294,21 @@ describe('competition', () => {
     const herenFinale = 2;
     const getThrowOrder = () => comp.meterThrowOrder(meter1);
 
-    beforeEach(() => CreateFinaleCategory());
-
     it('can judge a finale throw', () => {
+      CreateFinaleCategory();
       comp.judgeThrow(bob, 10, 'X', herenFinale);
       expect(getThrowOrder()).toEqual([chris, bob]);
+    });
+
+    it('can create a finale category from a list of throwers', () => {
+      comp.addThrower({ name: 'Chris' });
+
+      comp.createFinaleCategory('Heren 16+ Finale', [bob, chris]);
+      comp.setMeterHeight(meter1, 10);
+      comp.meters[meter1].categories = [herenFinale];
+
+      expect(comp.categories.length).toBe(3);
+      expect(comp.throwers[bob].categories[herenFinale]).toBeTruthy();
     });
   });
 

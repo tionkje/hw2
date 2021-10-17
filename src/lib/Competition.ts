@@ -204,6 +204,13 @@ export class Competition {
     this.throwers[throwerId].setSkipHeight(height);
   }
 
+  createFinaleCategory(name, throwers) {
+    const category = new Category({ name });
+    const catId = this.categories.length;
+    throwers.forEach((tid) => (this.throwers[tid].categories[catId] = {}));
+    this.categories.push(category);
+  }
+
   meterThrowOrder(meterId: MeterId): Array<ThrowerId> {
     const meter = this.meters[meterId];
     const throwers = this.throwers.filter((t) =>
