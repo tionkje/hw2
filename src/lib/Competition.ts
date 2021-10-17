@@ -15,6 +15,7 @@ export type ThrowerData = {
   hwId?: number;
   rugnr?: number;
   success?: Height;
+  eliminated?: boolean[];
 };
 
 const getFailedAttemptCount = (throws: [Judge, Judge?, Judge?]) => {
@@ -347,13 +348,20 @@ export class Competition {
         };
       });
     });
-    data.throwers.forEach((t: ThrowerData) => {
+
+    data.throwers.forEach((t: ThrowerData, i: ThrowerId) => {
       Object.keys(t.categories).forEach((cat) => {
+        // get highest successfull throw
         const heights = Object.keys(t.categories[cat])
           .filter((height) => t.categories[cat][height].includes('V'))
           .map(Number);
+
         const success = heights.sort((a, b) => b - a)[0];
         if (success) t.success = Number(success);
+
+        // get eliminated value by category
+        const thrower = this.throwers[i];
+        t.eliminated = data.categories.map((cat, catId) => thrower.categories[catId] && thrower.isEliminated(catId));
       });
     });
     return data;

@@ -72,8 +72,13 @@ describe('competition', () => {
         { name: 'Dames 16+', count: 1, eliminated: 0, ranking: [], stats: {} },
       ],
       throwers: [
-        { name: 'Astrid', categories: { 1: {} } },
-        { name: 'Bob', categories: { 0: { '7.5': ['V'], '8': ['X', 'X', 'X'] } }, success: 7.5 },
+        { name: 'Astrid', categories: { 1: {} }, eliminated: [undefined, false] },
+        {
+          name: 'Bob',
+          categories: { 0: { '7.5': ['V'], '8': ['X', 'X', 'X'] } },
+          success: 7.5,
+          eliminated: [true, undefined],
+        },
       ],
       meters: [{ name: 'nr 1', height: 8, categories: [0, 1], throwOrder: [astrid] }],
     });
