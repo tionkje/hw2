@@ -33,7 +33,7 @@
     compo.set(compoData);
     categoryId.set(page.query.get('cat'));
     meterId.set(page.query.get('met'));
-    return { props: { compid } };
+    return { props: { compid: compoData._id } };
   }
 </script>
 

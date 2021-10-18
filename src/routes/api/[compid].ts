@@ -26,7 +26,7 @@ export async function put({ params, body, locals }: Request): Promise<EndpointOu
   const newCompo = await processCompo(compid, body);
 
   const channel = ably.channels.get(ABLY_CHANNEL);
-  channel.publish(`compo_${compid}`, newCompo);
+  channel.publish(`compo_${newCompo._id}`, newCompo);
 
   return {
     body: newCompo,
