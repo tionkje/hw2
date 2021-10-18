@@ -84,6 +84,25 @@ describe('competition', () => {
     });
   });
 
+  it('remove a category', () => {
+    comp.removeCategory(heren);
+    const newDames = dames - 1;
+    expect(comp.categories[heren].name).not.toBe('Heren 16+');
+    expect(Object.keys(comp.throwers[bob].categories).length).toBe(0);
+    expect(Object.keys(comp.throwers[astrid].categories).length).toBe(1);
+    expect(comp.meters[meter1].categories.length).toBe(1);
+    expect(comp.throwers[astrid].categories[newDames]).toBeTruthy();
+  });
+  it('remove a thrower', () => {
+    expect(comp.throwers[bob]).toBeTruthy();
+    comp.removeThrower(bob);
+    expect(comp.throwers[bob]).toBeFalsy();
+  });
+  it('remove a meter', () => {
+    comp.removeMeter(meter1);
+    expect(comp.meters[meter1]).toBeFalsy();
+  });
+
   describe('throworder', () => {
     it('generates a throw order when no throws yet', () => {
       const throwOrder = comp.meterThrowOrder(meter1);

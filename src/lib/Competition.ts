@@ -183,11 +183,41 @@ export class Competition {
     return meter;
   }
 
+  removeCategory(catId: CategoryId) {
+    if (!this.categories[catId])
+      throw new Error(
+        `Competition.removeCategory: categoryid outside of range. expected in 0-${this.categories.length}`
+      );
+    this.categories.splice(catId, 1);
+    this.throwers.forEach((t) => {
+      delete t.categories[catId];
+      Object.keys(t.categories)
+        .map(Number)
+        .filter((c) => c > catId)
+        .sort((a, b) => a - b)
+        .forEach((catId) => {
+          t.categories[catId - 1] = t.categories[catId];
+          delete t.categories[catId];
+        });
+    });
+    this.meters.forEach((m) => {
+      m.categories = m.categories.filter((c) => c != catId).map((c) => (c > catId ? c - 1 : c));
+    });
+  }
+
+  removeThrower(throwerId: ThrowerId) {
+    if (!this.throwers[throwerId])
+      throw new Error(`Competition.removeThrower: throwerId outside of range. expected in 0-${this.throwers.length}`);
+    this.throwers.splice(throwerId, 1);
+  }
+
   setThrower(throwerId: ThrowerId, data: ThrowerData) {
     this.throwers[throwerId] = new Thrower(data);
   }
 
   removeMeter(meterId: MeterId): void {
+    if (!this.meters[meterId])
+      throw new Error(`Competition.removeMeter: meterId outside of range. expected in 0-${this.meters.length}`);
     this.meters.splice(meterId, 1);
   }
 
