@@ -93,9 +93,14 @@ async function getOldCompetition(compid: string): Promise<string> {
 
 export async function getCompetition(compid: string): Promise<string> {
   if (compid.match(/^old_/)) return getOldCompetition(compid.replace(/^old_/, ''));
-  compid = mongodb.ObjectID(compid);
   const col = await getCollection(COMPO_COLLECTION);
-  const comp = await col.findOne({ _id: compid });
+  let comp;
+  if (mongodb.ObjectID.isValid(compid)) {
+    const compObjId = mongodb.ObjectID(compid);
+    comp = await col.findOne({ _id: compObjId });
+  } else {
+    comp = await col.findOne({ name: compid });
+  }
   if (!comp) throw new Error(`Competition ${compid} not found`);
   const res = new Competition(comp);
   return res.createData();
