@@ -98,9 +98,8 @@ export async function getCompetition(compid: string): Promise<string> {
   if (mongodb.ObjectID.isValid(compid)) {
     const compObjId = mongodb.ObjectID(compid);
     comp = await col.findOne({ _id: compObjId });
-  } else {
-    comp = await col.findOne({ name: compid });
   }
+  if (!comp) comp = await col.findOne({ name: compid });
   if (!comp) throw new Error(`Competition ${compid} not found`);
   const res = new Competition(comp);
   return res.createData();
