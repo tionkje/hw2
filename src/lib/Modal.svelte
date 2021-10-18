@@ -1,4 +1,10 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+  function close() {
+    dispatch('close');
+  }
+
   export let open = false;
   export let canClose = false;
   let me;
@@ -17,6 +23,10 @@
   div {
     display: none;
     z-index: 100;
+    position: fixed;
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
   }
   div.open {
     display: block;

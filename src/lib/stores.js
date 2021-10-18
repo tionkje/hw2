@@ -8,3 +8,4 @@ export const sideOpen = writable(false);
 export const editMeterOpen = writable(false);
 export const editCompoOpen = writable(false);
 export const editThrowerOpen = writable(false);
+export const createFinaleOpen = writable(false);

@@ -39,7 +39,7 @@
 
 <script lang="ts">
   import { session, page } from '$app/stores';
-  import { editCompoOpen, editMeterOpen, editThrowerOpen, sideOpen } from '$lib/stores.js';
+  import { editCompoOpen, editMeterOpen, editThrowerOpen, sideOpen, createFinaleOpen } from '$lib/stores.js';
 
   console.log('>> hwInfo:', $hwInfo);
   console.log('>> compo:', $compo);
@@ -55,6 +55,7 @@
   import EditCompetition from '$lib/EditCompetition.svelte';
   import EditMeters from '$lib/EditMeters.svelte';
   import EditThrower from '$lib/EditThrower.svelte';
+  import CreateFinale from '$lib/CreateFinale.svelte';
 
   export let compid;
 
@@ -81,16 +82,21 @@
 </svelte:head>
 
 {#if $session.loggedin}
-  <Modal bind:open={$editCompoOpen} canClose={false}>
-    <EditCompetition bind:compo={$compo} on:close={(e) => ($editCompoOpen = false)} />
-  </Modal>
-  <Modal bind:open={$editMeterOpen} canClose={false}>
-    Add meter
-    <EditMeters bind:compo={$compo} on:close={(e) => ($editMeterOpen = false)} />
-  </Modal>
-  <Modal bind:open={$editThrowerOpen} canClose={true}>
-    <EditThrower bind:throwerId={$editThrowerOpen} on:close={(e) => ($editThrowerOpen = false)} />
-  </Modal>
+  <div class="modals">
+    <Modal bind:open={$editCompoOpen} canClose={false}>
+      <EditCompetition bind:compo={$compo} on:close={(e) => ($editCompoOpen = false)} />
+    </Modal>
+    <Modal bind:open={$editMeterOpen} canClose={false}>
+      Add meter
+      <EditMeters bind:compo={$compo} on:close={(e) => ($editMeterOpen = false)} />
+    </Modal>
+    <Modal bind:open={$editThrowerOpen} canClose={true}>
+      <EditThrower bind:throwerId={$editThrowerOpen} on:close={(e) => ($editThrowerOpen = false)} />
+    </Modal>
+    <Modal bind:open={$createFinaleOpen} canClose={true}>
+      <CreateFinale bind:categoryId={$createFinaleOpen} on:close={(e) => ($createFinaleOpen = false)} />
+    </Modal>
+  </div>
 {/if}
 
 <ul class:open={$sideOpen}>
@@ -106,17 +112,17 @@
   {#if $compo.categories.length}
     <li><h4>Categories</h4></li>
   {/if}
-  {#each $compo.categories as cat, index}
-    <li class:active={$categoryId == index} on:click={(e) => ($sideOpen = false)}>
-      <a href="?cat={index}">{cat.name}</a>
+  {#each $compo.categories as cat, catId}
+    <li on:click={(e) => ($sideOpen = false)}>
+      <a class:active={$categoryId == catId} href="?cat={catId}">{cat.name}</a>
     </li>
   {/each}
   {#if $compo.meters.length}
     <li><h4>Meters</h4></li>
   {/if}
   {#each $compo.meters as meter, mid}
-    <li class:active={$meterId == mid} on:click={(e) => ($sideOpen = false)}>
-      <a href="?met={mid}">{meter.name}</a>
+    <li on:click={(e) => ($sideOpen = false)}>
+      <a class:active={$meterId == mid} href="?met={mid}">{meter.name}</a>
     </li>
   {/each}
 
@@ -178,6 +184,8 @@
   }
   ul.open {
     transform: translate(0);
+    max-height: 100vh;
+    overflow-y: auto;
   }
   .shim.open {
     opacity: 0.1;
@@ -201,7 +209,7 @@
     cursor: pointer;
     margin: 5px 20px;
   }
-  ul > li.active {
+  ul > li > a.active {
     border-bottom: 1px solid red;
   }
 
@@ -242,5 +250,11 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+  }
+  .modals {
+    z-index: 100;
+  }
+  .modals > * {
+    position: fixed;
   }
 </style>

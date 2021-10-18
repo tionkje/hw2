@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { API } from '$lib/serverApi';
   import ImportThrowers from '$lib/ImportThrowers.svelte';
+  import { createFinaleOpen } from '$lib/stores.js';
+  import Modal from '$lib/Modal.svelte';
   import { createEventDispatcher } from 'svelte';
   export let compo;
 
@@ -10,20 +13,42 @@
 
   async function submitName(e) {
     const newName = e.target.name.value;
-    // console.log(compo);
-    const data = { func: 'setName', args: [newName] };
-    const res = await fetch(`/api/${compo._id}`, { method: 'PUT', body: JSON.stringify(data) });
-    if (!res.ok) throw new Error(res.statusText);
-    // console.log(await res.json());
-    compo.name = newName;
+    compo = await API.setName(compo._id, e.target.name.value);
+    name = compo.name;
   }
   let name = compo.name;
+
+  async function removeCategory(catId) {
+    compo = await API.removeCategory(compo._id, catId);
+    confirmDeleteOpen = false;
+  }
+
+  let confirmDeleteOpen;
 </script>
+
+<Modal bind:open={confirmDeleteOpen} canClose={false}>
+  <main>
+    modal
+    {confirmDeleteOpen}
+    <button on:click={(e) => removeCategory(confirmDeleteOpen)}>Remove</button>
+    <button on:click={(e) => (confirmDeleteOpen = false)}>Cancel</button>
+    <main />
+  </main></Modal
+>
 
 <main>
   <form on:submit|preventDefault={submitName}>
     <input type="text" name="name" bind:value={name} />
   </form>
+
+  {#each compo.categories as cat, catId}
+    <div>
+      {cat.name} <button on:click={(e) => (confirmDeleteOpen = catId)}>×</button>
+      {#if !cat.name.includes('Finale')}
+        <button on:click|preventDefault={(e) => ($createFinaleOpen = catId)}>Finale</button>
+      {/if}
+    </div>
+  {/each}
 
   {#if compo.throwers.length == 0}
     <ImportThrowers bind:compo />
