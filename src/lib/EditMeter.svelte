@@ -28,6 +28,9 @@
           </label>
           <span class="eliminated">{cat.eliminated}</span>
           <span class="remaining">{cat.count - cat.eliminated}</span>
+          {#if cat.heightSuggest}
+            <button on:click={(e) => (meter.height = cat.heightSuggest)}>{cat.heightSuggest}</button>
+          {/if}
         </li>
       {/each}
       <ul>

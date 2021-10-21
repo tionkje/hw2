@@ -54,7 +54,7 @@ class Thrower {
   }
 
   isEliminatingThrow(categoryId: CategoryId, height: Height): boolean {
-    return getFailedAttemptCount(this.categories[categoryId][height]) == 3;
+    return getFailedAttemptCount(this.categories[categoryId][height]) >= 3;
   }
 
   getHighestSuccess(categoryId: CategoryId): Height | null {
@@ -104,6 +104,11 @@ type CategoryData = {
   count?: number;
   eliminated?: number;
   remaining?: number;
+  stats?: {
+    count?: number;
+    eliminated?: number;
+    inprogress?: number;
+  };
 };
 
 class Category {
@@ -357,33 +362,9 @@ export class Competition {
 
   createData() {
     const data = JSON.parse(JSON.stringify(this));
+
     data.meters.forEach((m: MeterData, mid: MeterId) => {
       m.throwOrder = this.meterThrowOrder(mid);
-    });
-    data.categories.forEach((cat: CategoryData, catId: CategoryId) => {
-      cat.ranking = this.categoryRanking(catId);
-      const throwers = data.throwers.filter((t) => t.categories[catId]).map((t) => new Thrower(t));
-
-      // total throwers in this category
-      cat.count = throwers.length;
-      // eliminated throwers in this category
-      cat.eliminated = throwers.filter((t) => t.isEliminated(catId)).length;
-
-      // heigts throwers are eliminated
-      const eliminatedHeights = throwers.map((t) => t.isEliminated(catId) && t.getEliminatedHeight(catId));
-      // thrown heights of this category
-      const heights = throwers
-        .flatMap((t) => Object.keys(t.categories[catId]).map(Number))
-        .filter((x, i, a) => a.indexOf(x) == i);
-
-      // stats per height
-      cat.stats = {};
-      heights.forEach((h) => {
-        cat.stats[h] = {
-          count: eliminatedHeights.filter((x) => x === false || x >= h).length,
-          remaining: eliminatedHeights.filter((x) => x === false || x > h).length,
-        };
-      });
     });
 
     data.throwers.forEach((t: ThrowerData, i: ThrowerId) => {
@@ -395,12 +376,59 @@ export class Competition {
 
         const success = heights.sort((a, b) => b - a)[0];
         if (success) t.success = Number(success);
+        // console.log(t.name, t.success)
 
         // get eliminated value by category
         const thrower = this.throwers[i];
         t.eliminated = data.categories.map((cat, catId) => thrower.categories[catId] && thrower.isEliminated(catId));
       });
     });
+
+    data.categories.forEach((cat: CategoryData, catId: CategoryId) => {
+      cat.ranking = this.categoryRanking(catId);
+      const throwerDatas = data.throwers.filter((t) => t.categories[catId]);
+      const throwers = throwerDatas.map((t) => new Thrower(t));
+
+      // total throwers in this category
+      cat.count = throwers.length;
+      // eliminated throwers in this category
+      cat.eliminated = throwers.filter((t) => t.isEliminated(catId)).length;
+
+      // heigts throwers are eliminated
+      const eliminatedHeights = throwers.map((t) => t.isEliminated(catId) && t.getEliminatedHeight(catId));
+      // thrown heights of this category
+      const heights = throwers
+        .flatMap((t) => Object.keys(t.categories[catId]).map(Number))
+        .filter((x, i, a) => a.indexOf(x) == i)
+        .sort((a, b) => a - b);
+
+      // stats per height
+      cat.stats = {};
+      heights.forEach((h) => {
+        // console.log(h,...throwers.map((t,i)=>[t.name,t.skipHeight,!t.isEliminated(catId)&&throwerDatas[i].success<h,t.isEliminated(catId),throwerDatas[i].success, t.categories[catId]]));
+        cat.stats[h] = {
+          count: eliminatedHeights.filter((x) => x === false || x >= h).length,
+          remaining: eliminatedHeights.filter((x) => x === false || x > h).length,
+          inprogress: throwers.filter(
+            (t, i) =>
+              !t.isEliminated(catId) &&
+              (!throwerDatas[i].success || throwerDatas[i].success < h) &&
+              (!t.skipHeight || t.skipHeight < h)
+          ).length,
+        };
+      });
+
+      const inprogress = heights.filter((h) => cat.stats[h].inprogress);
+      if (inprogress.length == 0) {
+        if (heights.length >= 2) {
+          const [last, prev] = heights.reverse();
+          cat.heightSuggest = last + last - prev;
+        } else if (heights.length == 1) {
+          cat.heightSuggest = heights[0] + 0.5;
+        }
+      } else cat.heightSuggest = inprogress[0];
+    });
+
     return data;
   }
 }

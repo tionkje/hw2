@@ -63,10 +63,11 @@ describe('competition', () => {
           name: 'Heren 16+',
           count: 1,
           eliminated: 1,
+          heightSuggest: 8.5,
           ranking: [[bob, 0]],
           stats: {
-            7.5: { count: 1, remaining: 1 },
-            8: { count: 1, remaining: 0 },
+            7.5: { count: 1, remaining: 1, inprogress: 0 },
+            8: { count: 1, remaining: 0, inprogress: 0 },
           },
         },
         { name: 'Dames 16+', count: 1, eliminated: 0, ranking: [], stats: {} },
@@ -354,14 +355,30 @@ describe('competition', () => {
       eliminateThrower(chris, 9, heren);
       const data = comp.createData();
       expect(data.categories[heren].stats).toEqual({
-        7: { count: 2, remaining: 2 },
-        7.5: { count: 2, remaining: 2 },
-        8: { count: 2, remaining: 1 },
-        8.5: { count: 1, remaining: 1 },
-        9: { count: 1, remaining: 0 },
+        7: { count: 2, remaining: 2, inprogress: 0 },
+        7.5: { count: 2, remaining: 2, inprogress: 0 },
+        8: { count: 2, remaining: 1, inprogress: 0 },
+        8.5: { count: 1, remaining: 1, inprogress: 0 },
+        9: { count: 1, remaining: 0, inprogress: 0 },
       });
       expect(data.categories[dames].stats).toEqual({
-        7: { count: 1, remaining: 1 },
+        7: { count: 1, remaining: 1, inprogress: 0 },
+      });
+    });
+
+    it('counts throwers still needing to throw', () => {
+      comp.judgeThrow(bob, 7, 'V', heren);
+      comp.judgeThrow(chris, 7, 'X', heren);
+      expect(comp.createData().categories[heren].stats).toEqual({
+        7: { count: 2, remaining: 2, inprogress: 1 },
+      });
+    });
+
+    it('skipped height dont count as inprogress', () => {
+      comp.judgeThrow(bob, 7, 'V', heren);
+      comp.skipHeight(chris, 7);
+      expect(comp.createData().categories[heren].stats).toEqual({
+        7: { count: 2, remaining: 2, inprogress: 0 },
       });
     });
   });
