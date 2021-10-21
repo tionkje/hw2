@@ -1,4 +1,5 @@
 <script lang="ts">
+  import EditMeter from '$lib/EditMeter.svelte';
   import { API } from '$lib/serverApi';
   import { session } from '$app/stores';
   import { hwInfo } from '$lib/stores';
@@ -52,8 +53,11 @@
       <JudgeThrower bind:throwerId={meter.throwOrder[0]} bind:categoryId={throwers[0].categoryId} />
     {/if}
   {:else}
-    <div>No Throws at this height</div>
-    <button on:click={(e) => ($editMeterOpen = true)}>Edit meters</button>
+    <div class="noThrowers">
+      <div>No Throws at this height</div>
+      <button on:click={(e) => ($editMeterOpen = true)}>Edit meters</button>
+      <EditMeter compo={$compo} meterId={$meterId} />
+    </div>
   {/if}
 </main>
 
@@ -68,6 +72,14 @@
     align-items: center;
     justify-content: space-between;
     height: 100%;
+  }
+
+  .noThrowers {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: space-evenly;
   }
 
   section {
