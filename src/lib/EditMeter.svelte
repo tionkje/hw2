@@ -14,26 +14,28 @@
   }
 </script>
 
-<form class="meter" on:submit|preventDefault={saveMeter}>
-  <h4>{meter.name}</h4>
-  <input name="name" bind:value={meter.name} />
-  <input type="number" step="0.1" name="height" bind:value={meter.height} />
-  <ul>
-    {#each compo.categories as cat, categoryId}
-      <li>
-        <label>
-          <input type="checkbox" bind:group={meter.categories} name="{categoryId}_cats" value={categoryId} />
-          {cat.name}
-        </label>
-        <span class="eliminated">{cat.eliminated}</span>
-        <span class="remaining">{cat.count - cat.eliminated}</span>
-      </li>
-    {/each}
+{#if meter}
+  <form class="meter" on:submit|preventDefault={saveMeter}>
+    <h4>{meter.name}</h4>
+    <input name="name" bind:value={meter.name} />
+    <input type="number" step="0.1" name="height" bind:value={meter.height} />
     <ul>
-      <button type="submit">save</button>
+      {#each compo.categories as cat, categoryId}
+        <li>
+          <label>
+            <input type="checkbox" bind:group={meter.categories} name="{categoryId}_cats" value={categoryId} />
+            {cat.name}
+          </label>
+          <span class="eliminated">{cat.eliminated}</span>
+          <span class="remaining">{cat.count - cat.eliminated}</span>
+        </li>
+      {/each}
+      <ul>
+        <button type="submit">save</button>
+      </ul>
     </ul>
-  </ul>
-</form>
+  </form>
+{/if}
 
 <style>
   ul {

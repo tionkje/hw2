@@ -3,7 +3,7 @@
   import { API } from '$lib/serverApi';
   import { session } from '$app/stores';
   import { hwInfo } from '$lib/stores';
-  import { compo, meterId, editMeterOpen } from '$lib/stores.js';
+  import { compo, meterId } from '$lib/stores.js';
 
   import Attempts from '$lib/Attempts.svelte';
   import JudgeThrower from '$lib/JudgeThrower.svelte';
@@ -55,7 +55,6 @@
   {:else}
     <div class="noThrowers">
       <div>No Throws at this height</div>
-      <button on:click={(e) => ($editMeterOpen = true)}>Edit meters</button>
       <EditMeter compo={$compo} meterId={$meterId} />
     </div>
   {/if}

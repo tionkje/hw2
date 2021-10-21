@@ -39,7 +39,7 @@
 
 <script lang="ts">
   import { session, page } from '$app/stores';
-  import { editCompoOpen, editMeterOpen, editThrowerOpen, sideOpen, createFinaleOpen } from '$lib/stores.js';
+  import { editCompoOpen, editThrowerOpen, sideOpen, createFinaleOpen } from '$lib/stores.js';
 
   console.log('>> hwInfo:', $hwInfo);
   console.log('>> compo:', $compo);
@@ -53,7 +53,6 @@
 
   import Modal from '$lib/Modal.svelte';
   import EditCompetition from '$lib/EditCompetition.svelte';
-  import EditMeters from '$lib/EditMeters.svelte';
   import EditThrower from '$lib/EditThrower.svelte';
   import CreateFinale from '$lib/CreateFinale.svelte';
 
@@ -86,10 +85,6 @@
     <Modal bind:open={$editCompoOpen} canClose={false}>
       <EditCompetition bind:compo={$compo} on:close={(e) => ($editCompoOpen = false)} />
     </Modal>
-    <Modal bind:open={$editMeterOpen} canClose={false}>
-      Add meter
-      <EditMeters bind:compo={$compo} on:close={(e) => ($editMeterOpen = false)} />
-    </Modal>
     <Modal bind:open={$editThrowerOpen} canClose={true}>
       <EditThrower bind:throwerId={$editThrowerOpen} on:close={(e) => ($editThrowerOpen = false)} />
     </Modal>
@@ -103,9 +98,6 @@
   <div class="icon btn" on:click={(e) => ($sideOpen = false)}>×</div>
   {#if $session.loggedin}
     <li><a href on:click|preventDefault={(e) => ($editCompoOpen = true)}>Edit Competition</a></li>
-  {/if}
-  {#if $session.loggedin}
-    <li><a href on:click|preventDefault={(e) => ($editMeterOpen = true)}>Edit Meters</a></li>
   {/if}
   <li><a href="..">Back to List</a></li>
   <li><a href="{compid}/print?cat={$categoryId}">Print Competition</a></li>
@@ -139,7 +131,7 @@
   </nav>
 
   {#if !compid.match('old_') && $compo.meters.length == 0 && $session.loggedin}
-    <button on:click={(e) => ($editMeterOpen = true)}>Add Meter</button>
+    <button on:click={(e) => ($editCompoOpen = true)}>Add Meter</button>
   {/if}
 
   {#if $compo.categories[$categoryId] || $compo.meters[$meterId]}

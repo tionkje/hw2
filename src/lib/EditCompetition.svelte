@@ -1,4 +1,5 @@
 <script lang="ts">
+  import EditMeter from '$lib/EditMeter.svelte';
   import { API } from '$lib/serverApi';
   import ImportThrowers from '$lib/ImportThrowers.svelte';
   import { createFinaleOpen } from '$lib/stores.js';
@@ -7,12 +8,8 @@
   export let compo;
 
   const dispatch = createEventDispatcher();
-  function close() {
-    dispatch('close');
-  }
 
   async function submitName(e) {
-    const newName = e.target.name.value;
     compo = await API.setName(compo._id, e.target.name.value);
     name = compo.name;
   }
@@ -24,6 +21,17 @@
   }
 
   let confirmDeleteOpen;
+
+  let editCompo = JSON.parse(JSON.stringify(compo));
+
+  async function addMeter(e) {
+    compo = await API.addMeter(compo._id, { name: e.target.name.value });
+    editCompo = JSON.parse(JSON.stringify(compo));
+  }
+  async function removeMeter(meterId) {
+    compo = await API.removeMeter(compo._id, meterId);
+    editCompo = JSON.parse(JSON.stringify(compo));
+  }
 </script>
 
 <Modal bind:open={confirmDeleteOpen} canClose={false}>
@@ -54,9 +62,21 @@
     <ImportThrowers bind:compo />
   {/if}
 
-  <pre>{JSON.stringify(compo, 0,2)}</pre>
+  <h2>Meters</h2>
 
-  <button on:click={close}>Close</button>
+  <form on:submit|preventDefault={addMeter}>
+    <input name="name" />
+    <button>Add Meter</button>
+  </form>
+
+  {#each editCompo.meters as meter, meterId}
+    <EditMeter {compo} {meterId} />
+    <button type="button" on:click={(e) => removeMeter(meterId)}>remove</button>
+  {/each}
+
+  <!-- <pre>{JSON.stringify(compo, 0,2)}</pre> -->
+
+  <button on:click={(e) => dispatch('close')}>Close</button>
 </main>
 
 <style>
