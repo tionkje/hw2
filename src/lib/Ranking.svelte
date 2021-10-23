@@ -79,7 +79,11 @@
       {/if}
       <div class="name"><Thrower bind:throwerId /></div>
       {#each heights as height, index}
-        <div class:activeHeight={$compo.meters.some((x) => x.height == height)}>
+        <div
+          class:activeHeight={$compo.meters
+            .filter((m) => m.categories.includes(Number($categoryId)))
+            .some((x) => x.height == height)}
+        >
           <!-- Skipping this height -->
           {#if +$compo.throwers[throwerId].skipHeight >= height && $compo.throwers[throwerId].categories[$categoryId][height]?.length == 0}
             &#10148;
