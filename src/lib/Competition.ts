@@ -104,6 +104,7 @@ type CategoryData = {
   count?: number;
   eliminated?: number;
   remaining?: number;
+  heightSuggest?: number;
   stats?: {
     count?: number;
     eliminated?: number;
@@ -380,7 +381,9 @@ export class Competition {
 
         // get eliminated value by category
         const thrower = this.throwers[i];
-        t.eliminated = data.categories.map((cat, catId) => thrower.categories[catId] && thrower.isEliminated(catId));
+        t.eliminated = data.categories.map(
+          (cat: CategoryData, catId: CategoryId) => thrower.categories[catId] && thrower.isEliminated(catId)
+        );
       });
     });
 
