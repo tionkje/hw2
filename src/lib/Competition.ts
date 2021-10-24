@@ -86,6 +86,10 @@ class Thrower {
     return throws.length != 3 && !throws.includes('V') && (this.skipHeight == undefined || this.skipHeight < height);
   }
 
+  getAttemptsAtHeight(catId:CategoryId, height:Height){
+    return this.categories[catId]?.[height];
+  }
+
   judge(height: Height, judge: Judge, categoryId: CategoryId) {
     assert(this.categories[categoryId], `Thrower needs to be added to category before judges`);
 
@@ -260,18 +264,19 @@ export class Competition {
       'A thrower should only be in one of the active categories in a metric'
     );
 
-    const getAnyThrowsInCategoryListAtHeight = (thrower: Thrower) => {
-      return meter.categories.map((catId) => thrower.categories[catId]?.[meter.height]).find((x) => x);
+    const getAttemptsAtHeight = (thrower: Thrower) => {
+      const attemptsList = meter.categories.map(catId=> thrower.getAttemptsAtHeight(catId, meter.height));
+      return attemptsList.find(x=>x); // first valid one
     };
 
     throwers.sort((a, b) => {
-      const aThrows = getAnyThrowsInCategoryListAtHeight(a);
-      const bThrows = getAnyThrowsInCategoryListAtHeight(b);
-      if (!aThrows && !bThrows) return 0;
-      if (!aThrows) return -1;
-      if (!bThrows) return 1;
+      const aAttempts = getAttemptsAtHeight(a);
+      const bAttempts = getAttemptsAtHeight(b);
+      if (!aAttempts && !bAttempts) return 0;
+      if (!aAttempts) return -1;
+      if (!bAttempts) return 1;
 
-      return getFailedAttemptCount(aThrows) - getFailedAttemptCount(bThrows);
+      return getFailedAttemptCount(aAttempts) - getFailedAttemptCount(bAttempts);
     });
 
     return throwers.map((t) => this.throwers.indexOf(t));
