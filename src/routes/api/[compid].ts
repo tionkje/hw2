@@ -1,10 +1,10 @@
 import type { EndpointOutput, Request } from '@sveltejs/kit';
 import { getCompetition, deleteCompetition, processCompo } from '$lib/CompetitionDB';
 
-import Ably from 'ably';
-import { ABLY_CHANNEL } from '$lib/Env';
-const { ABLY_API_KEY } = process.env;
-const ably = new Ably.Realtime(ABLY_API_KEY);
+// import Ably from 'ably';
+// import { ABLY_CHANNEL } from '$lib/Env';
+// const { ABLY_API_KEY } = process.env;
+// const ably = new Ably.Realtime(ABLY_API_KEY);
 
 export async function get({ params }: Request): Promise<EndpointOutput> {
   return { body: await getCompetition(params.compid) };
@@ -25,8 +25,8 @@ export async function put({ params, body, locals }: Request): Promise<EndpointOu
 
   const newCompo = await processCompo(compid, body);
 
-  const channel = ably.channels.get(ABLY_CHANNEL);
-  channel.publish(`compo_${newCompo._id}`, newCompo);
+  // const channel = ably.channels.get(ABLY_CHANNEL);
+  // channel.publish(`compo_${newCompo._id}`, newCompo);
 
   return {
     body: newCompo,
