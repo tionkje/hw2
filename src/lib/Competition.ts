@@ -261,7 +261,7 @@ export class Competition {
     );
 
     const getAnyThrowsInCategoryListAtHeight = (thrower: Thrower) => {
-      return meter.categories.map((cat) => thrower.categories[cat]?.[meter.height]).find((x) => x);
+      return meter.categories.map((catId) => thrower.categories[catId]?.[meter.height]).find((x) => x);
     };
 
     throwers.sort((a, b) => {
