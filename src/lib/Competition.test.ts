@@ -81,7 +81,7 @@ describe('competition', () => {
           eliminated: [true, undefined],
         },
       ],
-      meters: [{ name: 'nr 1', height: 8, categories: [0, 1], throwOrder: [astrid] }],
+      meters: [{ name: 'nr 1', height: 8, categories: [0, 1], throwOrder: [astrid], nextHeightThrowOrder: [astrid] }],
     });
   });
 
@@ -173,6 +173,22 @@ describe('competition', () => {
 
       const throwOrder = comp.meterThrowOrder(meter1);
       expect(throwOrder).toEqual([astrid]);
+    });
+  });
+
+  describe('nextHeightThrowOrder', () => {
+    it('has all throwers by default', () => {
+      const nextHeight = comp.meterNextHeightThrowOrder(meter1);
+      expect(nextHeight).toContain(astrid);
+      expect(nextHeight).toContain(bob);
+    });
+    it('adds throwers already succeeded', () => {
+      comp.judgeThrow(astrid, 8, 'V', dames);
+      expect(comp.meterNextHeightThrowOrder(meter1)).toContain(astrid);
+    });
+    it('does not contain eliminated players', () => {
+      eliminateThrower(astrid, 8, dames);
+      expect(comp.meterNextHeightThrowOrder(meter1)).not.toContain(astrid);
     });
   });
 

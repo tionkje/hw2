@@ -11,12 +11,17 @@
 
   let meter;
   $: meter = $compo.meters[$meterId];
+  let categories;
+  $: categories = meter?.categories ?? [];
   let throwers;
-  $: throwers = (meter?.throwOrder ?? []).map((tid) => ({
-    tid,
-    categoryId: meter.categories.find((catId) => $compo.throwers[tid].categories[catId]),
-    thrower: $compo.throwers[tid],
-  }));
+  $: throwers = [...(meter?.throwOrder || []), -1, ...(meter?.nextHeightThrowOrder || [])].map((tid) => {
+    if (tid < 0) return null;
+    return {
+      tid,
+      categoryId: meter?.categories.find((catId) => $compo.throwers[tid]?.categories[catId]),
+      thrower: $compo.throwers[tid],
+    };
+  });
   let height;
   $: height = meter?.height;
 
@@ -36,16 +41,24 @@
         <div class="attempts">{height}m</div>
       </div>
       {#each throwers as thrower, index}
-        <div class:first={index == 0} style="display:contents">
-          <div class="rugnr">{thrower.thrower.rugnr}</div>
-          <div class="name"><Thrower bind:throwerId={thrower.tid} /></div>
-          <div class="attempts">
-            <Attempts attempts={thrower.thrower.categories[thrower.categoryId][height]} />
-            {#if index == 0}
-              ?
-            {/if}
+        {#if thrower == null || !thrower.thrower}
+          <div class="spacer" style="display:contents;">
+            <div />
+            <div>&nbsp;</div>
+            <div />
           </div>
-        </div>
+        {:else}
+          <div class:first={index == 0} style="display:contents">
+            <div class="rugnr">{thrower.thrower.rugnr}</div>
+            <div class="name"><Thrower bind:throwerId={thrower.tid} /></div>
+            <div class="attempts">
+              <Attempts attempts={thrower.thrower.categories[thrower.categoryId][height]} />
+              {#if index == 0}
+                ?
+              {/if}
+            </div>
+          </div>
+        {/if}
       {/each}
     </section>
 
@@ -62,6 +75,7 @@
 
 <style>
   main {
+    --spacer-background-color: transparent;
     --background-color: white;
     --background-color-first: #ffcaa4;
     --text-color: black;
@@ -87,6 +101,9 @@
     display: grid;
     grid-template-columns: repeat(3, max-content);
     grid-gap: 1px;
+  }
+  section > .spacer > * {
+    background-color: var(--spacer-background-color);
   }
   section > div > * {
     background-color: var(--background-color);

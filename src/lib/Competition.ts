@@ -86,7 +86,7 @@ class Thrower {
     return throws.length != 3 && !throws.includes('V') && (this.skipHeight == undefined || this.skipHeight < height);
   }
 
-  getAttemptsAtHeight(catId:CategoryId, height:Height){
+  getAttemptsAtHeight(catId: CategoryId, height: Height) {
     return this.categories[catId]?.[height];
   }
 
@@ -128,6 +128,7 @@ type MeterData = {
   height?: Height;
   categories?: CategoryId[];
   throwOrder?: ThrowerId[];
+  nextHeightThrowOrder?: ThrowerId[];
 };
 
 class Meter {
@@ -265,8 +266,8 @@ export class Competition {
     );
 
     const getAttemptsAtHeight = (thrower: Thrower) => {
-      const attemptsList = meter.categories.map(catId=> thrower.getAttemptsAtHeight(catId, meter.height));
-      return attemptsList.find(x=>x); // first valid one
+      const attemptsList = meter.categories.map((catId) => thrower.getAttemptsAtHeight(catId, meter.height));
+      return attemptsList.find((x) => x); // first valid one
     };
 
     throwers.sort((a, b) => {
@@ -278,6 +279,15 @@ export class Competition {
 
       return getFailedAttemptCount(aAttempts) - getFailedAttemptCount(bAttempts);
     });
+
+    return throwers.map((t) => this.throwers.indexOf(t));
+  }
+
+  meterNextHeightThrowOrder(meterId: MeterId): Array<ThrowerId> {
+    const meter = this.meters[meterId];
+    const throwers = this.throwers.filter((t) =>
+      meter.categories.some((cat) => t.categories[cat] && !t.isEliminated(cat))
+    );
 
     return throwers.map((t) => this.throwers.indexOf(t));
   }
@@ -371,6 +381,7 @@ export class Competition {
 
     data.meters.forEach((m: MeterData, mid: MeterId) => {
       m.throwOrder = this.meterThrowOrder(mid);
+      m.nextHeightThrowOrder = this.meterNextHeightThrowOrder(mid);
     });
 
     data.throwers.forEach((t: ThrowerData, i: ThrowerId) => {

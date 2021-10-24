@@ -29,7 +29,7 @@
     ranking = [
       // upcoming throwers
       ...throwOrder.map((tid) => [tid, -1]),
-      // skipping this height
+      // skipping this height or already successfully thrown
       ...throwers
         .slice()
         .sort((a, b) => a.skipHeight - b.skipHeight)
