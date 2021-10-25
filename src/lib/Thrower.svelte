@@ -18,7 +18,7 @@
 <style>
   img {
     width: 1.3em;
-    height: 1.3em;
+    /* height: 1.3em; */
   }
   div {
     display: flex;

@@ -7,4 +7,5 @@ const picsurl = (path: string) =>
 // var picsurl= `http://www.hoogwerpers.be/hoogwerpers/pics`;
 export const throwerImg = (hwid: number) => picsurl(`werper${hwid}.jpg`);
 export const groupImg = (vgid: number) => picsurl(`groep${vgid}.jpg`);
-export const countryImg = (co: string) => `https://www.countryflags.io/${co}/flat/64.png`;
+// export const countryImg = (co: string) => `https://www.countryflags.io/${co}/flat/64.png`;
+export const countryImg = (co: string) => `https://flagcdn.com/${co.toLowerCase()}.svg`;
