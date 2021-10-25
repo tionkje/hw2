@@ -25,6 +25,20 @@
   let height;
   $: height = meter?.height;
 
+  // get prev height
+  let prevHeight;
+  $: {
+    // - get list off all heights of all active categories
+    const heights = throwers
+      .filter((x) => x)
+      .flatMap((x) => Object.keys(x.thrower.categories[x.categoryId]).map(Number))
+      .filter((x, i, a) => a.indexOf(x) == i)
+      .sort((a, b) => a - b);
+    // - get height one lower then current meter height
+    const idx = heights.indexOf(height) - 1;
+    prevHeight = idx < 0 ? false : heights[idx];
+  }
+
   function getThrowerData(thrower) {
     const hwThrower = $hwInfo.throwers[thrower.hwId];
     const group = $hwInfo.groups[hwThrower.vendelgroepid];
@@ -34,24 +48,35 @@
 
 <main>
   {#if throwers.length > 0}
-    <section>
+    <section style="grid-template-columns: repeat({prevHeight ? 4 : 3}, max-content)">
       <div style="display:contents">
         <div class="rugnr">#</div>
         <div class="name">name</div>
-        <div class="attempts">{height}m</div>
+        {#if prevHeight}
+          <div class="attempts prevHeight">{prevHeight}m</div>
+        {/if}
+        <div class="attempts height">{height}m</div>
       </div>
       {#each throwers as thrower, index}
         {#if thrower == null || !thrower.thrower}
           <div class="spacer" style="display:contents;">
             <div />
             <div>&nbsp;</div>
+            {#if prevHeight}
+              <div />
+            {/if}
             <div />
           </div>
         {:else}
           <div class:first={index == 0} style="display:contents">
             <div class="rugnr">{thrower.thrower.rugnr}</div>
             <div class="name"><Thrower bind:throwerId={thrower.tid} /></div>
-            <div class="attempts">
+            {#if prevHeight}
+              <div class="attempts prevHeight">
+                <Attempts attempts={thrower.thrower.categories[thrower.categoryId][prevHeight]} />
+              </div>
+            {/if}
+            <div class="attempts height">
               <Attempts attempts={thrower.thrower.categories[thrower.categoryId][height]} />
               {#if index == 0}
                 ?
@@ -99,7 +124,7 @@
     flex-shrink: 1;
     overflow: auto;
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    /* grid-template-columns: repeat(3, max-content); */
     grid-gap: 1px;
   }
   section > .spacer > * {
@@ -121,5 +146,11 @@
   .attempts {
     text-align: right;
     min-width: 50px;
+  }
+  .prevHeight {
+    opacity: 0.8;
+  }
+  .height {
+    background: #f2e3de;
   }
 </style>
