@@ -48,9 +48,6 @@
     console.log('>> meterId:', $meterId);
   }
 
-  // $: $meterId = $page.query.get('met');
-  // $: $categoryId = $page.query.get('cat');
-
   import Login from '$lib/Login.svelte';
 
   import Modal from '$lib/Modal.svelte';
@@ -62,6 +59,8 @@
 
   let catName;
   $: catName = $compo.categories[$categoryId]?.name || '';
+  let meterName;
+  $: meterName = $compo.meters[$meterId]?.name || '';
 
   async function updateCompo() {
     const compoData = await doFetch(fetch, `/api/${$compo._id}`);
@@ -138,6 +137,7 @@
     <div class="icon btn" on:click={(e) => ($sideOpen = true)}>☰</div>
     {$compo.name || $compo._id}
     {catName}
+    {meterName}
   </nav>
 
   {#if !compid.match('old_') && $compo.meters.length == 0 && $session.loggedin}
