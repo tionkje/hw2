@@ -24,9 +24,12 @@ export async function put({ params, body, locals }: Request): Promise<EndpointOu
 
   const newCompo = await processCompo(compid, body);
 
-  const ably = new Ably.Realtime(ABLY_API_KEY);
-  const channel = ably.channels.get(ABLY_CHANNEL);
-  channel.publish(`compo_${newCompo._id}`, newCompo);
+  setTimeout(() => {
+    const ably = new Ably.Realtime(ABLY_API_KEY);
+    const channel = ably.channels.get(ABLY_CHANNEL);
+    // channel.publish(`compo_${newCompo._id}`, newCompo);
+    channel.publish(`compo_${newCompo._id}`, { msg: 'Updated' });
+  }, 2000);
 
   return {
     body: newCompo,

@@ -71,9 +71,12 @@
   onMount(() => {
     const ably = new Ably.Realtime(ABLY_API_KEY_READONLY);
     var channel = ably.channels.get(ABLY_CHANNEL);
-    channel.subscribe(`compo_${$compo._id}`, function (message) {
+    channel.subscribe(`compo_${$compo._id}`, async (message) => {
       console.log('Updated Compo', message.data);
-      $compo = message.data;
+      const compoData = await doFetch(fetch, `/api/${$compo._id}`);
+      console.log('new compo data', compoData);
+      compo.set(compoData);
+      // $compo = message.data;
     });
   });
 </script>
