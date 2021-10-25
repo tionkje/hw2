@@ -63,19 +63,24 @@
   let catName;
   $: catName = $compo.categories[$categoryId]?.name || '';
 
-  import { onMount } from 'svelte';
+  async function updateCompo() {
+    const compoData = await doFetch(fetch, `/api/${$compo._id}`);
+    console.log('new compo data', compoData);
+    compo.set(compoData);
+  }
+
+  // setInterval(()=>updateCompo(),5000);
 
   import Ably from 'ably';
   import { ABLY_CHANNEL, ABLY_API_KEY_READONLY } from '$lib/Env';
+  import { onMount } from 'svelte';
 
   onMount(() => {
     const ably = new Ably.Realtime(ABLY_API_KEY_READONLY);
     var channel = ably.channels.get(ABLY_CHANNEL);
     channel.subscribe(`compo_${$compo._id}`, async (message) => {
       console.log('Updated Compo', message.data);
-      const compoData = await doFetch(fetch, `/api/${$compo._id}`);
-      console.log('new compo data', compoData);
-      compo.set(compoData);
+      updateCompo();
       // $compo = message.data;
     });
   });
