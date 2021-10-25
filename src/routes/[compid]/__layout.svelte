@@ -63,17 +63,17 @@
 
   import { onMount } from 'svelte';
 
-  // import Ably from 'ably';
-  // import { ABLY_CHANNEL, ABLY_API_KEY_READONLY } from '$lib/Env';
-  // const ably = new Ably.Realtime(ABLY_API_KEY_READONLY);
-  //
-  // onMount(() => {
-  //   var channel = ably.channels.get(ABLY_CHANNEL);
-  //   channel.subscribe(`compo_${compid}`, function (message) {
-  //     console.log('Updated Compo', message.data);
-  //     $compo = message.data;
-  //   });
-  // });
+  import Ably from 'ably';
+  import { ABLY_CHANNEL, ABLY_API_KEY_READONLY } from '$lib/Env';
+
+  onMount(() => {
+    const ably = new Ably.Realtime(ABLY_API_KEY_READONLY);
+    var channel = ably.channels.get(ABLY_CHANNEL);
+    channel.subscribe(`compo_${compid}`, function (message) {
+      console.log('Updated Compo', message.data);
+      $compo = message.data;
+    });
+  });
 </script>
 
 <svelte:head>
