@@ -41,10 +41,12 @@
   import { session, page } from '$app/stores';
   import { editCompoOpen, editThrowerOpen, sideOpen, createFinaleOpen } from '$lib/stores.js';
 
-  console.log('>> hwInfo:', $hwInfo);
-  console.log('>> compo:', $compo);
-  console.log('>> categoryId:', $categoryId);
-  console.log('>> meterId:', $meterId);
+  if (import.meta.env.DEV) {
+    console.log('>> hwInfo:', $hwInfo);
+    console.log('>> compo:', $compo);
+    console.log('>> categoryId:', $categoryId);
+    console.log('>> meterId:', $meterId);
+  }
 
   // $: $meterId = $page.query.get('met');
   // $: $categoryId = $page.query.get('cat');
