@@ -71,7 +71,7 @@
   onMount(() => {
     const ably = new Ably.Realtime(ABLY_API_KEY_READONLY);
     var channel = ably.channels.get(ABLY_CHANNEL);
-    channel.subscribe(`compo_${compid}`, function (message) {
+    channel.subscribe(`compo_${$compo._id}`, function (message) {
       console.log('Updated Compo', message.data);
       $compo = message.data;
     });
