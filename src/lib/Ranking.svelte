@@ -51,7 +51,7 @@
   style="grid-template-columns: repeat(4, max-content) {heights.length ? `repeat(${heights.length}, 1fr)` : ''};"
 >
   <div style="display:contents" class="topheader">
-    <div class="leftheader">#</div>
+    <div class="leftheader">Rug #</div>
     <div class="rank">#</div>
     <div class="height" />
     <div class="name">name</div>
@@ -64,7 +64,7 @@
   </div>
   {#each ranking as [throwerId, rank]}
     <div style="display:contents" class:current={currentThrowers.includes(throwerId)}>
-      <div class="leftheader">{$compo.throwers[throwerId].rugnr}</div>
+      <div class="leftheader">{$compo.throwers[throwerId].rugnr || ''}</div>
       {#if $compo.throwers[throwerId].success}
         {#if rank >= 0}
           <div class="rank">{rank + 1}</div>
