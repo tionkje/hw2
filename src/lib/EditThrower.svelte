@@ -11,6 +11,8 @@
   }
 
   export let throwerId;
+  export let editName = false;
+  export let editSkipHeight = false;
 
   export let edit = false;
 
@@ -43,7 +45,14 @@
     <!-- <pre>{JSON.stringify(td, 0,2)}</pre> -->
 
     <div class="rugnr">{thrower.rugnr}</div>
-    <div class="name">{thrower.name}</div>
+    <div class="name">
+      {#if !editName}
+        <div on:click={(e) => (editName = true)}>{thrower.name}</div>
+      {:else}
+        <input type="text" value={thrower.name} on:change={(e) => (thrower.name = e.target.value)} />
+        <button on:click={(e) => (editName = false)}>OK</button>
+      {/if}
+    </div>
     <!-- [<Attempts attempts={thrower.categories[categoryId][height]} />] -->
     <img
       class="countryimg"
@@ -60,14 +69,20 @@
     <!-- {td.group.name} -->
     <div class="group">{td.group.shortname}</div>
 
-    <input class="editName" type="text" value={thrower.name} on:change={(e) => (thrower.name = e.target.value)} />
-    <input
-      class="editHeight"
-      type="number"
-      step="0.1"
-      value={thrower.skipHeight}
-      on:change={(e) => (thrower.skipHeight = e.target.value)}
-    />
+    <div class="skipHeight">
+      Hoogtes overslaan tot
+      {#if !editSkipHeight}
+        <span on:click={(e) => (editSkipHeight = true)}>{thrower.skipHeight}</span>
+      {:else}
+        <input
+          type="number"
+          step="0.1"
+          value={thrower.skipHeight}
+          on:change={(e) => (thrower.skipHeight = e.target.value)}
+        />
+        <button on:click={(e) => (editSkipHeight = false)}>OK</button>
+      {/if}
+    </div>
     {#if $meterId != null}
       <button on:click={(e) => (thrower.skipHeight = '' + $compo.meters[$meterId].height)}>
         {$compo.meters[$meterId].height}
@@ -130,8 +145,8 @@
     grid-template:
       'rugnr faceimg countryimg editAttempts' auto
       'name name groupimg editAttempts' auto
-      'editName editName groupimg editAttempts' auto
-      'editHeight editHeight group editAttempts' auto
+      'name name groupimg editAttempts' auto
+      'skipHeight skipHeight group editAttempts' auto
       'footer footer footer footer' auto
       / auto auto auto auto;
   }
@@ -140,8 +155,7 @@
       grid-template:
         'rugnr faceimg ' auto
         'name name ' auto
-        'editName editName ' auto
-        'editHeight editHeight ' auto
+        'skipHeight skipHeight ' auto
         'countryimg editAttempts' auto
         'groupimg editAttempts' auto
         'group editAttempts' auto
@@ -175,11 +189,8 @@
   .group {
     grid-area: group;
   }
-  .editHeight {
-    grid-area: editHeight;
-  }
-  .editName {
-    grid-area: editName;
+  .skipHeight {
+    grid-area: skipHeight;
   }
   .editAttempts {
     grid-area: editAttempts;
