@@ -46,7 +46,7 @@
 <section>
   {#each compos as comp}
     <div>
-      <a href="./{comp.fromFile ? 'old_' + comp._id : comp.name}">{comp.name || comp._id}</a>
+      <a href="./{comp.fromFile ? 'old_' + comp._id : comp.name || comp._id}">{comp.name || comp._id}</a>
       {#if !comp.fromFile && $session.loggedin}
         <button on:click={(e) => delCompo(comp._id, comp.name)}>Delete</button>
       {/if}

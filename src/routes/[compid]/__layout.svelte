@@ -106,10 +106,10 @@
 
 <ul class:open={$sideOpen}>
   <div class="icon btn" on:click={(e) => ($sideOpen = false)}>×</div>
-  {#if $session.loggedin}
+  <li><a href="..">⌂</a></li>
+  {#if !compid.match('old_') && $session.loggedin}
     <li><a href on:click|preventDefault={(e) => ($editCompoOpen = true)}>Edit Competition</a></li>
   {/if}
-  <li><a href="..">Back to List</a></li>
   <li><a href="{compid}/print?cat={$categoryId}">Print Competition</a></li>
   {#if $compo.categories.length}
     <li><h4>Categories</h4></li>
