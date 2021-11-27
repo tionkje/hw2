@@ -31,9 +31,10 @@
 
     hwInfo.set(hwInfoData);
     compo.set(compoData);
+
     categoryId.set(page.query.get('cat'));
     meterId.set(page.query.get('met'));
-    return { props: { compid: compoData._id } };
+    return { props: { compid: compoData._id || compid } };
   }
 </script>
 
@@ -41,7 +42,7 @@
   import { session, page } from '$app/stores';
   import { editCompoOpen, editThrowerOpen, sideOpen, createFinaleOpen } from '$lib/stores.js';
 
-  if (import.meta.env.DEV) {
+  if (import.meta.env.DEV && typeof window != 'undefined') {
     console.log('>> hwInfo:', $hwInfo);
     console.log('>> compo:', $compo);
     console.log('>> categoryId:', $categoryId);
