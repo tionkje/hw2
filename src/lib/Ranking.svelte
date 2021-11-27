@@ -53,7 +53,7 @@
   <div style="display:contents" class="topheader">
     <div class="leftheader">Rug #</div>
     <div class="rank">#</div>
-    <div class="height" />
+    <div class="height">H</div>
     <div class="name">name</div>
     {#each heights as height}
       <div>
@@ -71,7 +71,11 @@
         {:else}
           <div class="rank">-</div>
         {/if}
-        <div class="height">{$compo.throwers[throwerId].success}m</div>
+        <div class="height">
+          {$compo.throwers[throwerId].success}<span style="color:transparent"
+            >{#if Math.round($compo.throwers[throwerId].success) == $compo.throwers[throwerId].success}.0{/if}</span
+          >
+        </div>
       {:else}
         <!-- eliminated without success -->
         <div class="rank">-</div>
@@ -136,6 +140,7 @@
     position: sticky;
     left: 0;
     box-shadow: 2px 0 4px 0px var(--shadow-color);
+    text-align: center;
   }
   .ranking .leftheader.topheader {
     z-index: 3;
