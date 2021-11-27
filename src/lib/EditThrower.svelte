@@ -15,7 +15,7 @@
   export let edit = false;
 
   let thrower;
-  $: if (throwerId) thrower = JSON.parse(JSON.stringify($compo.throwers[throwerId]));
+  $: if (throwerId !== false) thrower = JSON.parse(JSON.stringify($compo.throwers[throwerId]));
   let hasChanges;
   $: hasChanges = JSON.stringify(thrower) !== JSON.stringify($compo.throwers[throwerId]);
 
@@ -37,7 +37,7 @@
 </script>
 
 {#if thrower}
-  <main>
+  <main class="editPanel">
     <!-- {thrower.skipHeight} -->
     <!-- <pre>{JSON.stringify($compo.throwers[throwerId], 0,2)}</pre> -->
     <!-- <pre>{JSON.stringify(td, 0,2)}</pre> -->
@@ -60,8 +60,9 @@
     <!-- {td.group.name} -->
     <div class="group">{td.group.shortname}</div>
 
-    <input type="text" value={thrower.name} on:change={(e) => (thrower.name = e.target.value)} />
+    <input class="editName" type="text" value={thrower.name} on:change={(e) => (thrower.name = e.target.value)} />
     <input
+      class="editHeight"
       type="number"
       step="0.1"
       value={thrower.skipHeight}
@@ -73,27 +74,29 @@
       </button>
     {/if}
 
-    {#each Object.entries(thrower.categories) as [cat, attempts]}
-      <h4>{$compo.categories[cat].name}</h4>
-      {#each Object.entries(attempts).sort(([a], [b]) => a - b) as [height, attempt], key}
-        <div>
-          {height}
-          <Attempts
-            attempts={attempt}
-            {edit}
-            on:update={(e) => {
-              attempts[height] = e.detail;
-            }}
-          />
-        </div>
+    <div class="editAttempts">
+      {#each Object.entries(thrower.categories) as [cat, attempts]}
+        <h4>{$compo.categories[cat].name}</h4>
+        {#each Object.entries(attempts).sort(([a], [b]) => a - b) as [height, attempt], key}
+          {#if edit || attempt.length}
+            <div>
+              {height}
+              <Attempts
+                attempts={attempt}
+                {edit}
+                on:update={(e) => {
+                  attempts[height] = e.detail;
+                }}
+              />
+            </div>
+          {/if}
+        {/each}
       {/each}
-    {/each}
 
-    {#if !edit}
-      <button type="button" on:click={(e) => (edit = true)}> &#9998; </button>
-    {/if}
+      <button type="button" on:click={(e) => (edit = !edit)}> &#9998; </button>
+    </div>
 
-    <footer>
+    <footer class="footer">
       {#if hasChanges}
         <button on:click={save}>Save</button>
         <button on:click={reset}>Reset</button>
@@ -117,5 +120,77 @@
     margin: 10px auto;
     border-radius: 20px;
     padding: 10px;
+  }
+  .editPanel {
+    /* border: 1px solid black; */
+    background: white;
+    padding: 5px;
+    width: 100vw;
+    display: grid;
+    grid-template:
+      'rugnr faceimg countryimg editAttempts' auto
+      'name name groupimg editAttempts' auto
+      'editName editName groupimg editAttempts' auto
+      'editHeight editHeight group editAttempts' auto
+      'footer footer footer footer' auto
+      / auto auto auto auto;
+  }
+  @media only screen and (max-width: 400px) {
+    .editPanel {
+      grid-template:
+        'rugnr faceimg ' auto
+        'name name ' auto
+        'editName editName ' auto
+        'editHeight editHeight ' auto
+        'countryimg editAttempts' auto
+        'groupimg editAttempts' auto
+        'group editAttempts' auto
+        'footer footer' auto
+        / auto auto;
+    }
+  }
+  .editPanel > * {
+    align-self: center;
+    justify-self: center;
+    padding: 2px;
+  }
+  .height {
+    grid-area: height;
+  }
+  .name {
+    grid-area: name;
+  }
+  .rugnr {
+    grid-area: rugnr;
+  }
+  .countryimg {
+    grid-area: countryimg;
+  }
+  .faceimg {
+    grid-area: faceimg;
+  }
+  .groupimg {
+    grid-area: groupimg;
+  }
+  .group {
+    grid-area: group;
+  }
+  .editHeight {
+    grid-area: editHeight;
+  }
+  .editName {
+    grid-area: editName;
+  }
+  .editAttempts {
+    grid-area: editAttempts;
+  }
+  .footer {
+    grid-area: footer;
+  }
+  .name {
+    font-size: 2em;
+  }
+  .rugnr {
+    font-size: 4em;
   }
 </style>
